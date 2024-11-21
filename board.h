@@ -15,10 +15,8 @@ class Board{
     public:
       Board(size_t width, size_t height);
       ~Board();
-      void addthing2board(AbstractEntity* bt);
 
-      int appearance2id(char c);
-      bool simplemove(string playerincontrol, int id, char dir);
+      int appearanceToID(char c);
       AbstractEntity* whoat(int x, int y);
       AbstractEntity* whoat(int id);
 };
