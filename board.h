@@ -15,10 +15,12 @@ class Board{
     public:
       Board(size_t width, size_t height);
       ~Board();
+      void addthing2board(AbstractEntity* bt);
+
       int appearance2id(char c);
       bool simplemove(string playerincontrol, int id, char dir);
-      Piece* whoat(int x, int y);
-      Piece* whoat(int id);
+      AbstractEntity* whoat(int x, int y);
+      AbstractEntity* whoat(int id);
 };
 
 //int battle(Piece* initiator, Piece* defender);
