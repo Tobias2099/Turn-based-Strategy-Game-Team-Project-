@@ -121,20 +121,25 @@ void Game::download(string player, int virus, int data){
   }
 }
 
+void Game::addEntityToBoard(Piece* entity){
+    pieces.emplace_back(entity);
+    b->boardrep[entity->getX()][entity->getY()] = entity->getID();
+}
+
 bool Game::simplemove(string playerincontrol, int id, char dir){
     if (id < 0) {
         return false;
         //nomove
     }
 
-    Piece* to_move = pieces[id];
+    AbstractLink* to_move = pieces[id];
 
     if (!(to_move->isactive())){
         cout << "Piece deactivated, can't move." << endl;
         return false;
     }
 
-    Piece* target = nullptr;
+    AbstractLink* target = nullptr;
     size_t oldX = pieces[id]->getX();
     size_t oldY = pieces[id]->getY();
 
@@ -142,7 +147,7 @@ bool Game::simplemove(string playerincontrol, int id, char dir){
     int newY = 0;
     
     //are we even allowed to move this piece?
-    if (to_move->getType() == "Severport" || to_move->getOwner() != playerincontrol){
+    if (to_move->getType() == Type::Serverport || to_move->getOwner() != playerincontrol){
         cout << "Not allowed to move this piece!" << endl;
         return false;
     }
@@ -168,11 +173,11 @@ bool Game::simplemove(string playerincontrol, int id, char dir){
             to_move->deactivate();
             //do we reveal here?
             if (to_move->getType() == "V"){
-                game->download(to_move->getOwner(),1,0);
+                download(to_move->getOwner(),1,0);
             } else if (to_move->getType() == "D"){
-                game->download(to_move->getOwner(),0,1);
+                download(to_move->getOwner(),0,1);
             }
-            boardrep[oldX][oldY] = -1;
+            b->boardrep[oldX][oldY] = -1;
             return true;
         }
 
@@ -180,11 +185,11 @@ bool Game::simplemove(string playerincontrol, int id, char dir){
             to_move->deactivate();
             //do we reveal here?
             if (to_move->getType() == "V"){
-                game->download(to_move->getOwner(),1,0);
+                download(to_move->getOwner(),1,0);
             } else if (to_move->getType() == "D"){
-                game->download(to_move->getOwner(),0,1);
+                download(to_move->getOwner(),0,1);
             }
-            boardrep[oldX][oldY] = -1;
+            b->boardrep[oldX][oldY] = -1;
             return true;
         }
 
@@ -193,27 +198,27 @@ bool Game::simplemove(string playerincontrol, int id, char dir){
     }
 
     //who is there?
-    target =  whoat(newX, newY);
+    target =  b->whoat(newX, newY);
 
     // if someone is there and we own it
     if (target != nullptr && target->getOwner() == playerincontrol){
         cout << "Can't move onto our own piece!" << endl;
         return false;
-    } else if (target != nullptr && target->getType() == "Serverport") {
+    } else if (target != nullptr && target->getType() == Type::Serverport) {
         //cout << "moved onto enemy serverport" << endl;
         string serverport_owner = target->getOwner();
         if (to_move->getType() == "V"){
-            game->download(serverport_owner,1,0);
+            download(serverport_owner,1,0);
         } else if (to_move->getType() == "D"){
-            game->download(serverport_owner,0,1);
+            download(serverport_owner,0,1);
         }
         to_move->deactivate();
-        boardrep[oldX][oldY] = -1;
+        b->boardrep[oldX][oldY] = -1;
         return true;
 
     } else if (target != nullptr && target->getOwner() != playerincontrol) {       
         // if we are trying to move onto someone else's piece
-        int winningID = battle(to_move, target);
+        int winningID = b->battle(to_move, target);
 
         if (winningID == to_move->getID()){
             //cout << "initator wins" << endl;
@@ -230,9 +235,9 @@ bool Game::simplemove(string playerincontrol, int id, char dir){
 
             //download
             if (target->getType() == "V"){
-                game->download(winnerowner,1,0);
+                download(winnerowner,1,0);
             } else if (to_move->getType() == "D"){
-                game->download(winnerowner,0,1);
+                download(winnerowner,0,1);
             }
 
             return true;
@@ -242,15 +247,15 @@ bool Game::simplemove(string playerincontrol, int id, char dir){
             to_move->deactivate();
             to_move->reveal();
             target->reveal();
-            boardrep[oldX][oldY] = -1;
+            b->boardrep[oldX][oldY] = -1;
 
             string winnerowner = target->getOwner();
 
             //download
             if (to_move->getType() == "V"){
-                game->download(winnerowner,1,0);
+                download(winnerowner,1,0);
             } else if (to_move->getType() == "D"){
-                game->download(winnerowner,0,1);
+                download(winnerowner,0,1);
             }
 
             return true;
@@ -261,8 +266,8 @@ bool Game::simplemove(string playerincontrol, int id, char dir){
     to_move->setY(newY);
 
     // change the internal board
-    boardrep[newX][newY] = pieces[id]->getID();
-    boardrep[oldX][oldY] = -1;
+    b->boardrep[newX][newY] = pieces[id]->getID();
+    b->boardrep[oldX][oldY] = -1;
 
     return true;
 }
