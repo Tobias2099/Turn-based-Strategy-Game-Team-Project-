@@ -15,6 +15,9 @@ Game::~Game() {
   delete p1;
   delete p2;
   delete b;
+  for (auto it = pieces.begin(); it != pieces.end(); ++it) {
+      delete *it;
+  }
 }
 
 string Game::getWinner(){
@@ -41,7 +44,7 @@ void Game::advance(){
   //cout << " to " << turn << endl;
 }
 
-void Game::printGameState(){
+void Game::printGameState() {
   cout << "Player 1: " << endl;
   cout << "Downloaded: " << p1->getData() << "D, " << p1->getViruses() << "V" << endl;
   cout << "Abilities (later)" << endl;
@@ -121,9 +124,9 @@ void Game::download(string player, int virus, int data){
   }
 }
 
-void Game::addEntityToBoard(Piece* entity){
+void Game::addEntityToBoard(AbstractEntity* entity){
     pieces.emplace_back(entity);
-    b->boardrep[entity->getX()][entity->getY()] = entity->getID();
+    b->setBoard(entity->getX(), entity->getY(), entity->getID());
 }
 
 bool Game::simplemove(string playerincontrol, int id, char dir){
@@ -270,6 +273,16 @@ bool Game::simplemove(string playerincontrol, int id, char dir){
     b->boardrep[oldX][oldY] = -1;
 
     return true;
+}
+
+
+int Game::appearanceToID(char c) {
+    for (auto it = pieces.begin(); it != pieces.end(); ++it) {
+        if ((*it)->getApp() == c){
+            return (*it)->getID();
+        }
+    }
+    return -1; // -1 if not found.
 }
 
 #endif

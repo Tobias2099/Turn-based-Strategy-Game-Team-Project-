@@ -16,9 +16,10 @@ class Board{
       Board(size_t width, size_t height);
       ~Board();
 
-      int appearanceToID(char c);
       AbstractEntity* whoat(int x, int y);
       AbstractEntity* whoat(int id);
+
+      vector<vector<int>> setBoard(int row, int col, int id);
 };
 
 //int battle(Piece* initiator, Piece* defender);

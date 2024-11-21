@@ -35,6 +35,8 @@ class Game{
 
     bool simplemove(string playerincontrol, int id, char dir);
 
+    int appearanceToID(char c);
+
 };
 
 #endif
