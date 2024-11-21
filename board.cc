@@ -1,0 +1,22 @@
+#ifndef __BOARD_CC__
+#define __BOARD_CC__
+
+#include <iostream>
+#include <vector>
+#include <string>
+#include "board.h"
+#include "abstractentity.h"
+#include "game.h"
+#include "viruslink.h"
+#include "datalink.h"
+#include "serverport.h"
+#include "abstractlink.h"
+
+Board::Board(size_t width, size_t height): width{width}, height{height}, 
+    boardrep{height, vector<int>(width, -1)} {}
+
+int appearanceToID(char c) {
+
+}
+
+#endif
