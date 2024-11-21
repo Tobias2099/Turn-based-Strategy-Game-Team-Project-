@@ -15,9 +15,10 @@ class Game{
   string winner;
   Player* p1;
   Player* p2; 
+  vector<AbstractEntity*> pieces;
 
   public:
-    Game(Board* b, string turn, string winner, Player* p1, Player* p2);
+    Game(Board* b, string turn, string winner, Player* p1, Player* p2, vector<AbstractEntity*> pieces);
     ~Game();
     Board* getBoard();
     string getWinner();
@@ -29,6 +30,8 @@ class Game{
     void printGameState();
 
     void download(string player, int virus, int data);
+
+    void addthing2board(Piece* bt);
 
     bool simplemove(string playerincontrol, int id, char dir);
 
