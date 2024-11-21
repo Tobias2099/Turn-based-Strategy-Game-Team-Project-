@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <vector>
+#include "abstractentity.h"
 
 using namespace std;
 
