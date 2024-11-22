@@ -24,4 +24,12 @@ int Board::getValue(int row, int col) {
     return boardrep[row][col];
 }
 
+int getWidth() {
+  return width;
+}
+
+int getHeight() {
+  return height;
+}
+
 #endif
