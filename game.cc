@@ -138,7 +138,7 @@ bool Game::simplemove(string playerincontrol, int id, char dir){
 
     AbstractLink* to_move = pieces[id];
 
-    if (!(to_move->isactive())){
+    if (!(to_move->isActive())) {
         cout << "Piece deactivated, can't move." << endl;
         return false;
     }
@@ -170,22 +170,24 @@ bool Game::simplemove(string playerincontrol, int id, char dir){
         newX = oldX;
         newY = oldY + 1;
     }
-
+    const int firstRow = 0;
+    const int lastRow = 7;
     //did we walk off the board?
-    if (newX >= static_cast<int>(width) || newX < 0 || newY >= static_cast<int>(height) || newY < 0){
-        if (to_move->getOwner() == "Player 1" && newY > 7){
+    if (newX >= static_cast<int>(width) || newX < firstRow || newY >= static_cast<int>(height) || newY < firstRow) {
+
+        if (to_move->getOwner() == "Player 1" && newY > lastRow){
             to_move->deactivate();
             //do we reveal here?
-            if (to_move->getType() == "V"){
+            if (to_move->getType() == "V") {
                 download(to_move->getOwner(),1,0);
-            } else if (to_move->getType() == "D"){
+            } else if (to_move->getType() == "D") {
                 download(to_move->getOwner(),0,1);
             }
-            b->boardrep[oldX][oldY] = -1;
+            b->setBoard(oldX, oldY, -1);
             return true;
         }
 
-        if (to_move->getOwner() == "Player 2" && newY < 0){
+        if (to_move->getOwner() == "Player 2" && newY < firstRow){
             to_move->deactivate();
             //do we reveal here?
             if (to_move->getType() == "V"){
@@ -193,7 +195,7 @@ bool Game::simplemove(string playerincontrol, int id, char dir){
             } else if (to_move->getType() == "D"){
                 download(to_move->getOwner(),0,1);
             }
-            b->boardrep[oldX][oldY] = -1;
+            b->setBoard(oldX, oldY, -1);
             return true;
         }
 
@@ -217,7 +219,7 @@ bool Game::simplemove(string playerincontrol, int id, char dir){
             download(serverport_owner,0,1);
         }
         to_move->deactivate();
-        b->boardrep[oldX][oldY] = -1;
+        b->setBoard(oldX, oldY, -1);
         return true;
 
     } else if (target != nullptr && target->getOwner() != playerincontrol) {       
@@ -287,3 +289,12 @@ int Game::appearanceToID(char c) {
 }
 
 #endif
+
+
+int Game::battle(AbstractLink* initiator, AbstractLink* defender) {
+  if (initiator->getPower() >= defender->getPower()) {
+    return initiator->getID();
+  } else {
+    return defender->getID();
+  }
+}
