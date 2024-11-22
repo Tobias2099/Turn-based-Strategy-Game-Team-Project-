@@ -11,7 +11,8 @@ using namespace std;
 
 class Player{
   string name;
-  int id, viruses_downloaded, data_downloaded;
+  int id;
+  int viruses_downloaded, data_downloaded;
   vector<Ability*> abilities;
 
 
