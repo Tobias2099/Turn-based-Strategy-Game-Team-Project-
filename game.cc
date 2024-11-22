@@ -34,6 +34,10 @@ void Game::setWinner(string w){
   winner = w;
 }
 
+vector<AbstractEntity*> Game::getPieces() {
+  return pieces;
+}
+
 void Game::advance(){
   //cout << "going from " << turn;
   if (turn == "Player 1") {
@@ -264,6 +268,5 @@ Player* Game::getFirstPlayer() {
 Player* Game::getSecondPlayer() {
   return p2;
 }
-
 
 #endif
