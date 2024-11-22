@@ -9,7 +9,7 @@
 
 using namespace std;
 
-class Game{
+class Game : public Subject{
   Board *b;
   string turn;
   string winner;
@@ -43,6 +43,7 @@ class Game{
 
     AbstractEntity* whoAt(int id);
 
+    string getPlayer();
 };
 
 #endif

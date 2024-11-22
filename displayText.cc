@@ -4,13 +4,16 @@
 #include "displayText.h"
 #include <iostream>
 
-displayText::displayText(Game* g, string playerName) : g{g}, playerName{playerName} {}
+displayText::displayText(Game* g) : g{g} {}
 
 displayText::~displayText() {
   delete g;
 }
 
 void displayText::notify() {
+
+  string playerName = g->getPlayer(); //getState() equivalent
+  
   cout << "Player 1: " << endl;
   cout << "Downloaded: " << p1->getData() << "D, " << p1->getViruses() << "V" << endl;
   cout << "Abilities (later)" << endl;
@@ -44,8 +47,7 @@ void displayText::notify() {
     cout << endl;
   }
 
-  //PRINT BOARD -------------------
-
+  //PRINT BOARD
   for (size_t i = 0; i < g->getBoard()->width; i++) {
         cout << "=";
     }
@@ -68,8 +70,6 @@ void displayText::notify() {
     }
     cout << endl;
 
-
-  //-------------------------------
 
   cout << "Player 2: " << endl;
   cout << "Downloaded: " << p2->getData() << "D, " << p2->getViruses() << "V" << endl;

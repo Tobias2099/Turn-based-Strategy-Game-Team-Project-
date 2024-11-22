@@ -8,10 +8,9 @@
 
 class displayText : public Observer {
   Game* g;
-  string playerName;
 
 	public:
-		displayText(Game* g, string playerName);
+		displayText(Game* g);
     ~displayText();
     virtual void notify();
 };
