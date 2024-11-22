@@ -308,4 +308,28 @@ AbstractEntity* whoAt(int x, int y) {
   return pieces[id];
 }
 
+AbstractEntity* whatAt(int x, int y) {
+  int id = getValue(x, y);
+
+  if (id == -1) {
+      return nullptr;
+  }
+
+  Piece* thepiece = pieces[id];
+  return thepiece;
+}
+
+AbstractEntity* whatAt(int id) {
+  Piece* thepiece = pieces[id];
+  return thepiece;
+}
+AbstractEntity* whoAt(int x, int y) {
+  int id = b->getValue(x, y);
+  if (id == -1) {
+      return nullptr;
+  }
+
+  return pieces[id];
+}
+
 #endif
