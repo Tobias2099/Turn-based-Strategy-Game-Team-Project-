@@ -24,11 +24,11 @@ int Board::getValue(int row, int col) {
     return boardrep[row][col];
 }
 
-int getWidth() {
+int Board::getWidth() {
   return width;
 }
 
-int getHeight() {
+int Board::getHeight() {
   return height;
 }
 
