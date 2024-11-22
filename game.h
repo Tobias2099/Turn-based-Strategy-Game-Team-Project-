@@ -44,6 +44,8 @@ class Game : public Subject{
     AbstractEntity* whoAt(int id);
 
     string getPlayer();
+
+
 };
 
 #endif
