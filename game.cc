@@ -176,7 +176,6 @@ bool Game::simplemove(string playerincontrol, int id, char dir){
             to_move->reveal();
             linkTarget->reveal();
             b->setBoard(newX, newY, to_move->getID());
-            boardrep[oldX][oldY] = -1;
             b->setBoard(oldX, oldY, -1);
 
             // to_move wins, to_move will download targets link
@@ -193,7 +192,7 @@ bool Game::simplemove(string playerincontrol, int id, char dir){
         } else {
             //lost the battle
             //cout << "defender wins" << endl;
-            AbstractLink* linkTarget = this->whoAt(newX, newY);
+            AbstractLink* linkTarget = dynamic_cast<AbstractLink*>(whoAt(newX, newY));
             to_move->deactivate();
             to_move->reveal();
             linkTarget->reveal();
@@ -216,7 +215,6 @@ bool Game::simplemove(string playerincontrol, int id, char dir){
     to_move->setY(newY);
 
     // change the internal board
-    b->boardrep[newX][newY] = pieces[id]->getID();
     b->setBoard(newX, newY, pieces[id]->getID());
     b->setBoard(oldX, oldY, -1);
 
@@ -226,7 +224,7 @@ bool Game::simplemove(string playerincontrol, int id, char dir){
 
 int Game::appearanceToID(char c) {
     for (auto it = pieces.begin(); it != pieces.end(); ++it) {
-        if ((*it)->getAppearanceearance() == c){
+        if ((*it)->getAppearance() == c){
             return (*it)->getID();
         }
     }
