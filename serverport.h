@@ -10,7 +10,7 @@ using namespace std;
 class Serverport : public AbstractEntity {
     public:
         Serverport(int id, size_t x, size_t y, Type type, char appearance, string owner):
-         AbstractEntity{id, x, y, appearance, type, owner} {}
+         AbstractEntity{id, x, y, type, appearance, owner} {}
 
         Type getType() const override;
 

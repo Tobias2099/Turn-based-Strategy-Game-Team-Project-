@@ -38,15 +38,15 @@ int main() {
     AbstractLink* player2f = new VirusLink(13, 5, 7, 'f', Virus, "Player 2", 2, true, false, 1);
     AbstractLink* player2g = new VirusLink(14, 6, 8, 'g', Virus, "Player 2", 3, true, false, 1);
     AbstractLink* player2h = new VirusLink(15, 7, 7, 'h', Virus, "Player 2", 4, true, false, 1);
-    //AbstractLink{id, x, y, appearance, type, owner, power, revealed, active, moveCount} {}
+    //   Serverport(int id, size_t x, size_t y, Type type, char appearance, string owner):
 
     //player1 server ports  
-    AbstractEntity *player1s1 = new Serverport{16, 3, 0, 'S', Type::Serverport, "Player 1"};
-    AbstractEntity *player1s2 = new Serverport{16, 3, 0, 'S', Type::Serverport, "Player 1"};
+    AbstractEntity *player1s1 = new Serverport{16, 3, 0, Type::Serverport, 'S', "Player 1"};
+    AbstractEntity *player1s2 = new Serverport{16, 3, 0, Type::Serverport, 'S', "Player 1"};
 
     //player2 server ports
-    AbstractEntity *player2s1 = new Serverport{16, 3, 7, 'S', Type::Serverport, "Player 2"};
-    AbstractEntity *player2s2 = new Serverport{16, 4, 7, 'S', Type::Serverport, "Player 2"};
+    AbstractEntity *player2s1 = new Serverport{16, 3, 7, Type::Serverport, 'S', "Player 2"};
+    AbstractEntity *player2s2 = new Serverport{16, 4, 7, Type::Serverport, 'S', "Player 2"};
 
     vector<AbstractEntity*> pieces;
     Game g(&b, "Player 1", "None", player1, player2, pieces);
