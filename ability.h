@@ -8,7 +8,7 @@
 using namespace std;
 
 class Ability{
-  int id;  
+  int id;
   string name;
 
   public:
