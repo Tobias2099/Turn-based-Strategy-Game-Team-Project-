@@ -16,7 +16,7 @@ class Board{
       Board(size_t width, size_t height);
       ~Board();
 
-      vector<vector<int>> setBoard(int row, int col, int id);
+      void setBoard(int row, int col, int id);
       int getValue(int row, int col);
 };
 

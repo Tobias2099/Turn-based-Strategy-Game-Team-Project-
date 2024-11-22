@@ -4,8 +4,8 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include "Game.h"
-#include "Ability.h"
+#include "game.h"
+#include "ability.h"
 
 using namespace std;
 

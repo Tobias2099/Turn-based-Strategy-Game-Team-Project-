@@ -13,7 +13,7 @@ class Ability{
 
   public:
     Ability(int id, string name);
-    void execute()
+    void execute();
 };
 
 #endif

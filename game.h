@@ -6,10 +6,12 @@
 #include <string>
 #include "board.h"
 #include "player.h"
+#include "subject.h"
+#include "abstractlink.h"
 
 using namespace std;
 
-class Game : public Subject{
+class Game : public Subject {
   Board *b;
   string turn;
   string winner;
@@ -44,6 +46,9 @@ class Game : public Subject{
     AbstractEntity* whoAt(int id);
 
     string getPlayer();
+
+    Player* getFirstPlayer();
+    Player* getSecondPlayer();
 };
 
 #endif
