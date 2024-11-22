@@ -11,8 +11,9 @@ class displayText : public Observer {
   string playerName;
 
 	public:
-		displayText(Board* b, string playerName);
+		displayText(Game* g, string playerName);
     ~displayText();
+    virtual void notify();
 };
 
 #endif
