@@ -224,7 +224,7 @@ bool Game::simplemove(string playerincontrol, int id, char dir){
 
     } else if (target != nullptr && target->getOwner() != playerincontrol) {       
         // if we are trying to move onto someone else's piece
-        int winningID = b->battle(to_move, target);
+        int winningID = this->battle(to_move, target);
 
         if (winningID == to_move->getID()){
             //cout << "initator wins" << endl;
@@ -233,8 +233,9 @@ bool Game::simplemove(string playerincontrol, int id, char dir){
             target->deactivate();
             to_move->reveal();
             target->reveal();
-            boardrep[newX][newY] = to_move->getID();
+            b->setBoard(newX, newY, to_move->getID());
             boardrep[oldX][oldY] = -1;
+            b->setBoard(oldX, oldY, -1);
 
             // to_move wins, to_move will download targets link
             string winnerowner = to_move->getOwner();
@@ -253,7 +254,7 @@ bool Game::simplemove(string playerincontrol, int id, char dir){
             to_move->deactivate();
             to_move->reveal();
             target->reveal();
-            b->boardrep[oldX][oldY] = -1;
+            b->setBoard(oldX, oldY, -1);
 
             string winnerowner = target->getOwner();
 
@@ -273,7 +274,8 @@ bool Game::simplemove(string playerincontrol, int id, char dir){
 
     // change the internal board
     b->boardrep[newX][newY] = pieces[id]->getID();
-    b->boardrep[oldX][oldY] = -1;
+    b->setBoard(newX, newY, pieces[id]->getID());
+    b->setBoard(oldX, oldY, -1);
 
     return true;
 }
@@ -281,14 +283,12 @@ bool Game::simplemove(string playerincontrol, int id, char dir){
 
 int Game::appearanceToID(char c) {
     for (auto it = pieces.begin(); it != pieces.end(); ++it) {
-        if ((*it)->getApp() == c){
+        if ((*it)->getAppearance() == c){
             return (*it)->getID();
         }
     }
     return -1; // -1 if not found.
 }
-
-#endif
 
 
 int Game::battle(AbstractLink* initiator, AbstractLink* defender) {
@@ -298,3 +298,6 @@ int Game::battle(AbstractLink* initiator, AbstractLink* defender) {
     return defender->getID();
   }
 }
+
+
+#endif
