@@ -25,6 +25,7 @@ class Game : public Subject {
     Board* getBoard();
     string getWinner();
     string getTurn();
+    vector<AbstractEntity*> getPieces();
     void advance();
     
     void setWinner(string w);

@@ -18,6 +18,9 @@ class Board{
 
       void setBoard(int row, int col, int id);
       int getValue(int row, int col);
+
+      int getWidth();
+      int getHeight();
 };
 
 #endif

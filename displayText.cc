@@ -65,24 +65,24 @@ void displayText::notify() {
   //ADD GETTERS HERE BELOW IN PRINT BOARD
 
   //PRINT BOARD
-  for (size_t i = 0; i < g->getBoard()->width; i++) {
+  for (size_t i = 0; i < g->getBoard()->getWidth(); i++) {
         cout << "=";
     }
     cout << endl;
-    for (size_t i = 0; i < g->getBoard()->height; i++)
+    for (size_t i = 0; i < g->getBoard()->getHeight(); i++)
     {
-        for (size_t j = 0; j < g->getBoard()->width; j++)
+        for (size_t j = 0; j < g->getBoard()->getWidth(); j++)
         {   
             int boardID = g->getBoard()->getValue(j, i);
             if (boardID == -1){
                 cout << '.';
             } else {
-                cout << pieces[boardID]->getAppearance();
+                cout << g->getPieces()[boardID]->getAppearance();
             }
         }    
         cout << endl;
     }
-    for (size_t i = 0; i < g->getBoard()->width; i++){
+    for (size_t i = 0; i < g->getBoard()->getWidth(); i++){
         cout << "=";
     }
     cout << endl;

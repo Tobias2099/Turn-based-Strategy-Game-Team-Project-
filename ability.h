@@ -4,16 +4,19 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include "game.h"
+
+class Game;
 
 using namespace std;
 
-class Ability{
+class Ability {
   int id;
   string name;
 
   public:
     Ability(int id, string name) : id{id}, name{name} {}
-    void execute(Game& game, int x, int y, string linkName);
+    void execute(Game &game, int x, int y, string linkName);
 };
 
 #endif

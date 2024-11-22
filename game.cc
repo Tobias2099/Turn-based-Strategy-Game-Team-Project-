@@ -247,7 +247,7 @@ AbstractEntity* Game::whoAt(int x, int y) {
   if (id == -1) {
       return nullptr;
   }
-
+  
   return pieces[id];
 }
 
