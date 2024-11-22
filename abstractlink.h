@@ -30,6 +30,10 @@ class AbstractLink : public AbstractEntity {
           return active;
         }
 
+        bool isVisible() {
+          return revealed;
+        }
+
         void reveal() {
           revealed = true;
         }

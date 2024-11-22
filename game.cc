@@ -54,7 +54,7 @@ void Game::printGameState() {
   if (turn == "Player 1"){
     //ids hardcoded. Change later?
     for (int i = 0; i < 8; i++){
-      cout << (this->whoAt(i))->getApp() << ": " << (this->whoAt(i))->getType() 
+      cout << (this->whoAt(i))->getAppearance() << ": " << (this->whoAt(i))->getType() 
       << (this->whoAt(i))->getPower() << " ";
       if (i == 3) cout << endl;
     }
@@ -64,10 +64,10 @@ void Game::printGameState() {
     for (int i = 0; i < 8; i++){
 
       if ((this->whoAt(i))->isvisible()){
-        cout << (this->whoAt(i))->getApp() << ": " << (this->whoAt(i))->getType() 
+        cout << (this->whoAt(i))->getAppearance() << ": " << (this->whoAt(i))->getType() 
         << (this->whoAt(i))->getPower() << " ";
       } else {
-        cout << (this->whoAt(i))->getApp() << ":  ? ";
+        cout << (this->whoAt(i))->getAppearance() << ":  ? ";
       }
 
       if (i == 3) cout << endl;
@@ -84,7 +84,7 @@ void Game::printGameState() {
   if (turn == "Player 2"){
     //ids hardcoded. Change later?
     for (int i = 8; i < 16; i++){
-      cout << (this->whoAt(i))->getApp() << ": " << (this->whoAt(i))->getType() 
+      cout << (this->whoAt(i))->getAppearance() << ": " << (this->whoAt(i))->getType() 
       << (this->whoAt(i))->getPower() << " ";
       if (i == 11) cout << endl;
     }
@@ -94,10 +94,10 @@ void Game::printGameState() {
     for (int i = 8; i < 16; i++){
       
       if ((this->whoAt(i))->isvisible()){
-        cout << (this->whoAt(i))->getApp() << ": " << (this->whoAt(i))->getType() 
+        cout << (this->whoAt(i))->getAppearance() << ": " << (this->whoAt(i))->getType() 
         << (this->whoAt(i))->getPower() << " ";
       } else {
-        cout << (this->whoAt(i))->getApp() << ":  ? ";
+        cout << (this->whoAt(i))->getAppearance() << ":  ? ";
       }
 
       if (i == 11) cout << endl;
@@ -212,9 +212,9 @@ bool Game::simplemove(string playerincontrol, int id, char dir){
     } else if (target != nullptr && target->getType() == Type::Serverport) {
         //cout << "moved onto enemy serverport" << endl;
         string serverport_owner = target->getOwner();
-        if (to_move->getType() == "V"){
+        if (to_move->getType() == Type::Virus){
             download(serverport_owner,1,0);
-        } else if (to_move->getType() == "D"){
+        } else if (to_move->getType() == Type::Data){
             download(serverport_owner,0,1);
         }
         to_move->deactivate();
@@ -240,9 +240,9 @@ bool Game::simplemove(string playerincontrol, int id, char dir){
             string winnerowner = to_move->getOwner();
 
             //download
-            if (target->getType() == "V"){
+            if (target->getType() == Type::Virus){
                 download(winnerowner,1,0);
-            } else if (to_move->getType() == "D"){
+            } else if (to_move->getType() == Type::Data){
                 download(winnerowner,0,1);
             }
 
@@ -258,9 +258,9 @@ bool Game::simplemove(string playerincontrol, int id, char dir){
             string winnerowner = target->getOwner();
 
             //download
-            if (to_move->getType() == "V"){
+            if (to_move->getType() == Type::Virus){
                 download(winnerowner,1,0);
-            } else if (to_move->getType() == "D"){
+            } else if (to_move->getType() == Type::Data){
                 download(winnerowner,0,1);
             }
 
@@ -282,7 +282,7 @@ bool Game::simplemove(string playerincontrol, int id, char dir){
 
 int Game::appearanceToID(char c) {
     for (auto it = pieces.begin(); it != pieces.end(); ++it) {
-        if ((*it)->getAppearance() == c){
+        if ((*it)->getAppearanceearance() == c){
             return (*it)->getID();
         }
     }
