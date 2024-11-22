@@ -9,6 +9,8 @@
 
 using namespace std;
 
+class Ability;
+
 class Player{
   string name;
   int id;
