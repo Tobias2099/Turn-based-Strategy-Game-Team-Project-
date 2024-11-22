@@ -29,6 +29,10 @@ class AbstractLink : public AbstractEntity {
         bool isActive() {
           return active;
         }
+
+        void reveal() {
+          revealed = true;
+        }
 };
 
 
