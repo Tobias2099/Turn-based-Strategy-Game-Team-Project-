@@ -1,6 +1,9 @@
 #include <iostream>
 #include <string>
+#include <vector>
 #include "game.h"
+#include "abstractentity.h"
+#include "displayText.h"
 
 using namespace std;
 
@@ -41,19 +44,44 @@ int main() {
     AbstractEntity *player2s1 = new Serverport{16, 3, 7, false, 'S', "Player 2"};
     AbstractEntity *player2s2 = new Serverport{16, 4, 7, false, 'S', "Player 2"};
 
-    Game g(&b, "Player 1", "None", player1, player2);
+    vector<AbstractEntity*> pieces;
+    Game g(&b, "Player 1", "None", player1, player2, pieces);
+
+    g.addEntityToBoard(player1a);
+    g.addEntityToBoard(player1b);
+    g.addEntityToBoard(player1c);
+    g.addEntityToBoard(player1d);
+    g.addEntityToBoard(player1e);
+    g.addEntityToBoard(player1f);
+    g.addEntityToBoard(player1g);
+    g.addEntityToBoard(player1h);
+    g.addEntityToBoard(player2a);
+    g.addEntityToBoard(player2b);
+    g.addEntityToBoard(player2c);
+    g.addEntityToBoard(player2d);
+    g.addEntityToBoard(player2e);
+    g.addEntityToBoard(player2f);
+    g.addEntityToBoard(player2g);
+    g.addEntityToBoard(player2h);
+    g.addEntityToBoard(player1s1);
+    g.addEntityToBoard(player1s2);
+    g.addEntityToBoard(player2s1);
+    g.addEntityToBoard(player2s2);
+
+    displayText textObserver{&g};
+    g.attach(&textObserver);
 
     while (g.getWinner() == "None"){
 
         while (std::cin >> command) {
             if (command == "board" ) {
-                g.printGameState();
+                g.notifyObservers();
             } else if (command == "move") {
-                string playerincontrol = g.getTurn();
+                string playerincontrol = g.getPlayer();
                 char name;
                 char dir;
                 cin >> name >> dir;
-                bool movestat = g.getBoard()->simplemove(playerincontrol, g.getBoard()->appearance2id(name), dir);
+                bool movestat = g.simplemove(playerincontrol, g.appearanceToID(name), dir);
                 if (movestat){
                     g.advance();
                     break;
@@ -61,8 +89,8 @@ int main() {
             } else if (command == "whoat") {
                 int x, y;
                 cin >> x >> y;
-                if (g.getBoard()->whoat(x,y) != nullptr){
-                    g.getBoard()->whoat(x, y)->printPiece();
+                if (g.whoat(x,y) != nullptr){
+                    g.whoat(x, y)->getAppearance();
                 } else {
                     cout << "Nothing" << endl;
                 }
