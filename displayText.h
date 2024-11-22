@@ -5,12 +5,15 @@
 #include <algorithm>
 #include "observer.h"
 #include "board.h"
+#include "player.h"
 
 class displayText : public Observer {
-  Board *b;
+  Board* b;
+  string playerName;
+
 	public:
-		virtual void notify() = 0;
-		virtual ~Observer() {}
+		displayText(Board* b, string playerName);
+    ~displayText();
 };
 
 #endif
