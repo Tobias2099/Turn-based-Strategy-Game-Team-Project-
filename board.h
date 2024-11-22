@@ -22,6 +22,4 @@ class Board{
       vector<vector<int>> setBoard(int row, int col, int id);
 };
 
-//int battle(Piece* initiator, Piece* defender);
-
 #endif

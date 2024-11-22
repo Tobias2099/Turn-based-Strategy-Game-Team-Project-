@@ -37,6 +37,8 @@ class Game{
 
     int appearanceToID(char c);
 
+    int battle(AbstractLink* initiator, AbstractLink* defender);
+
 };
 
 #endif
