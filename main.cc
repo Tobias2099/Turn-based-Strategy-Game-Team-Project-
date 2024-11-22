@@ -4,7 +4,9 @@
 #include "game.h"
 #include "abstractentity.h"
 #include "displayText.h"
-
+#include "datalink.h"
+#include "viruslink.h"
+#include "serverport.h"
 using namespace std;
 
 int main() {
@@ -37,13 +39,13 @@ int main() {
     AbstractLink *player2h = new VirusLink{15, 7, 7, true, 'h', "Player 2", 4};
     //AbstractLink{id, x, y, appearance, type, owner, power, revealed, active, moveCount} {}
 
-    //player1 server ports
-    AbstractEntity *player1s1 = new Serverport{16, 3, 0, true, 'S', "Player 1"};
-    AbstractEntity *player1s2 = new Serverport{16, 4, 0, true, 'S', "Player 1"};
+    //player1 server ports  
+    AbstractEntity *player1s1 = new Serverport{16, 3, 0, 'S', Type::Serverport, "Player 1"};
+    AbstractEntity *player1s2 = new Serverport{16, 3, 0, 'S', Type::Serverport, "Player 1"};
 
     //player2 server ports
-    AbstractEntity *player2s1 = new Serverport{16, 3, 7, false, 'S', "Player 2"};
-    AbstractEntity *player2s2 = new Serverport{16, 4, 7, false, 'S', "Player 2"};
+    AbstractEntity *player2s1 = new Serverport{16, 3, 7, 'S', Type::Serverport, "Player 2"};
+    AbstractEntity *player2s2 = new Serverport{16, 4, 7, 'S', Type::Serverport, "Player 2"};
 
     vector<AbstractEntity*> pieces;
     Game g(&b, "Player 1", "None", player1, player2, pieces);
