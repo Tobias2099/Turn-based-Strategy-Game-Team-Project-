@@ -33,6 +33,10 @@ class AbstractLink : public AbstractEntity {
         void reveal() {
           revealed = true;
         }
+
+        void deactivate() {
+          active = false;
+        }
 };
 
 
