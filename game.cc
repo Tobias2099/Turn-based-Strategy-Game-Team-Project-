@@ -44,6 +44,7 @@ void Game::advance(){
   //cout << " to " << turn << endl;
 }
 
+//FIX / CHANGE
 void Game::printGameState() {
   cout << "Player 1: " << endl;
   cout << "Downloaded: " << p1->getData() << "D, " << p1->getViruses() << "V" << endl;
