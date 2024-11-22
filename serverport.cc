@@ -7,7 +7,7 @@
 using namespace std;
 
 
-Type Serverport::getType() const {
+Type ServerPort::getType() const {
     return Type::Serverport;
 }
 

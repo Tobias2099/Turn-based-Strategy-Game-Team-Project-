@@ -9,6 +9,8 @@
 #include "serverport.h"
 using namespace std;
 
+
+
 int main() {
     string command;
     
@@ -41,12 +43,12 @@ int main() {
     //AbstractLink{id, x, y, appearance, type, owner, power, revealed, active, moveCount} {}
 
     //player1 server ports  
-    AbstractEntity *player1s1 = new Serverport{16, 3, 0, Type::Serverport, 'S', "Player 1"};
-    AbstractEntity *player1s2 = new Serverport{16, 3, 0, Type::Serverport, 'S', "Player 1"};
+    AbstractEntity *player1s1 = new ServerPort{16, 3, 0, Type::Serverport, 'S', "Player 1"};
+    AbstractEntity *player1s2 = new ServerPort{16, 3, 0, Type::Serverport, 'S', "Player 1"};
 
     //player2 server ports
-    AbstractEntity *player2s1 = new Serverport{16, 3, 7, Type::Serverport, 'S', "Player 2"};
-    AbstractEntity *player2s2 = new Serverport{16, 4, 7, Type::Serverport, 'S', "Player 2"};
+    AbstractEntity *player2s1 = new ServerPort{16, 3, 7, Type::Serverport, 'S', "Player 2"};
+    AbstractEntity *player2s2 = new ServerPort{16, 4, 7, Type::Serverport, 'S', "Player 2"};
 
     vector<AbstractEntity*> pieces;
     Game g(&b, "Player 1", "None", player1, player2, pieces);
@@ -93,8 +95,8 @@ int main() {
             } else if (command == "whoat") {
                 int x, y;
                 cin >> x >> y;
-                if (g.whoat(x,y) != nullptr){
-                    g.whoat(x, y)->getAppearance();
+                if (g.whoAt(x,y) != nullptr){
+                    g.whoAt(x, y)->getAppearance();
                 } else {
                     cout << "Nothing" << endl;
                 }

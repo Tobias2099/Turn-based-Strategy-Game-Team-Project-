@@ -32,4 +32,8 @@ int Board::getHeight() {
   return height;
 }
 
+Board::~Board() {
+    
+}
+
 #endif
