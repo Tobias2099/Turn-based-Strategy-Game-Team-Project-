@@ -24,7 +24,7 @@ class Game{
     string getWinner();
     string getTurn();
     void advance();
-
+    
     void setWinner(string w);
 
     void printGameState();
