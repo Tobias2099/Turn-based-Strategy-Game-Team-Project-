@@ -44,68 +44,6 @@ void Game::advance(){
   //cout << " to " << turn << endl;
 }
 
-void Game::printGameState() {
-  cout << "Player 1: " << endl;
-  cout << "Downloaded: " << p1->getData() << "D, " << p1->getViruses() << "V" << endl;
-  cout << "Abilities (later)" << endl;
-
-  //todo: reveal if battled
-
-  if (turn == "Player 1"){
-    //ids hardcoded. Change later?
-    for (int i = 0; i < 8; i++){
-      cout << (this->whoAt(i))->getAppearance() << ": " << (this->whoAt(i))->getType() 
-      << (this->whoAt(i))->getPower() << " ";
-      if (i == 3) cout << endl;
-    }
-    cout << endl;
-  } else {
-    //ids hardcoded. Change later?
-    for (int i = 0; i < 8; i++){
-
-      if ((this->whoAt(i))->isvisible()){
-        cout << (this->whoAt(i))->getAppearance() << ": " << (this->whoAt(i))->getType() 
-        << (this->whoAt(i))->getPower() << " ";
-      } else {
-        cout << (this->whoAt(i))->getAppearance() << ":  ? ";
-      }
-
-      if (i == 3) cout << endl;
-    }
-    cout << endl;
-  }
-
-  //DELETED b->printBoard();
-
-  cout << "Player 2: " << endl;
-  cout << "Downloaded: " << p2->getData() << "D, " << p2->getViruses() << "V" << endl;
-  cout << "Abilities (later)" << endl;
-
-  if (turn == "Player 2"){
-    //ids hardcoded. Change later?
-    for (int i = 8; i < 16; i++){
-      cout << (this->whoAt(i))->getAppearance() << ": " << (this->whoAt(i))->getType() 
-      << (this->whoAt(i))->getPower() << " ";
-      if (i == 11) cout << endl;
-    }
-    cout << endl;
-  } else {
-    //ids hardcoded. Change later?
-    for (int i = 8; i < 16; i++){
-      
-      if ((this->whoAt(i))->isvisible()){
-        cout << (this->whoAt(i))->getAppearance() << ": " << (this->whoAt(i))->getType() 
-        << (this->whoAt(i))->getPower() << " ";
-      } else {
-        cout << (this->whoAt(i))->getAppearance() << ":  ? ";
-      }
-
-      if (i == 11) cout << endl;
-    }
-    cout << endl;
-  }
-
-}
 
 void Game::download(string player, int virus, int data){
   const int maxData = 4;
@@ -130,9 +68,9 @@ void Game::addEntityToBoard(AbstractEntity* entity){
 }
 
 bool Game::simplemove(string playerincontrol, int id, char dir){
-    if (id < 0) {
+    if (id < 0 || id >= 16) {
         return false;
-        //nomove
+        //nomove, id's greater than 16 are serverports.
     }
 
     AbstractLink* to_move = pieces[id];
@@ -142,7 +80,7 @@ bool Game::simplemove(string playerincontrol, int id, char dir){
         return false;
     }
 
-    AbstractLink* target = nullptr;
+    AbstractEntity* target = nullptr;
     size_t oldX = pieces[id]->getX();
     size_t oldY = pieces[id]->getY();
 
@@ -177,9 +115,9 @@ bool Game::simplemove(string playerincontrol, int id, char dir){
         if (to_move->getOwner() == "Player 1" && newY > lastRow){
             to_move->deactivate();
             //do we reveal here?
-            if (to_move->getType() == "V") {
+            if (to_move->getType() == Type::Virus) {
                 download(to_move->getOwner(),1,0);
-            } else if (to_move->getType() == "D") {
+            } else if (to_move->getType() == Type::Data) {
                 download(to_move->getOwner(),0,1);
             }
             b->setBoard(oldX, oldY, -1);
@@ -189,9 +127,9 @@ bool Game::simplemove(string playerincontrol, int id, char dir){
         if (to_move->getOwner() == "Player 2" && newY < firstRow){
             to_move->deactivate();
             //do we reveal here?
-            if (to_move->getType() == "V"){
+            if (to_move->getType() == Type::Virus){
                 download(to_move->getOwner(),1,0);
-            } else if (to_move->getType() == "D"){
+            } else if (to_move->getType() == Type::Data){
                 download(to_move->getOwner(),0,1);
             }
             b->setBoard(oldX, oldY, -1);
@@ -223,15 +161,16 @@ bool Game::simplemove(string playerincontrol, int id, char dir){
 
     } else if (target != nullptr && target->getOwner() != playerincontrol) {       
         // if we are trying to move onto someone else's piece
-        int winningID = this->battle(to_move, target);
+        AbstractLink* linkTarget = this->whoAt(newX, newY);
+        int winningID = this->battle(to_move, linkTarget);
 
         if (winningID == to_move->getID()){
             //cout << "initator wins" << endl;
             to_move->setX(newX);
             to_move->setY(newY);
-            target->deactivate();
+            linkTarget->deactivate();
             to_move->reveal();
-            target->reveal();
+            linkTarget->reveal();
             b->setBoard(newX, newY, to_move->getID());
             boardrep[oldX][oldY] = -1;
             b->setBoard(oldX, oldY, -1);
@@ -240,7 +179,7 @@ bool Game::simplemove(string playerincontrol, int id, char dir){
             string winnerowner = to_move->getOwner();
 
             //download
-            if (target->getType() == Type::Virus){
+            if (linkTarget->getType() == Type::Virus){
                 download(winnerowner,1,0);
             } else if (to_move->getType() == Type::Data){
                 download(winnerowner,0,1);
@@ -250,12 +189,13 @@ bool Game::simplemove(string playerincontrol, int id, char dir){
         } else {
             //lost the battle
             //cout << "defender wins" << endl;
+            AbstractLink* linkTarget = this->whoAt(newX, newY);
             to_move->deactivate();
             to_move->reveal();
-            target->reveal();
+            linkTarget->reveal();
             b->setBoard(oldX, oldY, -1);
 
-            string winnerowner = target->getOwner();
+            string winnerowner = linkTarget->getOwner();
 
             //download
             if (to_move->getType() == Type::Virus){
