@@ -316,4 +316,14 @@ string Game::getPlayer() {
   return turn;
 }
 
+Player* Game::getFirstPlayer() {
+  return p1;
+}
+
+
+Player* Game::getSecondPlayer() {
+  return p2;
+}
+
+
 #endif
