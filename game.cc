@@ -299,8 +299,6 @@ int Game::battle(AbstractLink* initiator, AbstractLink* defender) {
   }
 }
 
-
-
 AbstractEntity* whoAt(int x, int y) {
   int id = b->getValue(x, y);
   if (id == -1) {
@@ -308,6 +306,11 @@ AbstractEntity* whoAt(int x, int y) {
   }
 
   return pieces[id];
+}
+
+AbstractEntity* whoAt(int id){
+    AbstractEntity* piece = pieces[id];
+    return piece;
 }
 
 #endif
