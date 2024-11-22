@@ -4,11 +4,10 @@
 #include <vector>
 #include <algorithm>
 #include "observer.h"
-#include "board.h"
-#include "player.h"
+#include "game.h"
 
 class displayText : public Observer {
-  Board* b;
+  Game* g;
   string playerName;
 
 	public:
