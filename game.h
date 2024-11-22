@@ -31,7 +31,7 @@ class Game : public Subject{
 
     void download(string player, int virus, int data);
 
-    void addEntityToBoard(Piece* entity);
+    void addEntityToBoard(AbstractEntity* entity);
 
     bool simplemove(string playerincontrol, int id, char dir);
 
