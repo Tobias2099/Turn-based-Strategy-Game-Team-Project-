@@ -55,8 +55,8 @@ void Game::printGameState() {
   if (turn == "Player 1"){
     //ids hardcoded. Change later?
     for (int i = 0; i < 8; i++){
-      cout << (b->whoat(i))->getApp() << ": " << (b->whoat(i))->getType() 
-      << (b->whoat(i))->getPower() << " ";
+      cout << (this->whoAt(i))->getApp() << ": " << (this->whoAt(i))->getType() 
+      << (this->whoAt(i))->getPower() << " ";
       if (i == 3) cout << endl;
     }
     cout << endl;
@@ -64,11 +64,11 @@ void Game::printGameState() {
     //ids hardcoded. Change later?
     for (int i = 0; i < 8; i++){
 
-      if ((b->whoat(i))->isvisible()){
-        cout << (b->whoat(i))->getApp() << ": " << (b->whoat(i))->getType() 
-        << (b->whoat(i))->getPower() << " ";
+      if ((this->whoAt(i))->isvisible()){
+        cout << (this->whoAt(i))->getApp() << ": " << (this->whoAt(i))->getType() 
+        << (this->whoAt(i))->getPower() << " ";
       } else {
-        cout << (b->whoat(i))->getApp() << ":  ? ";
+        cout << (this->whoAt(i))->getApp() << ":  ? ";
       }
 
       if (i == 3) cout << endl;
@@ -85,8 +85,8 @@ void Game::printGameState() {
   if (turn == "Player 2"){
     //ids hardcoded. Change later?
     for (int i = 8; i < 16; i++){
-      cout << (b->whoat(i))->getApp() << ": " << (b->whoat(i))->getType() 
-      << (b->whoat(i))->getPower() << " ";
+      cout << (this->whoAt(i))->getApp() << ": " << (this->whoAt(i))->getType() 
+      << (this->whoAt(i))->getPower() << " ";
       if (i == 11) cout << endl;
     }
     cout << endl;
@@ -94,11 +94,11 @@ void Game::printGameState() {
     //ids hardcoded. Change later?
     for (int i = 8; i < 16; i++){
       
-      if ((b->whoat(i))->isvisible()){
-        cout << (b->whoat(i))->getApp() << ": " << (b->whoat(i))->getType() 
-        << (b->whoat(i))->getPower() << " ";
+      if ((this->whoAt(i))->isvisible()){
+        cout << (this->whoAt(i))->getApp() << ": " << (this->whoAt(i))->getType() 
+        << (this->whoAt(i))->getPower() << " ";
       } else {
-        cout << (b->whoat(i))->getApp() << ":  ? ";
+        cout << (this->whoAt(i))->getApp() << ":  ? ";
       }
 
       if (i == 11) cout << endl;
@@ -204,7 +204,7 @@ bool Game::simplemove(string playerincontrol, int id, char dir){
     }
 
     //who is there?
-    target =  b->whoat(newX, newY);
+    target =  this->whoAt(newX, newY);
 
     // if someone is there and we own it
     if (target != nullptr && target->getOwner() == playerincontrol){
@@ -299,5 +299,13 @@ int Game::battle(AbstractLink* initiator, AbstractLink* defender) {
   }
 }
 
+AbstractEntity* whoAt(int x, int y) {
+  int id = b->getValue(x, y);
+  if (id == -1) {
+      return nullptr;
+  }
+
+  return pieces[id];
+}
 
 #endif

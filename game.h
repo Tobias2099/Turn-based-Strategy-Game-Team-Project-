@@ -39,6 +39,10 @@ class Game{
 
     int battle(AbstractLink* initiator, AbstractLink* defender);
 
+    AbstractEntity* whoAt(int x, int y);
+
+    AbstractEntity* whoAt(int id);
+
 };
 
 #endif

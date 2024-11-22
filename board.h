@@ -16,10 +16,8 @@ class Board{
       Board(size_t width, size_t height);
       ~Board();
 
-      AbstractEntity* whoat(int x, int y);
-      AbstractEntity* whoat(int id);
-
       vector<vector<int>> setBoard(int row, int col, int id);
+      int getValue(int row, int col);
 };
 
 #endif

@@ -19,4 +19,9 @@ Board::Board(size_t width, size_t height): width{width}, height{height},
 void Board::setBoard(int row, int col, int id) {
     boardrep[row][col] = id;
 }
+
+int Board::getValue(int row, int col) {
+    return boardrep[row][col];
+}
+
 #endif
