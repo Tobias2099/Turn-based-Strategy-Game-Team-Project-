@@ -77,7 +77,7 @@ bool Game::simplemove(string playerincontrol, int id, char dir){
         //nomove, id's greater than 16 are serverports.
     }
 
-    AbstractLink* to_move = pieces[id];
+    AbstractLink* to_move = dynamic_cast<AbstractLink*>(pieces[id]);
 
     if (!(to_move->isActive())) {
         cout << "Piece deactivated, can't move." << endl;
@@ -114,7 +114,7 @@ bool Game::simplemove(string playerincontrol, int id, char dir){
     const int firstRow = 0;
     const int lastRow = 7;
     //did we walk off the board?
-    if (newX >= static_cast<int>(width) || newX < firstRow || newY >= static_cast<int>(height) || newY < firstRow) {
+    if (newX >= static_cast<int>(b->getWidth()) || newX < firstRow || newY >= static_cast<int>(b->getHeight()) || newY < firstRow) {
 
         if (to_move->getOwner() == "Player 1" && newY > lastRow){
             to_move->deactivate();
@@ -165,7 +165,7 @@ bool Game::simplemove(string playerincontrol, int id, char dir){
 
     } else if (target != nullptr && target->getOwner() != playerincontrol) {       
         // if we are trying to move onto someone else's piece
-        AbstractLink* linkTarget = this->whoAt(newX, newY);
+        AbstractLink* linkTarget = dynamic_cast<AbstractLink*>(whoAt(newX, newY));
         int winningID = this->battle(to_move, linkTarget);
 
         if (winningID == to_move->getID()){
