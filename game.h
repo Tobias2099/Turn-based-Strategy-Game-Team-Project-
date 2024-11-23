@@ -52,6 +52,8 @@ class Game : public Subject {
 
     Player* getFirstPlayer();
     Player* getSecondPlayer();
+
+    int getVecLength();
 };
 
 #endif

@@ -155,7 +155,7 @@ bool Game::simplemove(string playerincontrol, int id, char dir, int steps){
     target =  this->whoAt(newX, newY);
 
     // if someone is there and we own it
-    if (target != nullptr && target->getOwner() == playerincontrol){
+    if (target != nullptr && target->getType() != Type::Firewall && target->getOwner() == playerincontrol){
         cout << "Can't move onto our own piece!" << endl;
         return false;
     } else if (target != nullptr && target->getType() == Type::Serverport) {
@@ -169,9 +169,8 @@ bool Game::simplemove(string playerincontrol, int id, char dir, int steps){
         to_move->deactivate();
         b->setBoard(oldX, oldY, -1);
         return true;
-
-    } else if (target != nullptr && target->getOwner() != playerincontrol) {       
-        // if we are trying to move onto someone else's piece
+    } else if (target != nullptr && target->getType() != Type::Firewall && target->getOwner() != playerincontrol) {       
+        // if we are trying to move onto someone else's piece (not a firewall)
         AbstractLink* linkTarget = dynamic_cast<AbstractLink*>(whoAt(newX, newY));
         int winningID = this->battle(to_move, linkTarget);
 
@@ -216,6 +215,14 @@ bool Game::simplemove(string playerincontrol, int id, char dir, int steps){
 
             return true;
         }
+    } else if (target->getType() == Type::Firewall && target->getOwner() != playerincontrol){
+      //walk onto an enemy firewall
+      to_move->reveal();
+      if (to_move->getType() == Type::Virus) {
+        to_move->deactivate();
+        download(to_move->getOwner(),1,0);
+      }
+      return true;
     }
 
     to_move->setX(newX);
@@ -272,6 +279,10 @@ Player* Game::getFirstPlayer() {
 
 Player* Game::getSecondPlayer() {
   return p2;
+}
+
+int Game::getVecLength(){
+  return pieces.size();
 }
 
 #endif
