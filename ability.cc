@@ -126,11 +126,12 @@ class Wipe : public Ability {
   public:
     bool execute(Game& game, int x, int y, char linkName) {
       vector<AbstractEntity*> pieces = game.getPieces();
-       AbstractLink* linkToHide = nullptr;
+
         for (auto it = pieces.begin(); it != pieces.end(); ++it) {
-          if ((*it)->getOwner() == owner){
-              linkToHide = dynamic_cast<AbstractLink*>(*it);
-              linkToHide->hide();
+
+          if ((*it)->getOwner() == owner && (*it)->getType() != Type::Firewall) {
+              AbstractLink* linkToHide = dynamic_cast<AbstractLink*>(*it);
+              if (linkToHide) linkToHide->hide();
           }
         }
         return true;
