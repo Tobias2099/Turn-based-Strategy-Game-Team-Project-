@@ -12,13 +12,13 @@ using namespace std;
 
 class Ability {
   int id;
-  string name;
+  char name;
 
   public:
-    Ability(int id, string name) : id{id}, name{name} {}
-    void execute(Game &game, int x, int y, string linkName);
+    Ability(int id, char name) : id{id}, name{name} {}
+    void execute(Game &game, int x, int y, char linkName);
     int getId() { return id; }
-    string getName() { return name; }
+    char getName() { return name; }
 };
 
 #endif
