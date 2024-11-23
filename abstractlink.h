@@ -45,6 +45,10 @@ class AbstractLink : public AbstractEntity {
         int setMoveCount(int n) {
           moveCount = n;
         }
+
+        void setType(Type t) {
+          type = t;
+        }
 };
 
 
