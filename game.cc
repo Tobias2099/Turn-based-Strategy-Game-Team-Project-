@@ -222,6 +222,7 @@ bool Game::simplemove(string playerincontrol, int id, char dir, int steps){
         to_move->deactivate();
         download(to_move->getOwner(),1,0);
       }
+      return true;
     }
 
     to_move->setX(newX);
