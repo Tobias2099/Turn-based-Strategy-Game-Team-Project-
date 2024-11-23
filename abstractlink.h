@@ -38,6 +38,10 @@ class AbstractLink : public AbstractEntity {
           revealed = true;
         }
 
+        void hide() {
+          revealed = false;
+        }
+
         void deactivate() {
           active = false;
         }

@@ -74,7 +74,6 @@ class Teleport : public Ability {
   public:
     
     bool execute(Game& game, int x, int y, char linkName) {
-      // take in x and y.
      vector<AbstractEntity*> pieces = game.getPieces();
      AbstractLink* link = nullptr;
      std::pair<int, int> coordinates;
@@ -100,6 +99,15 @@ class Teleport : public Ability {
 class Wipe : public Ability {
   public:
     bool execute(Game& game, int x, int y, char linkName) {
+      vector<AbstractEntity*> pieces = game.getPieces();
+       AbstractLink* linkToHide = nullptr;
+        for (auto it = pieces.begin(); it != pieces.end(); ++it) {
+          if ((*it)->getOwner() == owner){
+              linkToHide = dynamic_cast<AbstractLink*>(*it);
+              linkToHide->hide();
+          }
+        }
+        return true;
     }
 };
 
