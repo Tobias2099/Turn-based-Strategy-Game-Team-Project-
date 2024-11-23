@@ -19,6 +19,12 @@ class LinkBoost : public Ability {
 class Firewall : public Ability {
   public:
     bool execute(Game& game, int x, int y, char linkName) {
+
+      if (game.whoAt(x,y) != nullptr) {
+        //the target square isn't empty
+        return false;
+      }
+
       char app = 'x';
       if (owner == "Player 1") {
         app = 'm';
@@ -29,6 +35,7 @@ class Firewall : public Ability {
       int veclength = game.getVecLength();
       int id = veclength - 1;
       game.addEntityToBoard(new Firewallpiece(id, x, y, Type::Firewall, app, owner));
+      return true;
     }
 };
 
