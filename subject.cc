@@ -22,3 +22,6 @@ void Subject::notifyObservers() {
     }
 }
 
+Subject::~Subject() {
+    
+}

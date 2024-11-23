@@ -9,6 +9,8 @@
 #include "serverport.h"
 using namespace std;
 
+
+
 int main() {
     string command;
     
@@ -93,8 +95,8 @@ int main() {
             } else if (command == "whoat") {
                 int x, y;
                 cin >> x >> y;
-                if (g.whoat(x,y) != nullptr){
-                    g.whoat(x, y)->getAppearance();
+                if (g.whoAt(x,y) != nullptr){
+                    g.whoAt(x, y)->getAppearance();
                 } else {
                     cout << "Nothing" << endl;
                 }

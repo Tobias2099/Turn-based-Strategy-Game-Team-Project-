@@ -9,6 +9,8 @@
 #include "subject.h"
 #include "abstractlink.h"
 
+class Player;
+
 using namespace std;
 
 class Game : public Subject {
