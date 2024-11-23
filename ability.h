@@ -17,6 +17,8 @@ class Ability {
   public:
     Ability(int id, string name) : id{id}, name{name} {}
     void execute(Game &game, int x, int y, string linkName);
+    int getId() { return id; }
+    string getName() { return name; }
 };
 
 #endif
