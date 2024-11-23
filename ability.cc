@@ -3,6 +3,7 @@
 
 #include "ability.h"
 #include "game.h"
+#include "firewall.h"
 
 class LinkBoost : public Ability {
   public:
@@ -15,7 +16,16 @@ class LinkBoost : public Ability {
 class Firewall : public Ability {
   public:
     bool execute(Game& game, int x, int y, char linkName) {
+      char app = 'x';
+      if (owner == "Player 1") {
+        app = 'm';
+      } else {
+        app = 'w';
+      }
 
+      int veclength = game.getVecLength();
+      int id = veclength - 1;
+      game.addEntityToBoard(new Firewallpiece(id, x, y, Type::Firewall, app, owner));
     }
 };
 

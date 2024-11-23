@@ -274,4 +274,8 @@ Player* Game::getSecondPlayer() {
   return p2;
 }
 
+int Game::getVecLength(){
+  return pieces.size();
+}
+
 #endif

@@ -163,14 +163,6 @@ int main(int argc, char* argv[]) {
     Player* player1 = new Player("Player 1", 0, 0, 0);
     Player* player2 = new Player("Player 2", 0, 0, 0);
 
-    //player1 server ports  
-    AbstractEntity* player1s1 = new ServerPort{16, 3, 0, Type::Serverport, 'S', "Player 1"};
-    AbstractEntity* player1s2 = new ServerPort{16, 4, 0, Type::Serverport, 'S', "Player 1"};
-
-    //player2 server ports
-    AbstractEntity* player2s1 = new ServerPort{16, 3, 7, Type::Serverport, 'S', "Player 2"};
-    AbstractEntity* player2s2 = new ServerPort{16, 4, 7, Type::Serverport, 'S', "Player 2"};
-
     vector<AbstractEntity*> pieces;
     Game g(&b, "Player 1", "None", player1, player2, pieces);
 
