@@ -79,7 +79,7 @@ bool Game::simplemove(string playerincontrol, int id, char dir, int steps){
     AbstractLink* to_move = dynamic_cast<AbstractLink*>(pieces[id]);
 
     if (steps == -1) {
-      steps = to_move->getSteps();
+      steps = to_move->getMoveCount();
     }
 
     if (!(to_move->isActive())) {

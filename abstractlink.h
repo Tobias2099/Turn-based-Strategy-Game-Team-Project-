@@ -42,8 +42,8 @@ class AbstractLink : public AbstractEntity {
           active = false;
         }
 
-        int getSteps() {
-          return moveCount;
+        int setMoveCount(int n) {
+          moveCount = n;
         }
 };
 
