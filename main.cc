@@ -163,30 +163,6 @@ int main(int argc, char* argv[]) {
     Player* player1 = new Player("Player 1", 0, 0, 0);
     Player* player2 = new Player("Player 2", 0, 0, 0);
 
-<<<<<<< HEAD
-    //player1 pieces
-    AbstractLink *player1a = new DataLink{0, 0, 0, 'a', Type::Data, "Player 1", 1, false, true, 1};
-    AbstractLink *player1b = new DataLink{1, 1, 0, 'b', Type::Data, "Player 1", 2, false, true, 1};
-    AbstractLink *player1c = new DataLink{2, 2, 0, 'c', Type::Data, "Player 1", 3, false, true, 1};
-    AbstractLink *player1d = new DataLink{3, 3, 1, 'd', Type::Data, "Player 1", 4, false, true, 1};
-
-    AbstractLink *player1e = new VirusLink{4, 4, 1, 'e', Type::Virus, "Player 1", 1, false, true, 1};
-    AbstractLink *player1f = new VirusLink{5, 5, 0, 'f', Type::Virus, "Player 1", 2, false, true, 1};
-    AbstractLink *player1g = new VirusLink{6, 6, 0, 'g', Type::Virus, "Player 1", 3, false, true, 1};
-    AbstractLink *player1h = new VirusLink{7, 7, 0, 'h', Type::Virus, "Player 1", 4, false, true, 1};
-
-    //player2 pieces
-    AbstractLink* player2a = new DataLink{8, 0, 7, 'A', Type::Data, "Player 2", 1, false, true, 1};
-    AbstractLink* player2b = new DataLink{9, 1, 7, 'B', Type::Data, "Player 2", 2, false, true, 1};
-    AbstractLink* player2c = new DataLink{10, 2, 7, 'C', Type::Data, "Player 2", 3, false, true, 1};
-    AbstractLink* player2d = new DataLink{11, 3, 6, 'D', Type::Data, "Player 2", 4, false, true, 1};
-
-    AbstractLink* player2e = new VirusLink{12, 4, 6, 'E', Type::Virus, "Player 2", 1, false, true, 1};
-    AbstractLink* player2f = new VirusLink{13, 5, 7, 'F', Type::Virus, "Player 2", 2, false, true, 1};
-    AbstractLink* player2g = new VirusLink{14, 6, 7, 'G', Type::Virus, "Player 2", 3, false, true, 1};
-    AbstractLink* player2h = new VirusLink{15, 7, 7, 'H', Type::Virus, "Player 2", 4, false, true, 1};
-    //AbstractLink{id, x, y, appearance, type, owner, power, revealed, active, moveCount} {}
-
     //player1 server ports  
     AbstractEntity* player1s1 = new ServerPort{16, 3, 0, Type::Serverport, 'S', "Player 1"};
     AbstractEntity* player1s2 = new ServerPort{16, 4, 0, Type::Serverport, 'S', "Player 1"};
@@ -195,8 +171,6 @@ int main(int argc, char* argv[]) {
     AbstractEntity* player2s1 = new ServerPort{16, 3, 7, Type::Serverport, 'S', "Player 2"};
     AbstractEntity* player2s2 = new ServerPort{16, 4, 7, Type::Serverport, 'S', "Player 2"};
 
-=======
->>>>>>> b03bb27b23e72d5ae0831dbee6277c4a7e3d929a
     vector<AbstractEntity*> pieces;
     Game g(&b, "Player 1", "None", player1, player2, pieces);
 
@@ -208,7 +182,7 @@ int main(int argc, char* argv[]) {
     if (options.find("-link1") != options.end()) {
         cout << "[DEBUG] Attempting to load links from " << options["-link1"] << endl;
         if (!loadplayers(&g, options["-link1"], "Player 1", 0, 7, 'a')){
-            cout << "[DEBUG] Something went wrong. Must restart." << endl;
+           cout << "[DEBUG] Something went wrong. Must restart." << endl;
             return 1;
         }
     } else {
