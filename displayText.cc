@@ -8,11 +8,11 @@
 // helper method
 string convertTypeToString(Type type) {
   if (type == Type::Data) {
-    return "Data";
+    return "D";
   } else if (type == Type::Serverport) {
-    return "Severport";
+    return "S";
   } else if (type == Type::Virus) {
-    return "Virus";
+    return "V";
   }
 } 
 
@@ -112,7 +112,7 @@ void displayText::notify() {
         cout << link->getAppearance() << ":  ? ";
       }
 
-      if (i == breakPoint + maxLinks) cout << endl;
+      if (i == breakPoint) cout << endl;
     }
     cout << endl;
   }
