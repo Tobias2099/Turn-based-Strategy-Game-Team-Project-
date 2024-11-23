@@ -98,6 +98,9 @@ class Scan : public Ability { //takes coordinates as input
 class Calibrate : public Ability {
   public:
     bool execute(Game& game, int x, int y, char linkName) {
+      if (game.whoAt(x,y) == nullptr) {
+        return false;
+      }
       const int maxPower = 4;
       AbstractLink* link = dynamic_cast<AbstractLink*>(game.whoAt(x, y));
       link->setPower(maxPower);
