@@ -78,7 +78,6 @@ int main() {
     g.attach(&textObserver);
 
     while (g.getWinner() == "None"){
-
         while (std::cin >> command) {
             if (command == "board" ) {
                 g.notifyObservers();
@@ -89,9 +88,13 @@ int main() {
                 cin >> name >> dir;
                 bool movestat = g.simplemove(playerincontrol, g.appearanceToID(name), dir);
                 if (movestat){
+                    //why observers?
                     g.advance();
+                    g.notifyObservers();
                     break;
                 }
+                // do we want this here?
+                //g.notifyObservers();
             } else if (command == "whoat") {
                 int x, y;
                 cin >> x >> y;
@@ -100,9 +103,12 @@ int main() {
                 } else {
                     cout << "Nothing" << endl;
                 }
-            } else {
+            } else if (command == "quit") {
                 g.setWinner("ESC");
                 break;
+            } else {
+                cout << "Command not recognized." << endl;
+                continue;
             }
         } 
     }

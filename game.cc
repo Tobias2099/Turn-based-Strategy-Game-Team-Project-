@@ -14,7 +14,6 @@ Game::Game(Board *b, string turn, string winner, Player* p1, Player* p2, vector<
 Game::~Game() {
   delete p1;
   delete p2;
-  delete b;
   for (auto it = pieces.begin(); it != pieces.end(); ++it) {
       delete *it;
   }
@@ -110,7 +109,11 @@ bool Game::simplemove(string playerincontrol, int id, char dir){
     } else if (dir == 'd'){
         newX = oldX;
         newY = oldY + 1;
+    } else {
+        cout << "Direction not recognized." << endl;
+        return false;
     }
+
     const int firstRow = 0;
     const int lastRow = 7;
     //did we walk off the board?

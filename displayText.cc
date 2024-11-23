@@ -14,13 +14,14 @@ string convertTypeToString(Type type) {
   } else if (type == Type::Virus) {
     return "V";
   }
+  return "X";
 } 
 
 
 displayText::displayText(Game* g) : g{g} {}
 
 displayText::~displayText() {
-  delete g;
+  //detach?
 }
 
 
@@ -65,13 +66,13 @@ void displayText::notify() {
   //ADD GETTERS HERE BELOW IN PRINT BOARD
 
   //PRINT BOARD
-  for (size_t i = 0; i < g->getBoard()->getWidth(); i++) {
+  for (int i = 0; i < g->getBoard()->getWidth(); i++) {
         cout << "=";
     }
     cout << endl;
-    for (size_t i = 0; i < g->getBoard()->getHeight(); i++)
+    for (int i = 0; i < g->getBoard()->getHeight(); i++)
     {
-        for (size_t j = 0; j < g->getBoard()->getWidth(); j++)
+        for (int j = 0; j < g->getBoard()->getWidth(); j++)
         {   
             int boardID = g->getBoard()->getValue(j, i);
             if (boardID == -1){
@@ -82,7 +83,7 @@ void displayText::notify() {
         }    
         cout << endl;
     }
-    for (size_t i = 0; i < g->getBoard()->getWidth(); i++){
+    for (int i = 0; i < g->getBoard()->getWidth(); i++){
         cout << "=";
     }
     cout << endl;
@@ -98,7 +99,7 @@ void displayText::notify() {
       AbstractLink* link = dynamic_cast<AbstractLink*>(g->whoAt(i + maxLinks));
       cout << link->getAppearance() << ": " << convertTypeToString(link->getType())
       << link->getPower() << " ";
-      if (i == breakPoint + maxLinks) cout << endl;
+      if (i == breakPoint) cout << endl;
     }
     cout << endl;
   } else {
