@@ -109,14 +109,16 @@ class Teleport : public Ability {
             coordinates.second = link->getY();
             break;
         }
-    }
+      }
       AbstractEntity* moveTo = game.whoAt(x, y);
       if (moveTo == nullptr) {
-         game.getBoard()->setBoard(coordinates.first, coordinates.second, -1);
-         link->setX(x);
-         link->setY(y);
+        game.getBoard()->setBoard(coordinates.first, coordinates.second, -1);
+        link->setX(x);
+        link->setY(y);
+        return true;
       } else {
         cout << "[DEBUG] Ability::Teleport - Coordinate occupied." << endl;
+        return false;
       }
     }
 };
