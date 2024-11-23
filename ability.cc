@@ -10,7 +10,8 @@ class LinkBoost : public Ability {
     bool execute(Game& game, int x, int y, char linkName) {
       if (('a' <= linkName && linkName <= 'h') && owner != "Player 1") return false;
       if (('A' <= linkName && linkName <= 'H') && owner != "Player 2") return false;
-      int linkID = dynamic_cast<AbstractLink*>(game.whoAt(game.appearanceToID(linkName)))->setMoveCount(2);
+      AbstractLink* link = dynamic_cast<AbstractLink*>(game.whoAt(game.appearanceToID(linkName)));
+      link->setMoveCount(link->getMoveCount() + 1);
       return true;
     }
 };
