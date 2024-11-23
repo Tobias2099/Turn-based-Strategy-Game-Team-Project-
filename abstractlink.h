@@ -41,6 +41,10 @@ class AbstractLink : public AbstractEntity {
         void deactivate() {
           active = false;
         }
+
+        int getSteps() {
+          return moveCount;
+        }
 };
 
 

@@ -38,7 +38,7 @@ class Game : public Subject {
 
     void addEntityToBoard(AbstractEntity* entity);
 
-    bool simplemove(string playerincontrol, int id, char dir);
+    bool simplemove(string playerincontrol, int id, char dir, int steps);
 
     int appearanceToID(char c);
 

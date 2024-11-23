@@ -86,7 +86,7 @@ int main() {
                 char name;
                 char dir;
                 cin >> name >> dir;
-                bool movestat = g.simplemove(playerincontrol, g.appearanceToID(name), dir);
+                bool movestat = g.simplemove(playerincontrol, g.appearanceToID(name), dir, -1);
                 if (movestat){
                     //why observers?
                     g.advance();

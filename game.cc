@@ -70,13 +70,17 @@ void Game::addEntityToBoard(AbstractEntity* entity){
     b->setBoard(entity->getX(), entity->getY(), entity->getID());
 }
 
-bool Game::simplemove(string playerincontrol, int id, char dir){
+bool Game::simplemove(string playerincontrol, int id, char dir, int steps){
     if (id < 0 || id >= 16) {
         return false;
         //nomove, id's greater than 16 are serverports.
     }
 
     AbstractLink* to_move = dynamic_cast<AbstractLink*>(pieces[id]);
+
+    if (steps == -1) {
+      steps = to_move->getSteps();
+    }
 
     if (!(to_move->isActive())) {
         cout << "Piece deactivated, can't move." << endl;
@@ -98,17 +102,17 @@ bool Game::simplemove(string playerincontrol, int id, char dir){
 
     //where are we going?
     if (dir == 'r'){
-        newX = oldX + 1;
+        newX = oldX + steps;
         newY = oldY;
     } else if (dir == 'l'){
-        newX = oldX - 1;
+        newX = oldX - steps;
         newY = oldY;
     } else if (dir == 'u'){
         newX = oldX;
-        newY = oldY - 1;
+        newY = oldY - steps;
     } else if (dir == 'd'){
         newX = oldX;
-        newY = oldY + 1;
+        newY = oldY + steps;
     } else {
         cout << "Direction not recognized." << endl;
         return false;
