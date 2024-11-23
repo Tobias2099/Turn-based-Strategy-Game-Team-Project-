@@ -49,6 +49,10 @@ class AbstractLink : public AbstractEntity {
         void setType(Type t) {
           type = t;
         }
+
+        void setPower(int newPower) {
+          power = newPower;
+        }
 };
 
 

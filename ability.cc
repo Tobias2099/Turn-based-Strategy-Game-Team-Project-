@@ -41,7 +41,21 @@ class Firewall : public Ability {
 class Download : public Ability {
   public:
     bool execute(Game& game, int x, int y, char linkName) {
+      AbstractLink* link = dynamic_cast<AbstractLink*>(game.whoAt(x, y));
 
+      if (link->getOwner() == owner) return false;
+
+      if (link->getType() == Type::Data) {
+        game.download(owner, 0, 1);
+      } else if (link->getType() == Type::Virus) {
+        game.download(owner, 1, 0);
+      } else {
+        return false;
+      }
+
+      link->deactivate();
+      
+      return true;
     }
 };
 
