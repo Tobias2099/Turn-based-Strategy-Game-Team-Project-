@@ -10,13 +10,16 @@ class AbstractEntity {
         int id;
         size_t x, y;
         char appearance;
-        string owner;
         Type type;
+        string owner;
     public:
      AbstractEntity(int id, size_t x, size_t y, char appearance, Type type, string owner): 
                     id{id}, x{x}, y{y}, appearance{appearance}, type{type}, owner{owner} {
           
      }
+
+     virtual ~AbstractEntity() {}
+
      size_t getX() const {
           return x;
      }
