@@ -13,7 +13,6 @@ using namespace std;
 class Ability {
   int id;
   char name;
-  
   protected:
     string owner;
 
