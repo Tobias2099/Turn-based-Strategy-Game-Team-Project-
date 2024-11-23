@@ -13,7 +13,8 @@ using namespace std;
 class Ability {
   int id;
   char name;
-  string owner;
+  protected:
+    string owner;
 
   public:
     Ability(int id, char name, string owner): id{id}, name{name}, owner{owner} {}
