@@ -10,6 +10,7 @@ class LinkBoost : public Ability {
     bool execute(Game& game, int x, int y, char linkName) {
       if (('a' <= linkName && linkName <= 'h') && owner != "Player 1") return false;
       if (('A' <= linkName && linkName <= 'H') && owner != "Player 2") return false;
+      if (!((linkName >= 'a' && linkName <= 'A') || (linkName >= 'A' && linkName <= 'H'))) return false;
       AbstractLink* link = dynamic_cast<AbstractLink*>(game.whoAt(game.appearanceToID(linkName)));
       link->setMoveCount(link->getMoveCount() + 1);
       return true;
@@ -42,6 +43,9 @@ class Firewall : public Ability {
 class Download : public Ability {
   public:
     bool execute(Game& game, int x, int y, char linkName) {
+      if (game.whoAt(x,y) == nullptr) {
+        return false;
+      }
       AbstractLink* link = dynamic_cast<AbstractLink*>(game.whoAt(x, y));
 
       if (link->getOwner() == owner) return false;
@@ -63,7 +67,10 @@ class Download : public Ability {
 class Polarize : public Ability {
   public:
     bool execute(Game& game, int x, int y, char linkName) {
-      AbstractLink* link = dynamic_cast<AbstractLink*>(game.whoAt(game.appearanceToID(linkName)));
+      if (game.whoAt(x,y) == nullptr) {
+        return false;
+      }
+      AbstractLink* link = dynamic_cast<AbstractLink*>(game.whoAt(x, y));
       if (link->getType() == Type::Data) {
         link->setType(Type::Virus);
       } else if (link->getType() == Type::Virus) {
@@ -78,6 +85,9 @@ class Polarize : public Ability {
 class Scan : public Ability { //takes coordinates as input
   public:
     bool execute(Game& game, int x, int y, char linkName) {
+      if (game.whoAt(x,y) == nullptr) {
+        return false;
+      }
       AbstractLink* link = dynamic_cast<AbstractLink*>(game.whoAt(x, y));
       if (link->getOwner() == owner) return false;
       link->reveal();
