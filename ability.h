@@ -13,10 +13,12 @@ using namespace std;
 class Ability {
   int id;
   char name;
+  protected:
+    string owner;
 
   public:
-    Ability(int id, char name) : id{id}, name{name} {}
-    void execute(Game &game, int x, int y, char linkName);
+    Ability(int id, char name, string owner): id{id}, name{name}, owner{owner} {}
+    bool execute(Game &game, int x, int y, char linkName);
     int getId() { return id; }
     char getName() { return name; }
 };

@@ -4,7 +4,7 @@
 #include <string>
 
 using namespace std;
-enum Type {Virus, Data, Serverport};
+enum Type {Virus, Data, Serverport, Firewall};
 class AbstractEntity {
     protected:
         int id;

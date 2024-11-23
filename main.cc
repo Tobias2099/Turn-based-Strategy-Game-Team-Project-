@@ -174,7 +174,7 @@ int main(int argc, char* argv[]) {
     if (options.find("-link1") != options.end()) {
         cout << "[DEBUG] Attempting to load links from " << options["-link1"] << endl;
         if (!loadplayers(&g, options["-link1"], "Player 1", 0, 7, 'a')){
-            cout << "[DEBUG] Something went wrong. Must restart." << endl;
+           cout << "[DEBUG] Something went wrong. Must restart." << endl;
             return 1;
         }
     } else {

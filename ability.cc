@@ -3,49 +3,77 @@
 
 #include "ability.h"
 #include "game.h"
+#include "firewall.h"
 
 class LinkBoost : public Ability {
   public:
-    void execute(Game& game, int x, int y, char linkName) {
+    bool execute(Game& game, int x, int y, char linkName) {
       //use appearanceToID and whoAt
-      int linkID = game.appearanceToID(linkName);
+      if (('a' <= linkName && linkName <= 'h') && owner != "Player 1") return false;
+      if (('A' <= linkName && linkName <= 'H') && owner != "Player 2") return false;
+      int linkID = dynamic_cast<AbstractLink*>(game.whoAt(game.appearanceToID(linkName)))->setMoveCount(2);
+      return true;
     }
 };
 
 class Firewall : public Ability {
   public:
-    void execute(Game& game, int x, int y, char linkName) {
+    bool execute(Game& game, int x, int y, char linkName) {
+
+      if (game.whoAt(x,y) != nullptr) {
+        //the target square isn't empty
+        return false;
+      }
+
+      char app = 'x';
+      if (owner == "Player 1") {
+        app = 'm';
+      } else {
+        app = 'w';
+      }
+
+      int veclength = game.getVecLength();
+      int id = veclength - 1;
+      game.addEntityToBoard(new Firewallpiece(id, x, y, Type::Firewall, app, owner));
+      return true;
     }
 };
 
 class Download : public Ability {
   public:
-    void execute(Game& game, int x, int y, char linkName) {
+    bool execute(Game& game, int x, int y, char linkName) {
+
     }
 };
 
 class Polarize : public Ability {
   public:
-    void execute(Game& game, int x, int y, char linkName) {
+    bool execute(Game& game, int x, int y, char linkName) {
+      AbstractEntity* link = game.whoAt(game.appearanceToID(linkName));
+      //may need to do dynamic cast
+      if (link->getType() == Type::Data) {
+        
+      }
+      
     }
 };
 
 class Scan : public Ability {
   public:
-    void execute(Game& game, int x, int y, char linkName) {
+    bool execute(Game& game, int x, int y, char linkName) {
     }
 };
 
 class Calibrate : public Ability {
   public:
-    void execute(Game& game, int x, int y, char linkName) {
+    bool execute(Game& game, int x, int y, char linkName) {
     }
 };
 
 class Teleport : public Ability {
   public:
     
-    void execute(Game& game, int x, int y, char linkName) {
+    bool execute(Game& game, int x, int y, char linkName) {
       // take in x and y.
      vector<AbstractEntity*> pieces = game.getPieces();
      AbstractLink* link = nullptr;
@@ -71,7 +99,7 @@ class Teleport : public Ability {
 
 class Wipe : public Ability {
   public:
-    void execute(Game& game, int x, int y, char linkName) {
+    bool execute(Game& game, int x, int y, char linkName) {
     }
 };
 
