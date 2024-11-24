@@ -6,8 +6,6 @@
 #include <iostream>
 using namespace std;
 
-#include "abstractlink.h"
-
 AbstractLink::AbstractLink(int id, size_t x, size_t y, char appearance, Type type, string owner, int power,
                            bool revealed, bool active, int moveCount, int idUnderneath)
     : AbstractEntity{id, x, y, appearance, type, owner}, power{power}, revealed{revealed}, active{active}, moveCount{moveCount}, idUnderneath{idUnderneath} {}
