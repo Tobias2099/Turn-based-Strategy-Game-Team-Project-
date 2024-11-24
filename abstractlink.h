@@ -15,56 +15,22 @@ class AbstractLink : public AbstractEntity {
 
     public:
         AbstractLink(int id, size_t x, size_t y, char appearance, Type type, string owner, int power,
-         bool revealed, bool active, int moveCount):
-         AbstractEntity{id, x, y, appearance, type, owner}, power{power}, revealed{revealed}, active{active}, moveCount{moveCount}
-         {}
-        int getPower() {
-            return power;
-        }
-        int getMoveCount() {
-            return moveCount;
-        }
+                     bool revealed, bool active, int moveCount);
+        int getPower();
+        int getMoveCount();
+        virtual ~AbstractLink();
 
-        virtual ~AbstractLink() = default;
-
-        bool isActive() {
-          return active;
-        }
-
-        bool isVisible() {
-          return revealed;
-        }
-
-        void reveal() {
-          revealed = true;
-        }
-
-        void hide() {
-          revealed = false;
-        }
-
-        void deactivate() {
-          active = false;
-        }
-
-        void setMoveCount(int n) {
-          moveCount = n;
-        }
-
-        void setPower(int newPower) {
-          power = newPower;
-        }
-
-        void changeType() {
-          if (type == Type::Data) {
-            type = Type::Virus;
-          } else {
-            type = Type::Data;
-          }
-        }
+        bool isActive();
+        bool isVisible();
+        void reveal();
+        void hide();
+        void deactivate();
+        void setMoveCount(int n);
+        void setPower(int newPower);
+        void changeType();
 
         void printLink();
-        
+
         Type getType() const override;
 };
 
