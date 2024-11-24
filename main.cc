@@ -324,7 +324,7 @@ int main(int argc, char* argv[]) {
                     }
                 }
                 if (abilitystat){
-                    g.advance();
+                    //g.advance();
                     g.notifyObservers();
                     break;
                 }
