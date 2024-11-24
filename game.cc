@@ -198,7 +198,7 @@ bool Game::simplemove(string playerincontrol, int id, char dir, int steps){
             //download
             if (linkTarget->getType() == Type::Virus){
                 download(winnerowner,1,0);
-            } else if (to_move->getType() == Type::Data){
+            } else if (linkTarget->getType() == Type::Data){
                 download(winnerowner,0,1);
             }
 
