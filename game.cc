@@ -126,7 +126,6 @@ bool Game::simplemove(string playerincontrol, int id, char dir, int steps){
     const int lastRow = 7;
     //did we walk off the board?
     if (newX >= static_cast<int>(b->getWidth()) || newX < firstRow || newY >= static_cast<int>(b->getHeight()) || newY < firstRow) {
-
         if (to_move->getOwner() == "Player 1" && newY > lastRow){
             to_move->deactivate();
             //do we reveal here?
@@ -166,6 +165,7 @@ bool Game::simplemove(string playerincontrol, int id, char dir, int steps){
         //cout << "moved onto enemy serverport" << endl;
 
         if (to_move->getidunder() != -1){
+          // if we were standing on a firewall
           b->setBoard(oldX, oldY, to_move->getidunder());
           to_move->setidunder(-1);
         }
@@ -225,21 +225,20 @@ bool Game::simplemove(string playerincontrol, int id, char dir, int steps){
             } else if (to_move->getType() == Type::Data){
                 download(winnerowner,0,1);
             }
-
             return true;
-
-        } else if (target != nullptr && target->getType() == Type::Firewall && target->getOwner() != playerincontrol){
-          //walk onto an enemy firewall
+        }
+    } else if (target != nullptr && target->getType() == Type::Firewall && target->getOwner() != playerincontrol) {
+      //walk onto an enemy firewall
           to_move->reveal();
           if (to_move->getType() == Type::Virus) {
-            //virus walks onto enemy firewall
+            //cout << "virus walks onto enemy firewall" << endl;
             to_move->deactivate();
             download(to_move->getOwner(),1,0);
             b->setBoard(oldX, oldY, -1);
             return true;
           }
           if (to_move->getType() == Type::Data){
-            //data walks onto enemy firewall
+            //cout << "data walks onto enemy firewall" << endl;
             // we want to step on but preserve firewall
             to_move->setidunder(target->getID());
             to_move->setX(newX);
@@ -249,7 +248,7 @@ bool Game::simplemove(string playerincontrol, int id, char dir, int steps){
             return true;
           }
 
-        } else if (target != nullptr && target->getType() == Type::Firewall && target->getOwner() == playerincontrol) {
+    } else if (target != nullptr && target->getType() == Type::Firewall && target->getOwner() == playerincontrol) {
           //walk onto our own firewall
           // we want to step on but preserve firewall
           to_move->setidunder(target->getID());
@@ -258,9 +257,20 @@ bool Game::simplemove(string playerincontrol, int id, char dir, int steps){
           b->setBoard(newX, newY, to_move->getID());
           b->setBoard(oldX, oldY, -1);
           return true;
-        }
     }
 
+    if (to_move->getidunder() != -1){
+      // if we were standing on a firewall
+      //cout << "move off fwall" << endl;
+      b->setBoard(oldX, oldY, to_move->getidunder());
+      to_move->setidunder(-1);
+      to_move->setX(newX);
+      to_move->setY(newY);
+      b->setBoard(newX, newY, pieces[id]->getID());
+      return true;
+    }
+
+    //cout << "old way" << endl;
     to_move->setX(newX);
     to_move->setY(newY);
 
