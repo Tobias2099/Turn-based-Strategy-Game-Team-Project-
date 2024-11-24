@@ -48,6 +48,8 @@ class Game : public Subject {
 
     AbstractEntity* whoAt(int id);
 
+    AbstractEntity* getEntity(char name);
+
     string getPlayer();
 
     Player* getFirstPlayer();
