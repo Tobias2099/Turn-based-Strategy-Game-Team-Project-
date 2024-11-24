@@ -7,8 +7,6 @@
 #include "board.h"
 #include "abstractentity.h"
 #include "game.h"
-#include "viruslink.h"
-#include "datalink.h"
 #include "serverport.h"
 #include "abstractlink.h"
 

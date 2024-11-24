@@ -24,7 +24,7 @@ class AbstractLink : public AbstractEntity {
         int getMoveCount() {
             return moveCount;
         }
-        virtual void printLink() = 0;
+
         virtual ~AbstractLink() = default;
 
         bool isActive() {
@@ -54,6 +54,18 @@ class AbstractLink : public AbstractEntity {
         void setPower(int newPower) {
           power = newPower;
         }
+
+        void changeType() {
+          if (type == Type::Data) {
+            type = Type::Virus;
+          } else {
+            type = Type::Data;
+          }
+        }
+
+        void printLink();
+        
+        Type getType() const override;
 };
 
 
