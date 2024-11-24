@@ -268,6 +268,11 @@ AbstractEntity* Game::whoAt(int id){
     return piece;
 }
 
+AbstractEntity* Game::getEntity(char name) {
+  int id = appearanceToID(name);
+  return whoAt(id);
+}
+
 string Game::getPlayer() {
   return turn;
 }
