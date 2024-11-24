@@ -79,7 +79,9 @@ class Polarize : public Ability {
   public:
     Polarize(int id, char name, string owner): Ability(id, name, owner) {}
     bool execute(Game& game, int x, int y, char linkName) {
-      if (!((linkName >= 'a' && linkName <= 'A') || (linkName >= 'A' && linkName <= 'H'))) return false;
+      
+      if (!(('a' <= linkName && linkName <= 'h') || ('A' <= linkName && linkName <= 'H'))) return false;
+
       AbstractLink* link = dynamic_cast<AbstractLink*>(game.getEntity(linkName));
       if (!link->isActive()) return false;
       if (link->getType() == Type::Data) {
@@ -113,7 +115,7 @@ class Calibrate : public Ability {
     Calibrate(int id, char name, string owner): Ability(id, name, owner) {}
     bool execute(Game& game, int x, int y, char linkName) {
       const int maxPower = 4;
-      if (!((linkName >= 'a' && linkName <= 'A') || (linkName >= 'A' && linkName <= 'H'))) return false;
+    if (!((linkName >= 'a' && linkName <= 'h') || (linkName >= 'A' && linkName <= 'H'))) return false;
       AbstractLink* link = dynamic_cast<AbstractLink*>(game.getEntity(linkName));
       if (!link->isActive()) return false;
       link->setPower(maxPower);

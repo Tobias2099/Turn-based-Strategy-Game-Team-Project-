@@ -51,10 +51,6 @@ class AbstractLink : public AbstractEntity {
           moveCount = n;
         }
 
-        void setType(Type t) {
-          type = t;
-        }
-
         void setPower(int newPower) {
           power = newPower;
         }
