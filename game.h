@@ -28,6 +28,9 @@ class Game : public Subject {
     string getWinner();
     string getTurn();
     vector<AbstractEntity*> getPieces();
+
+    vector<AbstractEntity*>& getPiecesRef();
+    
     void advance();
     
     void setWinner(string w);

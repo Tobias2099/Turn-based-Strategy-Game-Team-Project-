@@ -4,6 +4,8 @@
 #include "ability.h"
 #include "game.h"
 #include "firewall.h"
+#include "datalink.h"
+#include "viruslink.h"
 
 class LinkBoost : public Ability {
   public:
@@ -79,17 +81,35 @@ class Polarize : public Ability {
   public:
     Polarize(int id, char name, string owner): Ability(id, name, owner) {}
     bool execute(Game& game, int x, int y, char linkName) {
-      if (!((linkName >= 'a' && linkName <= 'A') || (linkName >= 'A' && linkName <= 'H'))) return false;
+      if (!((linkName >= 'a' && linkName <= 'h') || (linkName >= 'A' && linkName <= 'H'))) return false;
       AbstractLink* link = dynamic_cast<AbstractLink*>(game.getEntity(linkName));
       if (!link->isActive()) return false;
-      if (link->getType() == Type::Data) {
-        link->setType(Type::Virus);
-      } else if (link->getType() == Type::Virus) {
-        link->setType(Type::Data);
-      } else {
-        return false;
+
+      vector<AbstractEntity*>& pieces = game.getPiecesRef();
+      for (auto it = pieces.begin(); it != pieces.end(); ++it) {
+        if (*it == link) {
+          // Create a new link based on the current type
+          AbstractLink* newLink = nullptr;
+          if (link->getType() == Type::Data) {
+            newLink = new VirusLink(link->getID(), link->getX(), link->getY(),
+                                  link->getAppearance(), Type::Virus, link->getOwner(),
+                                  link->getPower(), link->isVisible(), link->isActive(),
+                                  link->getMoveCount());
+          } else if (link->getType() == Type::Virus) {
+            newLink = new DataLink(link->getID(), link->getX(), link->getY(),
+                                  link->getAppearance(), Type::Data, link->getOwner(),
+                                  link->getPower(), link->isVisible(), link->isActive(),
+                                  link->getMoveCount());
+          } else {
+            return false; // Unsupported type
+          }
+          delete *it;
+          *it = newLink;
+          return true;
+        }
       }
-      return true;
+      
+      return false;
     }
 };
 
@@ -99,7 +119,7 @@ class Scan : public Ability { //takes coordinates as input
     bool execute(Game& game, int x, int y, char linkName) {
       if (('a' <= linkName && linkName <= 'h') && owner == "Player 1") return false;
       if (('A' <= linkName && linkName <= 'H') && owner == "Player 2") return false;
-      if (!((linkName >= 'a' && linkName <= 'A') || (linkName >= 'A' && linkName <= 'H'))) return false;
+      if (!((linkName >= 'a' && linkName <= 'h') || (linkName >= 'A' && linkName <= 'H'))) return false;
       AbstractLink* link = dynamic_cast<AbstractLink*>(game.getEntity(linkName));
       if (!link->isActive()) return false;
       if (link->getOwner() == owner) return false;
@@ -113,7 +133,7 @@ class Calibrate : public Ability {
     Calibrate(int id, char name, string owner): Ability(id, name, owner) {}
     bool execute(Game& game, int x, int y, char linkName) {
       const int maxPower = 4;
-      if (!((linkName >= 'a' && linkName <= 'A') || (linkName >= 'A' && linkName <= 'H'))) return false;
+      if (!((linkName >= 'a' && linkName <= 'h') || (linkName >= 'A' && linkName <= 'H'))) return false;
       AbstractLink* link = dynamic_cast<AbstractLink*>(game.getEntity(linkName));
       if (!link->isActive()) return false;
       link->setPower(maxPower);

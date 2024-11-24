@@ -37,6 +37,10 @@ vector<AbstractEntity*> Game::getPieces() {
   return pieces;
 }
 
+vector<AbstractEntity*>& Game::getPiecesRef() {
+  return pieces;
+}
+
 void Game::advance(){
   //cout << "going from " << turn;
   if (turn == "Player 1") {
