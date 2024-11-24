@@ -312,7 +312,7 @@ int main(int argc, char* argv[]) {
                     if (playerincontrol == "Player 1"){
                         abilitystat = player1->useAbility(g, id - 1, '0', x, y);
                     } else {
-                        player2->useAbility(g, id - 1, '0', x, y);
+                        abilitystat = player2->useAbility(g, id - 1, '0', x, y);
                     }
 
                 } else {
@@ -324,7 +324,6 @@ int main(int argc, char* argv[]) {
                     }
                 }
                 if (abilitystat){
-                    //g.advance();
                     g.notifyObservers();
                     break;
                 }

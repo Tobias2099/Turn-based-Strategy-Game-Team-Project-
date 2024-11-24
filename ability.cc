@@ -53,19 +53,21 @@ class Download : public Ability {
     bool execute(Game& game, int x, int y, char linkName) {
       if (('a' <= linkName && linkName <= 'h') && owner == "Player 1") return false;
       if (('A' <= linkName && linkName <= 'H') && owner == "Player 2") return false;
-      if (!((linkName >= 'a' && linkName <= 'A') || (linkName >= 'A' && linkName <= 'H'))) return false;
+      if (!((linkName >= 'a' && linkName <= 'h') || (linkName >= 'A' && linkName <= 'H'))) return false;
       AbstractLink* link = dynamic_cast<AbstractLink*>(game.whoAt(game.appearanceToID(linkName)));
 
       if (link->getOwner() == owner) return false;
+      if (!link->isActive()) return false;
 
-      if (link->getType() == Type::Data && link->isActive()) {
+      if (link->getType() == Type::Data) {
         game.download(owner, 0, 1);
-      } else if (link->getType() == Type::Virus && link->isActive()) {
+      } else if (link->getType() == Type::Virus) {
         game.download(owner, 1, 0);
       } else {
         return false;
       }
 
+      game.getBoard()->setBoard(link->getX(), link->getY(), -1);
       link->deactivate();
       link->hide();
       

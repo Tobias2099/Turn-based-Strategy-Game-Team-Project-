@@ -30,7 +30,7 @@ void displayText::notify() {
   string playerName = g->getPlayer(); //getState() equivalent
 
   cout << "Player 1: " << endl;
-  cout << "Downloaded: " << g->getFirstPlayer()->getData() << "D, " << g->getSecondPlayer()->getViruses() << "V" << endl;
+  cout << "Downloaded: " << g->getFirstPlayer()->getData() << "D, " << g->getFirstPlayer()->getViruses() << "V" << endl;
   cout << "Abilities (later)" << endl;
 
   //todo: reveal if battled

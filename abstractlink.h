@@ -26,6 +26,7 @@ class AbstractLink : public AbstractEntity {
         }
         virtual void printLink() = 0;
         virtual ~AbstractLink() = default;
+        
         bool isActive() {
           return active;
         }
