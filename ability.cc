@@ -7,6 +7,7 @@
 
 class LinkBoost : public Ability {
   public:
+    LinkBoost(int id, char name, string owner): Ability(id, name, owner) {}
     bool execute(Game& game, int x, int y, char linkName) {
       if (('a' <= linkName && linkName <= 'h') && owner != "Player 1") return false;
       if (('A' <= linkName && linkName <= 'H') && owner != "Player 2") return false;
@@ -17,8 +18,9 @@ class LinkBoost : public Ability {
     }
 };
 
-class Firewall : public Ability {
+class Firewallab : public Ability {
   public:
+    Firewallab(int id, char name, string owner): Ability(id, name, owner) {}
     bool execute(Game& game, int x, int y, char linkName) {
 
       if (game.whoAt(x,y) != nullptr) {
@@ -34,7 +36,7 @@ class Firewall : public Ability {
       }
 
       int veclength = game.getVecLength();
-      int id = veclength - 1;
+      int id = veclength;
       game.addEntityToBoard(new Firewallpiece(id, x, y, Type::Firewall, app, owner));
       return true;
     }
@@ -42,6 +44,7 @@ class Firewall : public Ability {
 
 class Download : public Ability {
   public:
+    Download(int id, char name, string owner): Ability(id, name, owner) {}
     bool execute(Game& game, int x, int y, char linkName) {
       if (game.whoAt(x,y) == nullptr) {
         return false;
@@ -66,6 +69,7 @@ class Download : public Ability {
 
 class Polarize : public Ability {
   public:
+    Polarize(int id, char name, string owner): Ability(id, name, owner) {}
     bool execute(Game& game, int x, int y, char linkName) {
       if (game.whoAt(x,y) == nullptr) {
         return false;
@@ -84,6 +88,7 @@ class Polarize : public Ability {
 
 class Scan : public Ability { //takes coordinates as input
   public:
+    Scan(int id, char name, string owner): Ability(id, name, owner) {}
     bool execute(Game& game, int x, int y, char linkName) {
       if (game.whoAt(x,y) == nullptr) {
         return false;
@@ -97,6 +102,7 @@ class Scan : public Ability { //takes coordinates as input
 
 class Calibrate : public Ability {
   public:
+    Calibrate(int id, char name, string owner): Ability(id, name, owner) {}
     bool execute(Game& game, int x, int y, char linkName) {
       const int maxPower = 4;
       AbstractLink* link = dynamic_cast<AbstractLink*>(game.whoAt(x, y));
@@ -107,7 +113,7 @@ class Calibrate : public Ability {
 
 class Teleport : public Ability {
   public:
-    
+    Teleport(int id, char name, string owner): Ability(id, name, owner) {}
     bool execute(Game& game, int x, int y, char linkName) {
      vector<AbstractEntity*> pieces = game.getPieces();
      AbstractLink* link = nullptr;
@@ -135,6 +141,7 @@ class Teleport : public Ability {
 
 class Wipe : public Ability {
   public:
+    Wipe(int id, char name, string owner): Ability(id, name, owner) {}
     bool execute(Game& game, int x, int y, char linkName) {
       vector<AbstractEntity*> pieces = game.getPieces();
        AbstractLink* linkToHide = nullptr;

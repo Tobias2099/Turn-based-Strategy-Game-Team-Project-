@@ -6,6 +6,7 @@
 #include <unordered_map>
 #include "game.h"
 #include "abstractentity.h"
+#include "ability.cc"
 #include "displayText.h"
 #include "datalink.h"
 #include "viruslink.h"
@@ -139,6 +140,44 @@ bool loadplayers(Game* g, string filename, string player, int startid, int endid
     return true;
 }
 
+void loadabilities(Player* player, string arg){
+    //what do we do with partial or unfilled ability strings?
+    //no checking for double abilities, length yet
+    int arglen = arg.length();
+    for (int i = 0; i < arglen; i++){
+        char c = arg[i];
+        switch(c) {
+            case 'L':
+            player->addability(new LinkBoost{i,c,player->getName()});
+            break;
+        case 'F':
+            player->addability(new Firewallab{i,c,player->getName()});
+            break;
+        case 'D':
+            player->addability(new Download{i,c,player->getName()});
+            break;
+        case 'S':
+            player->addability(new Scan{i,c,player->getName()});
+            break;
+        case 'P':
+            player->addability(new Polarize{i,c,player->getName()});
+            break;
+        case 'T':
+            player->addability(new Teleport{i,c,player->getName()});
+            break;
+        case 'C':
+            player->addability(new Calibrate{i,c,player->getName()});
+            break;
+        case 'W':
+            player->addability(new Wipe{i,c,player->getName()});
+            break;
+        default:
+            cout << "Invalid ability" << endl;;
+            break;
+        }
+    }
+}
+
 int main(int argc, char* argv[]) {
     unordered_map<string, string> options;
 
@@ -195,19 +234,24 @@ int main(int argc, char* argv[]) {
 
     if (options.find("-ability1") != options.end()) {
         cout << "[DEBUG] player1 abilities: " << options["-ability1"] << endl;
+        loadabilities(player1, options["-ability1"]);
     } else {
-        cout << "[DEBUG] Warning: player 1 has not selected any abilities!" << endl;
+        cout << "[DEBUG] Player1 will use default abilities LFDSPCTW" << endl;
+        loadabilities(player1, "LFDSPCTW");
     }
 
     if (options.find("-ability2") != options.end()) {
         cout << "[DEBUG] player2 abilities: " << options["-ability2"] << endl;
+        loadabilities(player2, "LFDSPCTW");
     } else {
-        cout << "[DEBUG] Warning: player 2 has not selected any abilities!" << endl;
+        cout << "[DEBUG] Player2 will use default abilities LFDSPCTW" << endl;
+        loadabilities(player2, "LFDSPCTW");
     }
 
     if (options.find("-graphics") != options.end()) {
         cout << "[DEBUG] Graphics mode on" << endl;
     }
+
 
     //player1 server ports  
     g.addEntityToBoard(new ServerPort{16, 3, 0, Type::Serverport, 'S', "Player 1"});
@@ -249,6 +293,44 @@ int main(int argc, char* argv[]) {
             } else if (command == "quit") {
                 g.setWinner("ESC");
                 break;
+            } else if (command == "ability") {
+                bool abilitystat = true;
+
+                int id;
+                int x, y;
+                char arg1;
+                string playerincontrol = g.getPlayer();
+
+                cin >> id;
+                cin >> arg1;
+
+                if (arg1 >= '0' && arg1 <= '9'){
+                    x = static_cast<int>(arg1 - '0');
+                    cin >> y;
+                    //cout << "ready to use ability " << id << " with coords " << x << " " << y << endl;
+
+                    if (playerincontrol == "Player 1"){
+                        abilitystat = player1->useAbility(g, id - 1, '0', x, y);
+                    } else {
+                        player2->useAbility(g, id - 1, '0', x, y);
+                    }
+
+                } else {
+                    //cout << "ready to use ability " << id << " with linkname " << arg1 << endl;
+                    if (playerincontrol == "Player 1"){
+                        abilitystat = player1->useAbility(g, id - 1, arg1, -1, -1);
+                    } else {
+                        abilitystat = player2->useAbility(g, id - 1, arg1, -1, -1);
+                    }
+                }
+                if (abilitystat){
+                    g.advance();
+                    g.notifyObservers();
+                    break;
+                }
+                // do we want this here?
+                //g.notifyObservers();
+
             } else {
                 cout << "Command not recognized." << endl;
                 continue;

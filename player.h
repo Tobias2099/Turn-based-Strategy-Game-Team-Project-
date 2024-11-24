@@ -10,6 +10,7 @@
 using namespace std;
 
 class Ability;
+class Game;
 
 class Player{
   string name;
@@ -20,10 +21,13 @@ class Player{
 
   public:
     Player(string name, int id, int viruses_downloaded, int data_downloaded);
+    ~Player();
     int getViruses();
     int getData();
+    string getName();
     void download(int virus, int data);
-    void useAbility(int id);
+    bool useAbility(Game &g, int id, char linkName, int x, int y);
+    void addability(Ability* a);
 };
 
 #endif
