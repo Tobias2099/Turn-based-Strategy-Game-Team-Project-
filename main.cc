@@ -250,7 +250,6 @@ int main(int argc, char* argv[]) {
         cout << "[DEBUG] Graphics mode on" << endl;
     }
 
-
     //player1 server ports  
     g.addEntityToBoard(new ServerPort{16, 3, 0, Type::Serverport, 'S', "Player 1"});
     g.addEntityToBoard(new ServerPort{17, 4, 0, Type::Serverport, 'S', "Player 1"});
@@ -300,9 +299,26 @@ int main(int argc, char* argv[]) {
                 string playerincontrol = g.getPlayer();
                 
                 cin >> id;
-                cin >> arg1;
+                
 
-                if (arg1 >= '0' && arg1 <= '9'){
+                if (id == 7) { //teleport
+                  cin >> arg1;
+                  cin >> x;
+                  cin >> y;
+                  if (playerincontrol == "Player 1"){
+                      abilitystat = player1->useAbility(g, id - 1, arg1, x, y);
+                  } else {
+                      abilitystat = player2->useAbility(g, id - 1, arg1, x, y);
+                  }
+                } else if (id == 8) { //wipe
+                  if (playerincontrol == "Player 1"){
+                      abilitystat = player1->useAbility(g, id - 1, '0', -1, -1);
+                  } else {
+                      abilitystat = player2->useAbility(g, id - 1, '0', -1, -1);
+                  }
+                } else { 
+                  cin >> arg1;
+                  if (arg1 >= '0' && arg1 <= '9'){
                     x = static_cast<int>(arg1 - '0');
                     cin >> y;
                     //cout << "ready to use ability " << id << " with coords " << x << " " << y << endl;
@@ -312,15 +328,17 @@ int main(int argc, char* argv[]) {
                     } else {
                         abilitystat = player2->useAbility(g, id - 1, '0', x, y);
                     }
-
-                } else {
-                    //cout << "ready to use ability " << id << " with linkname " << arg1 << endl;
-                    if (playerincontrol == "Player 1"){
-                        abilitystat = player1->useAbility(g, id - 1, arg1, -1, -1);
-                    } else {
-                        abilitystat = player2->useAbility(g, id - 1, arg1, -1, -1);
-                    }
+                  } else {
+                      //cout << "ready to use ability " << id << " with linkname " << arg1 << endl;
+                      if (playerincontrol == "Player 1"){
+                          abilitystat = player1->useAbility(g, id - 1, arg1, -1, -1);
+                      } else {
+                          abilitystat = player2->useAbility(g, id - 1, arg1, -1, -1);
+                      }
+                  }
                 }
+
+                
                 if (abilitystat){
                     g.notifyObservers();
                     break;
