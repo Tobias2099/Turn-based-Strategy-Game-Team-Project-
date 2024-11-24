@@ -161,14 +161,18 @@ bool Game::simplemove(string playerincontrol, int id, char dir, int steps){
     } else if (target != nullptr && target->getType() == Type::Serverport) {
         //cout << "moved onto enemy serverport" << endl;
         string serverport_owner = target->getOwner();
-        if (to_move->getType() == Type::Virus){
+        if (turn != serverport_owner) {
+          if (to_move->getType() == Type::Virus){
             download(serverport_owner,1,0);
-        } else if (to_move->getType() == Type::Data){
-            download(serverport_owner,0,1);
+          } else if (to_move->getType() == Type::Data){
+              download(serverport_owner,0,1);
+          }
+          to_move->deactivate();
+          b->setBoard(oldX, oldY, -1);
+          return true;
+        } else {
+          return false;
         }
-        to_move->deactivate();
-        b->setBoard(oldX, oldY, -1);
-        return true;
     } else if (target != nullptr && target->getType() != Type::Firewall && target->getOwner() != playerincontrol) {       
         // if we are trying to move onto someone else's piece (not a firewall)
         AbstractLink* linkTarget = dynamic_cast<AbstractLink*>(whoAt(newX, newY));
