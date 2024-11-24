@@ -215,7 +215,7 @@ bool Game::simplemove(string playerincontrol, int id, char dir, int steps){
 
             return true;
         }
-    } else if (target->getType() == Type::Firewall && target->getOwner() != playerincontrol){
+    } else if (target != nullptr && target->getType() == Type::Firewall && target->getOwner() != playerincontrol){
       //walk onto an enemy firewall
       to_move->reveal();
       if (to_move->getType() == Type::Virus) {
