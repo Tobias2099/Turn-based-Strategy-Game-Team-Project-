@@ -203,7 +203,7 @@ bool Game::simplemove(string playerincontrol, int id, char dir, int steps){
             }
 
             return true;
-        } else {
+        } else if (winningID == target->getID()) {
             //lost the battle
             //cout << "defender wins" << endl;
             AbstractLink* linkTarget = dynamic_cast<AbstractLink*>(whoAt(newX, newY));
@@ -222,16 +222,16 @@ bool Game::simplemove(string playerincontrol, int id, char dir, int steps){
             }
 
             return true;
+        } else if (target != nullptr && target->getType() == Type::Firewall && target->getOwner() != playerincontrol){
+          //walk onto an enemy firewall
+          to_move->reveal();
+          if (to_move->getType() == Type::Virus) {
+            to_move->deactivate();
+            download(to_move->getOwner(),1,0);
+            b->setBoard(oldX, oldY, -1);
+            return true;
+          }
         }
-    } else if (target != nullptr && target->getType() == Type::Firewall && target->getOwner() != playerincontrol){
-      //walk onto an enemy firewall
-      to_move->reveal();
-      if (to_move->getType() == Type::Virus) {
-        to_move->deactivate();
-        download(to_move->getOwner(),1,0);
-        b->setBoard(oldX, oldY, -1);
-        return true;
-      }
     }
 
     to_move->setX(newX);
