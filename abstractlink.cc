@@ -62,6 +62,15 @@ Type AbstractLink::getType() const {
 }
 
 
+int AbstractLink::getidunder() {
+    return idUnderneath;
+}
+
+
+void AbstractLink::setidunder(int id){
+    idUnderneath = id;
+}
+
 void AbstractLink::printLink() {
     cout << "At [" << x << "," << y << "]: " << "Name: " 
     << appearance << " | Type: " << this->getType() << " | Owner: " << owner << endl;
