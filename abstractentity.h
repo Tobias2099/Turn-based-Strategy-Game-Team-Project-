@@ -50,7 +50,7 @@ class AbstractEntity {
 
      void setType(Type t) {
           this->type = t;
-        }
+     }
 
      virtual Type getType() const = 0;
 
