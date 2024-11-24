@@ -20,6 +20,7 @@ class LinkBoost : public Ability {
     
 
       link->setMoveCount(link->getMoveCount() + 1);
+      used = true;
       return true;
     }
 };
@@ -45,6 +46,7 @@ class Firewallab : public Ability {
       int veclength = game.getVecLength();
       int id = veclength;
       game.addEntityToBoard(new Firewallpiece(id, x, y, Type::Firewall, app, owner));
+      used = true;
       return true;
     }
 };
@@ -73,6 +75,7 @@ class Download : public Ability {
       link->deactivate();
       link->hide();
       
+      used = true;
       return true;
     }
 };
@@ -90,6 +93,7 @@ class Polarize : public Ability { //can make code more simple by eliminating dat
       if (link->getType() == Type::Data) cout << "Data second" << endl;
       else if (link->getType() == Type::Virus) cout << "Virus second" << endl;
       
+      used = true;
       return true;
     }
 };
@@ -105,6 +109,7 @@ class Scan : public Ability { //takes coordinates as input
       if (!link->isActive()) return false;
       if (link->getOwner() == owner) return false;
       link->reveal();
+      used = true;
       return true;
     }
 };
@@ -118,6 +123,7 @@ class Calibrate : public Ability {
       AbstractLink* link = dynamic_cast<AbstractLink*>(game.getEntity(linkName));
       if (!link->isActive()) return false;
       link->setPower(maxPower);
+      used = true;
       return true;
     }
 };
@@ -140,6 +146,7 @@ class Teleport : public Ability {
         link->setX(x);
         link->setY(y);
         game.getBoard()->setBoard(x, y, link->getID());
+        used = true;
         return true;
       } else {
         cout << "[DEBUG] Ability::Teleport - Coordinate occupied." << endl;
@@ -160,6 +167,7 @@ class Wipe : public Ability {
             if (linkToHide) linkToHide->hide();
         }
       }
+      used = true;
       return true;
     }
 };

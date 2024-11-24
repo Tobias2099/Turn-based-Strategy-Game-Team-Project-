@@ -8,8 +8,10 @@
 
 using namespace std;
 
-Player::Player(string name, int id, int viruses_downloaded, int data_downloaded): 
-  name{name}, viruses_downloaded{viruses_downloaded}, data_downloaded{data_downloaded}, abilities{abilities} {}
+Player::Player(string name, int id, int viruses_downloaded, int data_downloaded, int ableft): 
+  name{name}, viruses_downloaded{viruses_downloaded}, 
+  data_downloaded{data_downloaded}, ableft{ableft},
+  abilities{abilities} {}
 
 Player::~Player(){
   for (auto it = abilities.begin(); it != abilities.end(); ++it) {
@@ -34,13 +36,40 @@ void Player::download(int virus, int data){
 }
 
 bool Player::useAbility(Game& g, int id, char linkName, int x, int y) {
-  //cout << "use ability number: " << id << " called " << (abilities[id])->getName() << endl;
+  if (ableft == 0) {
+    cout << "[DEBUG] No abilities left!" << endl;
+    return false;
+  }
+
+  if ((abilities[id])->hasbeenused()){
+    cout << "[DEBUG] Already used this ability!" << endl;
+    return false;
+  }
   bool var = (abilities[id])->execute(g, x, y, linkName);
+  ableft -= 1;
   return var;
+
 }
 
 void Player::addability(Ability* a) {
   abilities.emplace_back(a);
+}
+
+int Player::abilitiesleft() {
+  return ableft;
+}
+
+string Player::printabvec() {
+  string vec = "[";
+  for (size_t i = 0; i < abilities.size(); i++){
+    if (abilities[i]->hasbeenused()){
+      vec += "~";
+    } else {
+      vec += abilities[i]->getName();
+    }
+  }
+  vec += "]";
+  return vec;
 }
 
 #endif

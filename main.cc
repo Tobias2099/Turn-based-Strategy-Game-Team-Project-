@@ -138,9 +138,46 @@ bool loadplayers(Game* g, string filename, string player, int startid, int endid
     return true;
 }
 
-void loadabilities(Player* player, string arg){
+bool abstringchecker(string arg){
+    const string permitted = "LFDSPCTW";
+    unordered_map<char, int> allowed =
+    {{'L', 0},{'F', 0},{'D', 0},{'S', 0},
+    {'P', 0},{'C', 0},{'T', 0},{'W', 0}};
+
+    //length
+    if (arg.length() != 5){
+        cout << "[DEBUG] Must have exactly 5 abilities!" << endl;
+        return false;
+    }
+
+    for (int i = 0; i < 5; i++){
+        if (allowed.find(arg[i]) == allowed.end()){
+            cout << "[DEBUG] At least one ability was not permitted." << endl;
+            cout << "and it was: " << arg[i] << endl;
+            return false;
+        }
+
+        if (allowed[arg[i]] > 1) {
+            cout << "[DEBUG] Trying to add too many copies of an ability" << endl;
+            return false;
+        }
+
+        allowed[arg[i]] += 1;
+    }
+
+    return true;
+}
+
+void loadabilities(Player* player, string arg, bool check){
     //what do we do with partial or unfilled ability strings?
     //no checking for double abilities, length yet
+
+    if (check && !abstringchecker(arg)){
+        cout << "[DEBUG] Ability string for " << player->getName() 
+        << " not accepted. Reverting to default." << endl;
+        arg = "LFDSP";
+    }
+
     int arglen = arg.length();
     for (int i = 0; i < arglen; i++){
         char c = arg[i];
@@ -174,6 +211,7 @@ void loadabilities(Player* player, string arg){
             break;
         }
     }
+    cout << "[DEBUG] " << player->getName() << " will use abilities " << arg << endl;
 }
 
 int main(int argc, char* argv[]) {
@@ -197,8 +235,8 @@ int main(int argc, char* argv[]) {
     
     Board b{8,8};
 
-    Player* player1 = new Player("Player 1", 0, 0, 0);
-    Player* player2 = new Player("Player 2", 0, 0, 0);
+    Player* player1 = new Player("Player 1", 0, 0, 0, 5);
+    Player* player2 = new Player("Player 2", 0, 0, 0, 5);
 
     vector<AbstractEntity*> pieces;
     Game g(&b, "Player 1", "None", player1, player2, pieces);
@@ -231,19 +269,19 @@ int main(int argc, char* argv[]) {
     }
 
     if (options.find("-ability1") != options.end()) {
-        cout << "[DEBUG] player1 abilities: " << options["-ability1"] << endl;
-        loadabilities(player1, options["-ability1"]);
+        cout << "[DEBUG] Player 1 requested abilities: " << options["-ability1"] << endl;
+        loadabilities(player1, options["-ability1"], true);
     } else {
-        cout << "[DEBUG] Player1 will use default abilities LFDSPCTW" << endl;
-        loadabilities(player1, "LFDSPCTW");
+        cout << "[DEBUG] Player 1 will use default abilities LFDSP" << endl;
+        loadabilities(player1, "LFDSP", false);
     }
 
     if (options.find("-ability2") != options.end()) {
-        cout << "[DEBUG] player2 abilities: " << options["-ability2"] << endl;
-        loadabilities(player2, "LFDSPCTW");
+        cout << "[DEBUG] Player 2  requested abilities: " << options["-ability2"] << endl;
+        loadabilities(player2, options["-ability2"], true);
     } else {
-        cout << "[DEBUG] Player2 will use default abilities LFDSPCTW" << endl;
-        loadabilities(player2, "LFDSPCTW");
+        cout << "[DEBUG] Player 2 will use default abilities LFDSP" << endl;
+        loadabilities(player2, "LFDSP", false);
     }
 
     if (options.find("-graphics") != options.end()) {

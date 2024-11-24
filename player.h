@@ -15,12 +15,12 @@ class Game;
 class Player{
   string name;
   int id;
-  int viruses_downloaded, data_downloaded;
+  int viruses_downloaded, data_downloaded, ableft;
   vector<Ability*> abilities;
 
 
   public:
-    Player(string name, int id, int viruses_downloaded, int data_downloaded);
+    Player(string name, int id, int viruses_downloaded, int data_downloaded, int ableft);
     ~Player();
     int getViruses();
     int getData();
@@ -28,6 +28,8 @@ class Player{
     void download(int virus, int data);
     bool useAbility(Game &g, int id, char linkName, int x, int y);
     void addability(Ability* a);
+    int abilitiesleft();
+    string printabvec();
 };
 
 #endif
