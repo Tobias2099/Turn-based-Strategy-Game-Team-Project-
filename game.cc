@@ -225,8 +225,9 @@ bool Game::simplemove(string playerincontrol, int id, char dir, int steps){
       if (to_move->getType() == Type::Virus) {
         to_move->deactivate();
         download(to_move->getOwner(),1,0);
+        b->setBoard(oldX, oldY, -1);
+        return true;
       }
-      return true;
     }
 
     to_move->setX(newX);
