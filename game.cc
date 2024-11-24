@@ -165,7 +165,7 @@ bool Game::simplemove(string playerincontrol, int id, char dir, int steps){
     } else if (target != nullptr && target->getType() == Type::Serverport) {
         //cout << "moved onto enemy serverport" << endl;
         string serverport_owner = target->getOwner();
-        if (turn != serverport_owner) {
+        if (playerincontrol != serverport_owner) {
           if (to_move->getType() == Type::Virus){
             download(serverport_owner,1,0);
           } else if (to_move->getType() == Type::Data){

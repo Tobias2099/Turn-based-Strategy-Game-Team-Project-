@@ -77,7 +77,7 @@ class Download : public Ability {
     }
 };
 
-class Polarize : public Ability {
+class Polarize : public Ability { //can make code more simple by eliminating data and virus classes, and only using link class
   public:
     Polarize(int id, char name, string owner): Ability(id, name, owner) {}
     bool execute(Game& game, int x, int y, char linkName) {
@@ -101,7 +101,7 @@ class Polarize : public Ability {
                                   link->getPower(), link->isVisible(), link->isActive(),
                                   link->getMoveCount());
           } else {
-            return false; // Unsupported type
+            return false;
           }
           delete *it;
           *it = newLink;
@@ -180,14 +180,13 @@ class Wipe : public Ability {
     bool execute(Game& game, int x, int y, char linkName) {
       vector<AbstractEntity*> pieces = game.getPieces();
 
-        for (auto it = pieces.begin(); it != pieces.end(); ++it) {
-
-          if ((*it)->getOwner() == owner && (*it)->getType() != Type::Firewall) {
-              AbstractLink* linkToHide = dynamic_cast<AbstractLink*>(*it);
-              if (linkToHide) linkToHide->hide();
-          }
+      for (auto it = pieces.begin(); it != pieces.end(); ++it) {
+        if ((*it)->getOwner() == owner && (*it)->getType() != Type::Firewall) {
+            AbstractLink* linkToHide = dynamic_cast<AbstractLink*>(*it);
+            if (linkToHide) linkToHide->hide();
         }
-        return true;
+      }
+      return true;
     }
 };
 

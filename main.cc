@@ -255,11 +255,11 @@ int main(int argc, char* argv[]) {
 
     //player1 server ports  
     g.addEntityToBoard(new ServerPort{16, 3, 0, Type::Serverport, 'S', "Player 1"});
-    g.addEntityToBoard(new ServerPort{16, 4, 0, Type::Serverport, 'S', "Player 1"});
+    g.addEntityToBoard(new ServerPort{17, 4, 0, Type::Serverport, 'S', "Player 1"});
 
     //player2 server ports
-    g.addEntityToBoard(new ServerPort{16, 3, 7, Type::Serverport, 'S', "Player 2"});
-    g.addEntityToBoard(new ServerPort{16, 4, 7, Type::Serverport, 'S', "Player 2"});
+    g.addEntityToBoard(new ServerPort{18, 3, 7, Type::Serverport, 'S', "Player 2"});
+    g.addEntityToBoard(new ServerPort{19, 4, 7, Type::Serverport, 'S', "Player 2"});
 
     displayText textObserver{&g};
     g.attach(&textObserver);
