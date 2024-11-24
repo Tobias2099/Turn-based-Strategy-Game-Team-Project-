@@ -104,6 +104,9 @@ class Calibrate : public Ability {
   public:
     Calibrate(int id, char name, string owner): Ability(id, name, owner) {}
     bool execute(Game& game, int x, int y, char linkName) {
+      if (game.whoAt(x,y) == nullptr) {
+        return false;
+      }
       const int maxPower = 4;
       AbstractLink* link = dynamic_cast<AbstractLink*>(game.whoAt(x, y));
       link->setPower(maxPower);
@@ -144,11 +147,12 @@ class Wipe : public Ability {
     Wipe(int id, char name, string owner): Ability(id, name, owner) {}
     bool execute(Game& game, int x, int y, char linkName) {
       vector<AbstractEntity*> pieces = game.getPieces();
-       AbstractLink* linkToHide = nullptr;
+
         for (auto it = pieces.begin(); it != pieces.end(); ++it) {
-          if ((*it)->getOwner() == owner){
-              linkToHide = dynamic_cast<AbstractLink*>(*it);
-              linkToHide->hide();
+
+          if ((*it)->getOwner() == owner && (*it)->getType() != Type::Firewall) {
+              AbstractLink* linkToHide = dynamic_cast<AbstractLink*>(*it);
+              if (linkToHide) linkToHide->hide();
           }
         }
         return true;
