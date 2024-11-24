@@ -101,7 +101,7 @@ class Scan : public Ability { //takes coordinates as input
     bool execute(Game& game, int x, int y, char linkName) {
       if (('a' <= linkName && linkName <= 'h') && owner == "Player 1") return false;
       if (('A' <= linkName && linkName <= 'H') && owner == "Player 2") return false;
-      if (!((linkName >= 'a' && linkName <= 'A') || (linkName >= 'A' && linkName <= 'H'))) return false;
+      if (!((linkName >= 'a' && linkName <= 'h') || (linkName >= 'A' && linkName <= 'H'))) return false;
       AbstractLink* link = dynamic_cast<AbstractLink*>(game.getEntity(linkName));
       if (!link->isActive()) return false;
       if (link->getOwner() == owner) return false;
