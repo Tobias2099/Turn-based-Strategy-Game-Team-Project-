@@ -16,7 +16,7 @@ class AbstractLink : public AbstractEntity {
 
     public:
         AbstractLink(int id, size_t x, size_t y, char appearance, Type type, string owner, int power,
-                     bool revealed, bool active, int moveCount);
+                     bool revealed, bool active, int moveCount, int idUnderneath);
         int getPower();
         int getMoveCount();
         virtual ~AbstractLink();
