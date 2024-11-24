@@ -122,7 +122,7 @@ class Teleport : public Ability {
      //vector<AbstractEntity*> pieces = game.getPieces();
      //AbstractLink* link = nullptr;
      std::pair<int, int> coordinates;
-     AbstractEntity* link = game.getEntity(linkName);
+     AbstractLink* link = dynamic_cast<AbstractLink*>(game.getEntity(linkName));
      if (!link->isActive()) return false;
      coordinates.first = link->getX();
      coordinates.second = link->getY();
