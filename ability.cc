@@ -147,6 +147,7 @@ class Teleport : public Ability {
         game.getBoard()->setBoard(coordinates.first, coordinates.second, -1);
         link->setX(x);
         link->setY(y);
+        game.getBoard()->setBoard(x, y, link->getID());
         return true;
       } else {
         cout << "[DEBUG] Ability::Teleport - Coordinate occupied." << endl;
