@@ -1,18 +1,18 @@
-#ifndef __DATALINK_CC__
-#define __DATALINK_CC__
+#ifndef __ABSTRACTLINK_CC__
+#define __ABSTRACTLINK_CC__
 
 #include <string>
+#include "abstractlink.h"
 #include <iostream>
-#include "datalink.h"
 using namespace std;
 
 
-Type DataLink::getType() const {
-    return Type::Data;
+Type AbstractLink::getType() const {
+    return type;
 }
 
 
-void DataLink::printLink() {
+void AbstractLink::printLink() {
     cout << "At [" << x << "," << y << "]: " << "Name: " 
     << appearance << " | Type: " << this->getType() << " | Owner: " << owner << endl;
 }

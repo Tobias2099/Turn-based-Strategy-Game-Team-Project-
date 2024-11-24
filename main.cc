@@ -8,8 +8,6 @@
 #include "abstractentity.h"
 #include "ability.cc"
 #include "displayText.h"
-#include "datalink.h"
-#include "viruslink.h"
 #include "serverport.h"
 using namespace std;
 
@@ -60,13 +58,13 @@ void randomizeplayers(Game* g, unordered_map<string, int> available, string play
 
         if (token[0] == 'D'){
             //add a datalink
-            g->addEntityToBoard(new DataLink{j, x, y, c, Type::Data, player, power, false, true, 1, -1});
+            g->addEntityToBoard(new AbstractLink{j, x, y, c, Type::Data, player, power, false, true, 1, -1});
             available[token] = 0;
         }
 
         if (token[0] == 'V'){
             //add a viruslink
-            g->addEntityToBoard(new VirusLink{j, x, y, c, Type::Virus, player, power, false, true, 1, -1});
+            g->addEntityToBoard(new AbstractLink{j, x, y, c, Type::Virus, player, power, false, true, 1, -1});
             available[token] = 0;
         }
         x++;
@@ -124,13 +122,13 @@ bool loadplayers(Game* g, string filename, string player, int startid, int endid
 
         if (token[0] == 'D'){
             //add a datalink
-            g->addEntityToBoard(new DataLink{i, x, y, c, Type::Data, player, power, false, true, 1 ,-1});
+            g->addEntityToBoard(new AbstractLink{i, x, y, c, Type::Data, player, power, false, true, 1,-1});
             available[token] = 0;
         }
 
         if (token[0] == 'V'){
             //add a viruslink
-            g->addEntityToBoard(new VirusLink{i, x, y, c, Type::Virus, player, power, false, true, 1, -1});
+            g->addEntityToBoard(new AbstractLink{i, x, y, c, Type::Virus, player, power, false, true, 1,-1});
             available[token] = 0;
         }
         x++;

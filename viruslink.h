@@ -14,7 +14,6 @@ class VirusLink : public AbstractLink {
         AbstractLink{id, x, y, appearance, type, owner, power, revealed, active, moveCount, idUnderneath} {}
 
         Type getType() const override;
-        void printLink() override;
 
 };
 

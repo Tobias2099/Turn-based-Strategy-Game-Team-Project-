@@ -1,4 +1,3 @@
-
 #ifndef __DATALINK_H__
 #define __DATALINK_H__
 
@@ -15,7 +14,6 @@ class DataLink : public AbstractLink {
         AbstractLink{id, x, y, appearance, type, owner, power, revealed, active, moveCount, idUnderneath} {}
 
         Type getType() const override;
-        void printLink() override;
 
 };
 
