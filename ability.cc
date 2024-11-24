@@ -31,6 +31,7 @@ class Firewallab : public Ability {
 
       if (game.whoAt(x,y) != nullptr) {
         //the target square isn't empty
+        cout << "[DEBUG]: Can't place a firewall here!" << endl;
         return false;
       }
 
@@ -88,29 +89,6 @@ class Polarize : public Ability { //can make code more simple by eliminating dat
       link->changeType();
       if (link->getType() == Type::Data) cout << "Data second" << endl;
       else if (link->getType() == Type::Virus) cout << "Virus second" << endl;
-      /*vector<AbstractEntity*>& pieces = game.getPiecesRef();
-      for (auto it = pieces.begin(); it != pieces.end(); ++it) {
-        if (*it == link) {
-          // Create a new link based on the current type
-          AbstractLink* newLink = nullptr;
-          if (link->getType() == Type::Data) {
-            newLink = new VirusLink(link->getID(), link->getX(), link->getY(),
-                                  link->getAppearance(), Type::Virus, link->getOwner(),
-                                  link->getPower(), link->isVisible(), link->isActive(),
-                                  link->getMoveCount());
-          } else if (link->getType() == Type::Virus) {
-            newLink = new DataLink(link->getID(), link->getX(), link->getY(),
-                                  link->getAppearance(), Type::Data, link->getOwner(),
-                                  link->getPower(), link->isVisible(), link->isActive(),
-                                  link->getMoveCount());
-          } else {
-            return false;
-          }
-          delete *it;
-          *it = newLink;
-          return true;
-        }
-      }*/
       
       return true;
     }
@@ -148,21 +126,14 @@ class Teleport : public Ability {
   public:
     Teleport(int id, char name, string owner): Ability(id, name, owner) {}
     bool execute(Game& game, int x, int y, char linkName) {
-     //vector<AbstractEntity*> pieces = game.getPieces();
-     //AbstractLink* link = nullptr;
-     std::pair<int, int> coordinates;
-     AbstractLink* link = dynamic_cast<AbstractLink*>(game.getEntity(linkName));
-     if (!link->isActive()) return false;
-     coordinates.first = link->getX();
-     coordinates.second = link->getY();
-      /*for (auto it = pieces.begin(); it != pieces.end(); ++it) {
-        if ((*it)->getAppearance() == linkName){
-            link = dynamic_cast<AbstractLink*>(*it);
-            coordinates.first = link->getX();
-            coordinates.second = link->getY();
-            break;
-        }
-      }*/
+      std::pair<int, int> coordinates;
+      AbstractLink* link = dynamic_cast<AbstractLink*>(game.getEntity(linkName));
+      if (!link->isActive()) return false;
+      coordinates.first = link->getX();
+      coordinates.second = link->getY();
+      
+      
+
       AbstractEntity* moveTo = game.whoAt(x, y);
       if (moveTo == nullptr) {
         game.getBoard()->setBoard(coordinates.first, coordinates.second, -1);

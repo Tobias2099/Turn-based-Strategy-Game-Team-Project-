@@ -32,6 +32,9 @@ class AbstractLink : public AbstractEntity {
 
         void printLink();
 
+        int getidunder();
+        void setidunder(int id);
+
         Type getType() const override;
 };
 
