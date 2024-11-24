@@ -300,7 +300,7 @@ int main(int argc, char* argv[]) {
                 int x, y;
                 char arg1;
                 string playerincontrol = g.getPlayer();
-
+                
                 cin >> id;
                 cin >> arg1;
 

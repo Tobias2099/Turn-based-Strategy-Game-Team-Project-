@@ -133,7 +133,7 @@ class Calibrate : public Ability {
     Calibrate(int id, char name, string owner): Ability(id, name, owner) {}
     bool execute(Game& game, int x, int y, char linkName) {
       const int maxPower = 4;
-      if (!((linkName >= 'a' && linkName <= 'h') || (linkName >= 'A' && linkName <= 'H'))) return false;
+    if (!((linkName >= 'a' && linkName <= 'h') || (linkName >= 'A' && linkName <= 'H'))) return false;
       AbstractLink* link = dynamic_cast<AbstractLink*>(game.getEntity(linkName));
       if (!link->isActive()) return false;
       link->setPower(maxPower);
@@ -165,6 +165,7 @@ class Teleport : public Ability {
         game.getBoard()->setBoard(coordinates.first, coordinates.second, -1);
         link->setX(x);
         link->setY(y);
+        game.getBoard()->setBoard(x, y, link->getID());
         return true;
       } else {
         cout << "[DEBUG] Ability::Teleport - Coordinate occupied." << endl;
