@@ -9,9 +9,12 @@ class LinkBoost : public Ability {
   public:
     LinkBoost(int id, char name, string owner): Ability(id, name, owner) {}
     bool execute(Game& game, int x, int y, char linkName) {
-      if (('a' <= linkName && linkName <= 'h') && owner != "Player 1") return false;
-      if (('A' <= linkName && linkName <= 'H') && owner != "Player 2") return false;
-      if (!((linkName >= 'a' && linkName <= 'A') || (linkName >= 'A' && linkName <= 'H'))) return false;
+      if ((('a' <= linkName && linkName <= 'h') && owner != "Player 1") ||
+          (('A' <= linkName && linkName <= 'H') && owner != "Player 2") ||
+          !(('a' <= linkName && linkName <= 'h') || ('A' <= linkName && linkName <= 'H'))) {
+          return false;
+      }
+    
       AbstractLink* link = dynamic_cast<AbstractLink*>(game.whoAt(game.appearanceToID(linkName)));
       link->setMoveCount(link->getMoveCount() + 1);
       return true;
@@ -51,17 +54,19 @@ class Download : public Ability {
       if (!((linkName >= 'a' && linkName <= 'A') || (linkName >= 'A' && linkName <= 'H'))) return false;
       AbstractLink* link = dynamic_cast<AbstractLink*>(game.whoAt(game.appearanceToID(linkName)));
 
+        
       if (link->getOwner() == owner) return false;
 
-      if (link->getType() == Type::Data) {
+      if (link->getType() == Type::Data && link->isActive()) {
         game.download(owner, 0, 1);
-      } else if (link->getType() == Type::Virus) {
+      } else if (link->getType() == Type::Virus && link->isActive()) {
         game.download(owner, 1, 0);
       } else {
         return false;
       }
 
       link->deactivate();
+      link->hide();
       
       return true;
     }

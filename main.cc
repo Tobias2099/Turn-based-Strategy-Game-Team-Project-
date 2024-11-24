@@ -286,7 +286,7 @@ int main(int argc, char* argv[]) {
                 int x, y;
                 cin >> x >> y;
                 if (g.whoAt(x,y) != nullptr){
-                    g.whoAt(x, y)->getAppearance();
+                    cout << g.whoAt(x, y)->getAppearance() << endl;
                 } else {
                     cout << "Nothing" << endl;
                 }
