@@ -164,6 +164,12 @@ bool Game::simplemove(string playerincontrol, int id, char dir, int steps){
         return false;
     } else if (target != nullptr && target->getType() == Type::Serverport) {
         //cout << "moved onto enemy serverport" << endl;
+
+        if (to_move->getidunder() != -1){
+          b->setBoard(oldX, oldY, to_move->getidunder());
+          to_move->setidunder(-1);
+        }
+
         string serverport_owner = target->getOwner();
         if (playerincontrol != serverport_owner) {
           if (to_move->getType() == Type::Virus){
@@ -201,7 +207,6 @@ bool Game::simplemove(string playerincontrol, int id, char dir, int steps){
             } else if (to_move->getType() == Type::Data){
                 download(winnerowner,0,1);
             }
-
             return true;
         } else if (winningID == target->getID()) {
             //lost the battle
@@ -222,15 +227,37 @@ bool Game::simplemove(string playerincontrol, int id, char dir, int steps){
             }
 
             return true;
+
         } else if (target != nullptr && target->getType() == Type::Firewall && target->getOwner() != playerincontrol){
           //walk onto an enemy firewall
           to_move->reveal();
           if (to_move->getType() == Type::Virus) {
+            //virus walks onto enemy firewall
             to_move->deactivate();
             download(to_move->getOwner(),1,0);
             b->setBoard(oldX, oldY, -1);
             return true;
           }
+          if (to_move->getType() == Type::Data){
+            //data walks onto enemy firewall
+            // we want to step on but preserve firewall
+            to_move->setidunder(target->getID());
+            to_move->setX(newX);
+            to_move->setY(newY);
+            b->setBoard(newX, newY, to_move->getID());
+            b->setBoard(oldX, oldY, -1);
+            return true;
+          }
+
+        } else if (target != nullptr && target->getType() == Type::Firewall && target->getOwner() == playerincontrol) {
+          //walk onto our own firewall
+          // we want to step on but preserve firewall
+          to_move->setidunder(target->getID());
+          to_move->setX(newX);
+          to_move->setY(newY);
+          b->setBoard(newX, newY, to_move->getID());
+          b->setBoard(oldX, oldY, -1);
+          return true;
         }
     }
 
