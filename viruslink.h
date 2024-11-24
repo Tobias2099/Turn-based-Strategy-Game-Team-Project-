@@ -10,8 +10,8 @@ using namespace std;
 class VirusLink : public AbstractLink {
     
     public:
-        VirusLink(int id, size_t x, size_t y, char appearance, Type type, string owner, int power, bool revealed, bool active, int moveCount): 
-        AbstractLink{id, x, y, appearance, type, owner, power, revealed, active, moveCount} {}
+        VirusLink(int id, size_t x, size_t y, char appearance, Type type, string owner, int power, bool revealed, bool active, int moveCount, int idUnderneath): 
+        AbstractLink{id, x, y, appearance, type, owner, power, revealed, active, moveCount, idUnderneath} {}
 
         Type getType() const override;
         void printLink() override;

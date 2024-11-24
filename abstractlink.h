@@ -12,12 +12,13 @@ class AbstractLink : public AbstractEntity {
         bool revealed;
         bool active;
         int moveCount;
+        int idUnderneath;
 
     public:
         AbstractLink(int id, size_t x, size_t y, char appearance, Type type, string owner, int power,
-         bool revealed, bool active, int moveCount):
-         AbstractEntity{id, x, y, appearance, type, owner}, power{power}, revealed{revealed}, active{active}, moveCount{moveCount}
-         {}
+         bool revealed, bool active, int moveCount, int idUnderneath):
+         AbstractEntity{id, x, y, appearance, type, owner}, 
+         power{power}, revealed{revealed}, active{active}, moveCount{moveCount}, idUnderneath{idUnderneath} {}
         int getPower() {
             return power;
         }
@@ -53,6 +54,14 @@ class AbstractLink : public AbstractEntity {
 
         void setPower(int newPower) {
           power = newPower;
+        }
+
+        int getidunder() {
+          return idUnderneath;
+        }
+
+        void setidunder(int id){
+          idUnderneath = id;
         }
 };
 
