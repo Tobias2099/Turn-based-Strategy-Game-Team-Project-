@@ -43,10 +43,10 @@ class Firewall : public Ability {
 class Download : public Ability {
   public:
     bool execute(Game& game, int x, int y, char linkName) {
-      if (game.whoAt(x,y) == nullptr) {
-        return false;
-      }
-      AbstractLink* link = dynamic_cast<AbstractLink*>(game.whoAt(x, y));
+      if (('a' <= linkName && linkName <= 'h') && owner == "Player 1") return false;
+      if (('A' <= linkName && linkName <= 'H') && owner == "Player 2") return false;
+      if (!((linkName >= 'a' && linkName <= 'A') || (linkName >= 'A' && linkName <= 'H'))) return false;
+      AbstractLink* link = dynamic_cast<AbstractLink*>(game.whoAt(game.appearanceToID(linkName)));
 
       if (link->getOwner() == owner) return false;
 
@@ -67,10 +67,8 @@ class Download : public Ability {
 class Polarize : public Ability {
   public:
     bool execute(Game& game, int x, int y, char linkName) {
-      if (game.whoAt(x,y) == nullptr) {
-        return false;
-      }
-      AbstractLink* link = dynamic_cast<AbstractLink*>(game.whoAt(x, y));
+      if (!((linkName >= 'a' && linkName <= 'A') || (linkName >= 'A' && linkName <= 'H'))) return false;
+      AbstractLink* link = dynamic_cast<AbstractLink*>(game.whoAt(game.appearanceToID(linkName)));
       if (link->getType() == Type::Data) {
         link->setType(Type::Virus);
       } else if (link->getType() == Type::Virus) {
@@ -85,10 +83,10 @@ class Polarize : public Ability {
 class Scan : public Ability { //takes coordinates as input
   public:
     bool execute(Game& game, int x, int y, char linkName) {
-      if (game.whoAt(x,y) == nullptr) {
-        return false;
-      }
-      AbstractLink* link = dynamic_cast<AbstractLink*>(game.whoAt(x, y));
+      if (('a' <= linkName && linkName <= 'h') && owner == "Player 1") return false;
+      if (('A' <= linkName && linkName <= 'H') && owner == "Player 2") return false;
+      if (!((linkName >= 'a' && linkName <= 'A') || (linkName >= 'A' && linkName <= 'H'))) return false;
+      AbstractLink* link = dynamic_cast<AbstractLink*>(game.whoAt(game.appearanceToID(linkName)));
       if (link->getOwner() == owner) return false;
       link->reveal();
       return true;
@@ -98,11 +96,9 @@ class Scan : public Ability { //takes coordinates as input
 class Calibrate : public Ability {
   public:
     bool execute(Game& game, int x, int y, char linkName) {
-      if (game.whoAt(x,y) == nullptr) {
-        return false;
-      }
       const int maxPower = 4;
-      AbstractLink* link = dynamic_cast<AbstractLink*>(game.whoAt(x, y));
+      if (!((linkName >= 'a' && linkName <= 'A') || (linkName >= 'A' && linkName <= 'H'))) return false;
+      AbstractLink* link = dynamic_cast<AbstractLink*>(game.whoAt(game.appearanceToID(linkName)));
       link->setPower(maxPower);
       return true;
     }
