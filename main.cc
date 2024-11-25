@@ -285,10 +285,6 @@ int main(int argc, char* argv[]) {
         loadabilities(player2, "LFDSP", false);
     }
 
-    if (options.find("-graphics") != options.end()) {
-        cout << "[DEBUG] Graphics mode on" << endl;
-    }
-
     //player1 server ports  
     g.addEntityToBoard(new ServerPort{16, 3, 0, Type::Serverport, 'S', "Player 1"});
     g.addEntityToBoard(new ServerPort{17, 4, 0, Type::Serverport, 'S', "Player 1"});
@@ -297,10 +293,16 @@ int main(int argc, char* argv[]) {
     g.addEntityToBoard(new ServerPort{18, 3, 7, Type::Serverport, 'S', "Player 2"});
     g.addEntityToBoard(new ServerPort{19, 4, 7, Type::Serverport, 'S', "Player 2"});
 
+    std::unique_ptr<displayGraphics> graphicsObserver = nullptr;
+
+    if (options.find("-graphics") != options.end()) {
+        cout << "[DEBUG] Graphics mode on" << endl;
+        graphicsObserver = std::make_unique<displayGraphics>(&g, 300, 300);
+        g.attach(graphicsObserver.get());
+    }
+
     displayText textObserver{&g};
-    displayGraphics graphicsObserver(&g, 300, 300);
     g.attach(&textObserver);
-    g.attach(&graphicsObserver);
 
     while (g.getWinner() == "None"){
         while (std::cin >> command) {

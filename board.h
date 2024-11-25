@@ -11,6 +11,7 @@ class Board{
     size_t width;
     size_t height;
     vector<vector<int>> boardrep;
+    vector<vector<int>> lastrep;
 
     public:
       Board(size_t width, size_t height);
@@ -18,9 +19,12 @@ class Board{
 
       void setBoard(int row, int col, int id);
       int getValue(int row, int col);
+      int getlastValue(int row, int col);
 
       int getWidth();
       int getHeight();
+
+      void snapshot();
 };
 
 #endif

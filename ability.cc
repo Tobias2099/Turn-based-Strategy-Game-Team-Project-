@@ -18,7 +18,7 @@ class LinkBoost : public Ability {
           return false;
       }
     
-
+      game.getBoard()->snapshot();
       link->setMoveCount(link->getMoveCount() + 1);
       used = true;
       return true;
@@ -29,7 +29,6 @@ class Firewallab : public Ability {
   public:
     Firewallab(int id, char name, string owner): Ability(id, name, owner) {}
     bool execute(Game& game, int x, int y, char linkName) {
-
       if (game.whoAt(x,y) != nullptr) {
         //the target square isn't empty
         cout << "[DEBUG]: Can't place a firewall here!" << endl;
@@ -42,7 +41,7 @@ class Firewallab : public Ability {
       } else {
         app = 'w';
       }
-
+      game.getBoard()->snapshot();
       int veclength = game.getVecLength();
       int id = veclength;
       game.addEntityToBoard(new Firewallpiece(id, x, y, Type::Firewall, app, owner));
@@ -71,6 +70,7 @@ class Download : public Ability {
         return false;
       }
 
+      game.getBoard()->snapshot();
       game.getBoard()->setBoard(link->getX(), link->getY(), -1);
       link->deactivate();
       link->hide();
@@ -93,6 +93,7 @@ class Polarize : public Ability { //can make code more simple by eliminating dat
       if (link->getType() == Type::Data) cout << "Data second" << endl;
       else if (link->getType() == Type::Virus) cout << "Virus second" << endl;
       
+      game.getBoard()->snapshot();
       used = true;
       return true;
     }
@@ -109,6 +110,7 @@ class Scan : public Ability { //takes coordinates as input
       if (!link->isActive()) return false;
       if (link->getOwner() == owner) return false;
       link->reveal();
+      game.getBoard()->snapshot();
       used = true;
       return true;
     }
@@ -123,6 +125,7 @@ class Calibrate : public Ability {
       AbstractLink* link = dynamic_cast<AbstractLink*>(game.getEntity(linkName));
       if (!link->isActive()) return false;
       link->setPower(maxPower);
+      game.getBoard()->snapshot();
       used = true;
       return true;
     }
@@ -142,6 +145,8 @@ class Teleport : public Ability {
 
       AbstractEntity* moveTo = game.whoAt(x, y);
       if (moveTo == nullptr) {
+        game.getBoard()->snapshot();
+
         game.getBoard()->setBoard(coordinates.first, coordinates.second, -1);
         link->setX(x);
         link->setY(y);
@@ -167,6 +172,7 @@ class Wipe : public Ability {
             if (linkToHide) linkToHide->hide();
         }
       }
+      game.getBoard()->snapshot();
       used = true;
       return true;
     }

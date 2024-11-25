@@ -14,6 +14,7 @@ class displayGraphics : public Observer {
     std::unique_ptr<Xwindow> window;
     int width;
     int height;
+    bool fresh;
 	public:
         displayGraphics(Game* g, int width, int height);
         ~displayGraphics();

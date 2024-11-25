@@ -134,6 +134,7 @@ bool Game::simplemove(string playerincontrol, int id, char dir, int steps){
             } else if (to_move->getType() == Type::Data) {
                 download(to_move->getOwner(),0,1);
             }
+            b->snapshot();
             b->setBoard(oldX, oldY, -1);
             return true;
         }
@@ -146,6 +147,7 @@ bool Game::simplemove(string playerincontrol, int id, char dir, int steps){
             } else if (to_move->getType() == Type::Data){
                 download(to_move->getOwner(),0,1);
             }
+            b->snapshot();
             b->setBoard(oldX, oldY, -1);
             return true;
         }
@@ -178,6 +180,7 @@ bool Game::simplemove(string playerincontrol, int id, char dir, int steps){
               download(serverport_owner,0,1);
           }
           to_move->deactivate();
+          b->snapshot();
           b->setBoard(oldX, oldY, -1);
           return true;
         } else {
@@ -204,6 +207,7 @@ bool Game::simplemove(string playerincontrol, int id, char dir, int steps){
               download(to_move->getOwner(),1,0);
               to_move->deactivate();
               to_move->reveal();
+              b->snapshot();
               b->setBoard(oldX, oldY, -1);
               return true;
             }
@@ -219,6 +223,7 @@ bool Game::simplemove(string playerincontrol, int id, char dir, int steps){
             linkTarget->deactivate();
             to_move->reveal();
             linkTarget->reveal();
+            b->snapshot();
             b->setBoard(newX, newY, to_move->getID());
             b->setBoard(oldX, oldY, -1);
 
@@ -239,6 +244,7 @@ bool Game::simplemove(string playerincontrol, int id, char dir, int steps){
             to_move->deactivate();
             to_move->reveal();
             linkTarget->reveal();
+            b->snapshot();
             b->setBoard(oldX, oldY, -1);
 
             string winnerowner = linkTarget->getOwner();
@@ -258,6 +264,7 @@ bool Game::simplemove(string playerincontrol, int id, char dir, int steps){
             //cout << "virus walks onto enemy firewall" << endl;
             to_move->deactivate();
             download(to_move->getOwner(),1,0);
+            b->snapshot();
             b->setBoard(oldX, oldY, -1);
             return true;
           }
@@ -267,6 +274,7 @@ bool Game::simplemove(string playerincontrol, int id, char dir, int steps){
             to_move->setidunder(target->getID());
             to_move->setX(newX);
             to_move->setY(newY);
+            b->snapshot();
             b->setBoard(newX, newY, to_move->getID());
             b->setBoard(oldX, oldY, -1);
             return true;
@@ -278,6 +286,7 @@ bool Game::simplemove(string playerincontrol, int id, char dir, int steps){
           to_move->setidunder(target->getID());
           to_move->setX(newX);
           to_move->setY(newY);
+          b->snapshot();
           b->setBoard(newX, newY, to_move->getID());
           b->setBoard(oldX, oldY, -1);
           return true;
@@ -286,6 +295,7 @@ bool Game::simplemove(string playerincontrol, int id, char dir, int steps){
     if (to_move->getidunder() != -1){
       // if we were standing on a firewall
       //cout << "move off fwall" << endl;
+      b->snapshot();
       b->setBoard(oldX, oldY, to_move->getidunder());
       to_move->setidunder(-1);
       to_move->setX(newX);
@@ -295,6 +305,7 @@ bool Game::simplemove(string playerincontrol, int id, char dir, int steps){
     }
 
     //cout << "old way" << endl;
+    b->snapshot();
     to_move->setX(newX);
     to_move->setY(newY);
 

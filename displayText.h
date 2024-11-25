@@ -15,4 +15,6 @@ class displayText : public Observer {
     virtual void notify();
 };
 
+string convertTypeToString(Type type);
+
 #endif
