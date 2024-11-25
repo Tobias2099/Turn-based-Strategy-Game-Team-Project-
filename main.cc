@@ -7,6 +7,7 @@
 #include "game.h"
 #include "abstractentity.h"
 #include "ability.cc"
+#include "displayGraphics.h"
 #include "displayText.h"
 #include "serverport.h"
 using namespace std;
@@ -297,7 +298,9 @@ int main(int argc, char* argv[]) {
     g.addEntityToBoard(new ServerPort{19, 4, 7, Type::Serverport, 'S', "Player 2"});
 
     displayText textObserver{&g};
+    displayGraphics graphicsObserver(&g, 300, 300);
     g.attach(&textObserver);
+    g.attach(&graphicsObserver);
 
     while (g.getWinner() == "None"){
         while (std::cin >> command) {
