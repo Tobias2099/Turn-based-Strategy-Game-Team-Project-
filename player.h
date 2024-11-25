@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <memory>
 #include "game.h"
 #include "ability.h"
 
@@ -16,7 +17,7 @@ class Player{
   string name;
   int id;
   int viruses_downloaded, data_downloaded, ableft;
-  vector<Ability*> abilities;
+  vector<std::unique_ptr<Ability>> abilities;
 
 
   public:
@@ -27,7 +28,7 @@ class Player{
     string getName();
     void download(int virus, int data);
     bool useAbility(Game &g, int id, char linkName, int x, int y);
-    void addability(Ability* a);
+    void addability(std::unique_ptr<Ability> ability);
     int abilitiesleft();
     string printabvec();
 };

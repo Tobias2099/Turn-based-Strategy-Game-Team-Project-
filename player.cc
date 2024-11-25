@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <vector>
+#include <memory>
 #include "player.h"
 #include "ability.h"
 
@@ -10,13 +11,13 @@ using namespace std;
 
 Player::Player(string name, int id, int viruses_downloaded, int data_downloaded, int ableft): 
   name{name}, viruses_downloaded{viruses_downloaded}, 
-  data_downloaded{data_downloaded}, ableft{ableft},
-  abilities{abilities} {}
+  data_downloaded{data_downloaded}, ableft{ableft}
+  {}
 
 Player::~Player(){
-  for (auto it = abilities.begin(); it != abilities.end(); ++it) {
-    delete *it;
-  }
+  // for (auto it = abilities.begin(); it != abilities.end(); ++it) {
+  //   delete *it;
+  // }
 }
 
 int Player::getViruses(){
@@ -51,8 +52,8 @@ bool Player::useAbility(Game& g, int id, char linkName, int x, int y) {
 
 }
 
-void Player::addability(Ability* a) {
-  abilities.emplace_back(a);
+void Player::addability(std::unique_ptr<Ability> ability) {
+  abilities.emplace_back(std::move(ability));
 }
 
 int Player::abilitiesleft() {

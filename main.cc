@@ -180,38 +180,39 @@ void loadabilities(Player* player, string arg, bool check){
     }
 
     int arglen = arg.length();
-    for (int i = 0; i < arglen; i++){
+    for (int i = 0; i < arglen; i++) {
         char c = arg[i];
-        switch(c) {
+        switch (c) {
             case 'L':
-            player->addability(new LinkBoost{i,c,player->getName()});
-            break;
-        case 'F':
-            player->addability(new Firewallab{i,c,player->getName()});
-            break;
-        case 'D':
-            player->addability(new Download{i,c,player->getName()});
-            break;
-        case 'S':
-            player->addability(new Scan{i,c,player->getName()});
-            break;
-        case 'P':
-            player->addability(new Polarize{i,c,player->getName()});
-            break;
-        case 'T':
-            player->addability(new Teleport{i,c,player->getName()});
-            break;
-        case 'C':
-            player->addability(new Calibrate{i,c,player->getName()});
-            break;
-        case 'W':
-            player->addability(new Wipe{i,c,player->getName()});
-            break;
-        default:
-            cout << "Invalid ability" << endl;;
-            break;
+                player->addability(std::make_unique<LinkBoost>(i, c, player->getName()));
+                break;
+            case 'F':
+                player->addability(std::make_unique<Firewallab>(i, c, player->getName()));
+                break;
+            case 'D':
+                player->addability(std::make_unique<Download>(i, c, player->getName()));
+                break;
+            case 'S':
+                player->addability(std::make_unique<Scan>(i, c, player->getName()));
+                break;
+            case 'P':
+                player->addability(std::make_unique<Polarize>(i, c, player->getName()));
+                break;
+            case 'T':
+                player->addability(std::make_unique<Teleport>(i, c, player->getName()));
+                break;
+            case 'C':
+                player->addability(std::make_unique<Calibrate>(i, c, player->getName()));
+                break;
+            case 'W':
+                player->addability(std::make_unique<Wipe>(i, c, player->getName()));
+                break;
+            default:
+                cout << "Invalid ability" << endl;
+                break;
         }
     }
+
     cout << "[DEBUG] " << player->getName() << " will use abilities " << arg << endl;
 }
 
