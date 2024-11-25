@@ -67,7 +67,9 @@ void displayGraphics::notify() {
 
             if (oldID != newID || fresh){
                 // first wipe what was there
-                window->fillRectangle(6 + 22 * j, 62 + 22 * i, 20, 20, Xwindow::White);
+                if (!fresh){
+                    window->fillRectangle(6 + 22 * j, 62 + 22 * i, 20, 20, Xwindow::White);
+                }
 
                 if (newID != -1) {
                     AbstractEntity* newentity = dynamic_cast<AbstractEntity*>(g->whoAt(newID));
