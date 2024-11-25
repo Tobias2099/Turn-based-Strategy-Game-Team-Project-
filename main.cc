@@ -230,9 +230,6 @@ int main(int argc, char* argv[]) {
             }
         }
     }
-
-
-    string command;
     
     Board b{8,8};
 
@@ -304,15 +301,35 @@ int main(int argc, char* argv[]) {
     displayText textObserver{&g};
     g.attach(&textObserver);
 
+    istream* inputStream = &cin;
+    bool sequencemode = false;
+    string seqfname = "";
+    ifstream infile;
+
     while (g.getWinner() == "None"){
-        while (std::cin >> command) {
+
+        if (sequencemode) {
+            infile.open(seqfname);
+            if (!infile.is_open()) {
+                cout << "[DEBUG] Can't open sequence file " << seqfname 
+                << " Reverting to stdin" << endl;
+                sequencemode = false;
+            } else {
+                cout << "[DEBUG] switched to seqmode successfully." << endl;
+                inputStream = &infile;
+                sequencemode = false;
+            }
+        }
+
+        string command;
+        while (*inputStream >> command) {
             if (command == "board" ) {
                 g.notifyObservers();
             } else if (command == "move") {
                 string playerincontrol = g.getPlayer();
                 char name;
                 char dir;
-                cin >> name >> dir;
+                *inputStream >> name >> dir;
                 bool movestat = g.simplemove(playerincontrol, g.appearanceToID(name), dir, -1);
                 if (movestat){
                     //why observers?
@@ -324,7 +341,7 @@ int main(int argc, char* argv[]) {
                 //g.notifyObservers();
             } else if (command == "whoat") {
                 int x, y;
-                cin >> x >> y;
+                *inputStream >> x >> y;
                 if (g.whoAt(x,y) != nullptr){
                     cout << g.whoAt(x, y)->getAppearance() << endl;
                 } else {
@@ -341,13 +358,13 @@ int main(int argc, char* argv[]) {
                 char arg1;
                 string playerincontrol = g.getPlayer();
                 
-                cin >> id;
+                *inputStream >> id;
                 
 
                 if (id == 7) { //teleport
-                  cin >> arg1;
-                  cin >> x;
-                  cin >> y;
+                  *inputStream >> arg1;
+                  *inputStream >> x;
+                  *inputStream >> y;
                   if (playerincontrol == "Player 1"){
                       abilitystat = player1->useAbility(g, id - 1, arg1, x, y);
                   } else {
@@ -360,10 +377,10 @@ int main(int argc, char* argv[]) {
                       abilitystat = player2->useAbility(g, id - 1, '0', -1, -1);
                   }
                 } else { 
-                  cin >> arg1;
+                  *inputStream >> arg1;
                   if (arg1 >= '0' && arg1 <= '9'){
                     x = static_cast<int>(arg1 - '0');
-                    cin >> y;
+                    *inputStream >> y;
                     //cout << "ready to use ability " << id << " with coords " << x << " " << y << endl;
 
                     if (playerincontrol == "Player 1"){
@@ -389,6 +406,11 @@ int main(int argc, char* argv[]) {
                 // do we want this here?
                 //g.notifyObservers();
 
+            } else if (command == "sequence") {
+                *inputStream >> seqfname;
+                sequencemode = true;
+                cout << "[DEBUG] Attempting sequence load with filename " << seqfname << endl;
+                break;
             } else {
                 cout << "Command not recognized." << endl;
                 continue;
