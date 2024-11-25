@@ -188,10 +188,34 @@ bool Game::simplemove(string playerincontrol, int id, char dir, int steps){
         AbstractLink* linkTarget = dynamic_cast<AbstractLink*>(whoAt(newX, newY));
         int winningID = this->battle(to_move, linkTarget);
 
+        // case for firewall
+        int underid = linkTarget->getidunder();
+
+        if (underid != -1){
+          // we have stepped onto an enemy that is standing on a firewall
+          AbstractEntity* fwall = dynamic_cast<AbstractEntity*>(pieces[underid]);
+          if (fwall->getOwner() == linkTarget->getOwner()){
+            //the firewall is owned by the enemy
+
+            if (to_move->getType() == Type::Virus) {
+              // and we are a virus
+
+              // we must download our own virus
+              download(to_move->getOwner(),1,0);
+              to_move->deactivate();
+              to_move->reveal();
+              b->setBoard(oldX, oldY, -1);
+              return true;
+            }
+          }
+
+        }
+
         if (winningID == to_move->getID()){
             //cout << "initator wins" << endl;
             to_move->setX(newX);
             to_move->setY(newY);
+            to_move->setidunder(underid);
             linkTarget->deactivate();
             to_move->reveal();
             linkTarget->reveal();
