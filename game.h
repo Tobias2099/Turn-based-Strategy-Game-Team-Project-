@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include "memory.h"
 #include "board.h"
 #include "player.h"
 #include "subject.h"
@@ -17,8 +18,8 @@ class Game : public Subject {
   Board *b;
   string turn;
   string winner;
-  Player* p1;
-  Player* p2; 
+  Player *p1;
+  Player *p2;
   vector<AbstractEntity*> pieces;
 
   public:

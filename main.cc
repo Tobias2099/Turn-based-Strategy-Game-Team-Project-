@@ -234,11 +234,13 @@ int main(int argc, char* argv[]) {
     
     Board b{8,8};
 
-    Player* player1 = new Player("Player 1", 0, 0, 0, 5);
-    Player* player2 = new Player("Player 2", 0, 0, 0, 5);
+    std::unique_ptr<Player> player1 = std::make_unique<Player>("Player 1", 0, 0, 0, 5);
+    std::unique_ptr<Player> player2 = std::make_unique<Player>("Player 2", 0, 0, 0, 5);
+    cout << "DEBUG:: 239" << player1.get() << endl;
+
 
     vector<AbstractEntity*> pieces;
-    Game g(&b, "Player 1", "None", player1, player2, pieces);
+    Game g(&b, "Player 1", "None", player1.get(), player2.get(), pieces);
 
     cout << "[DEBUG] all arguments: " << endl;
     for (auto entry : options) {
@@ -269,18 +271,18 @@ int main(int argc, char* argv[]) {
 
     if (options.find("-ability1") != options.end()) {
         cout << "[DEBUG] Player 1 requested abilities: " << options["-ability1"] << endl;
-        loadabilities(player1, options["-ability1"], true);
+        loadabilities(player1.get(), options["-ability1"], true);
     } else {
         cout << "[DEBUG] Player 1 will use default abilities LFDSP" << endl;
-        loadabilities(player1, "LFDSP", false);
+        loadabilities(player1.get(), "LFDSP", false);
     }
 
     if (options.find("-ability2") != options.end()) {
         cout << "[DEBUG] Player 2  requested abilities: " << options["-ability2"] << endl;
-        loadabilities(player2, options["-ability2"], true);
+        loadabilities(player2.get(), options["-ability2"], true);
     } else {
         cout << "[DEBUG] Player 2 will use default abilities LFDSP" << endl;
-        loadabilities(player2, "LFDSP", false);
+        loadabilities(player2.get(), "LFDSP", false);
     }
 
     //player1 server ports  

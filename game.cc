@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <memory>
 #include "game.h"
 
 using namespace std;
@@ -12,8 +13,6 @@ Game::Game(Board *b, string turn, string winner, Player* p1, Player* p2, vector<
   b{b}, turn{turn}, winner{winner}, p1{p1}, p2{p2}, pieces{pieces} {}
 
 Game::~Game() {
-  delete p1;
-  delete p2;
   for (auto it = pieces.begin(); it != pieces.end(); ++it) {
       delete *it;
   }
