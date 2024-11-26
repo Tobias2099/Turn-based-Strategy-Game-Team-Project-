@@ -59,13 +59,13 @@ void randomizeplayers(Game* g, unordered_map<string, int> available, string play
 
         if (token[0] == 'D'){
             //add a datalink
-            g->addEntityToBoard(new AbstractLink{j, x, y, c, Type::Data, player, power, false, true, 1, -1});
+            g->addEntityToBoard(std::make_unique<AbstractLink>(j, x, y, c, Type::Data, player, power, false, true, 1, -1));
             available[token] = 0;
         }
 
         if (token[0] == 'V'){
             //add a viruslink
-            g->addEntityToBoard(new AbstractLink{j, x, y, c, Type::Virus, player, power, false, true, 1, -1});
+            g->addEntityToBoard(std::make_unique<AbstractLink>(j, x, y, c, Type::Virus, player, power, false, true, 1, -1));
             available[token] = 0;
         }
         x++;
@@ -123,13 +123,13 @@ bool loadplayers(Game* g, string filename, string player, int startid, int endid
 
         if (token[0] == 'D'){
             //add a datalink
-            g->addEntityToBoard(new AbstractLink{i, x, y, c, Type::Data, player, power, false, true, 1,-1});
+            g->addEntityToBoard(std::make_unique<AbstractLink>(i, x, y, c, Type::Data, player, power, false, true, 1,-1));
             available[token] = 0;
         }
 
         if (token[0] == 'V'){
             //add a viruslink
-            g->addEntityToBoard(new AbstractLink{i, x, y, c, Type::Virus, player, power, false, true, 1,-1});
+            g->addEntityToBoard(std::make_unique<AbstractLink>(i, x, y, c, Type::Virus, player, power, false, true, 1,-1));
             available[token] = 0;
         }
         x++;
@@ -236,11 +236,11 @@ int main(int argc, char* argv[]) {
 
     std::unique_ptr<Player> player1 = std::make_unique<Player>("Player 1", 0, 0, 0, 5);
     std::unique_ptr<Player> player2 = std::make_unique<Player>("Player 2", 0, 0, 0, 5);
-    cout << "DEBUG:: 239" << player1.get() << endl;
 
 
-    vector<AbstractEntity*> pieces;
-    Game g(&b, "Player 1", "None", player1.get(), player2.get(), pieces);
+
+    vector<std::unique_ptr<AbstractEntity>> pieces;
+    Game g(&b, "Player 1", "None", player1.get(), player2.get(), std::move(pieces));
 
     cout << "[DEBUG] all arguments: " << endl;
     for (auto entry : options) {
@@ -286,12 +286,12 @@ int main(int argc, char* argv[]) {
     }
 
     //player1 server ports  
-    g.addEntityToBoard(new ServerPort{16, 3, 0, Type::Serverport, 'S', "Player 1"});
-    g.addEntityToBoard(new ServerPort{17, 4, 0, Type::Serverport, 'S', "Player 1"});
+    g.addEntityToBoard(std::make_unique<ServerPort>(16, 3, 0, Type::Serverport, 'S', "Player 1"));
+    g.addEntityToBoard(std::make_unique<ServerPort>(17, 4, 0, Type::Serverport, 'S', "Player 1"));
 
     //player2 server ports
-    g.addEntityToBoard(new ServerPort{18, 3, 7, Type::Serverport, 'S', "Player 2"});
-    g.addEntityToBoard(new ServerPort{19, 4, 7, Type::Serverport, 'S', "Player 2"});
+    g.addEntityToBoard(std::make_unique<ServerPort>(18, 3, 7, Type::Serverport, 'S', "Player 2"));
+    g.addEntityToBoard(std::make_unique<ServerPort>(19, 4, 7, Type::Serverport, 'S', "Player 2"));
 
     std::unique_ptr<displayGraphics> graphicsObserver = nullptr;
 

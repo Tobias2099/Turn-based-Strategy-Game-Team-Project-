@@ -20,10 +20,10 @@ class Game : public Subject {
   string winner;
   Player *p1;
   Player *p2;
-  vector<AbstractEntity*> pieces;
+  vector<std::unique_ptr<AbstractEntity>> pieces;
 
   public:
-    Game(Board* b, string turn, string winner, Player* p1, Player* p2, vector<AbstractEntity*> pieces);
+    Game(Board* b, string turn, string winner, Player* p1, Player* p2, vector<std::unique_ptr<AbstractEntity>> pieces);
     ~Game();
     Board* getBoard();
     string getWinner();
@@ -40,7 +40,7 @@ class Game : public Subject {
 
     void download(string player, int virus, int data);
 
-    void addEntityToBoard(AbstractEntity* entity);
+    void addEntityToBoard(std::unique_ptr<AbstractEntity> entity);
 
     bool simplemove(string playerincontrol, int id, char dir, int steps);
 

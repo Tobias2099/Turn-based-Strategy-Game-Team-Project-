@@ -9,13 +9,11 @@
 
 using namespace std;
 
-Game::Game(Board *b, string turn, string winner, Player* p1, Player* p2, vector<AbstractEntity*> pieces):
-  b{b}, turn{turn}, winner{winner}, p1{p1}, p2{p2}, pieces{pieces} {}
+Game::Game(Board *b, string turn, string winner, Player* p1, Player* p2, vector<std::unique_ptr<AbstractEntity>> pieces):
+  b{b}, turn{turn}, winner{winner}, p1{p1}, p2{p2}, pieces{std::move(pieces)} {}
 
 Game::~Game() {
-  for (auto it = pieces.begin(); it != pieces.end(); ++it) {
-      delete *it;
-  }
+
 }
 
 string Game::getWinner(){
@@ -32,13 +30,17 @@ void Game::setWinner(string w){
   winner = w;
 }
 
-vector<AbstractEntity*> Game::getPieces() {
-  return pieces;
+std::vector<AbstractEntity*> Game::getPieces() {
+    std::vector<AbstractEntity*> rawPointers;
+    for (const auto& piece : pieces) {
+        rawPointers.push_back(piece.get()); // get raw pointer
+    }
+    return rawPointers; 
 }
 
-vector<AbstractEntity*>& Game::getPiecesRef() {
-  return pieces;
-}
+// vector<AbstractEntity*>& Game::getPiecesRef() {
+//   return pieces;
+// }
 
 void Game::advance(){
   //cout << "going from " << turn;
@@ -68,9 +70,9 @@ void Game::download(string player, int virus, int data){
   }
 }
 
-void Game::addEntityToBoard(AbstractEntity* entity){
-    pieces.emplace_back(entity);
+void Game::addEntityToBoard(std::unique_ptr<AbstractEntity> entity){
     b->setBoard(entity->getX(), entity->getY(), entity->getID());
+    pieces.emplace_back(std::move(entity));
 }
 
 bool Game::simplemove(string playerincontrol, int id, char dir, int steps){
@@ -79,7 +81,7 @@ bool Game::simplemove(string playerincontrol, int id, char dir, int steps){
         //nomove, id's greater than 16 are serverports.
     }
 
-    AbstractLink* to_move = dynamic_cast<AbstractLink*>(pieces[id]);
+    AbstractLink* to_move = dynamic_cast<AbstractLink*>(pieces[id].get());
 
     if (steps == -1) {
       steps = to_move->getMoveCount();
@@ -91,8 +93,8 @@ bool Game::simplemove(string playerincontrol, int id, char dir, int steps){
     }
 
     AbstractEntity* target = nullptr;
-    size_t oldX = pieces[id]->getX();
-    size_t oldY = pieces[id]->getY();
+    size_t oldX = pieces[id].get()->getX();
+    size_t oldY = pieces[id].get()->getY();
 
     int newX = 0;
     int newY = 0;
@@ -195,7 +197,7 @@ bool Game::simplemove(string playerincontrol, int id, char dir, int steps){
 
         if (underid != -1){
           // we have stepped onto an enemy that is standing on a firewall
-          AbstractEntity* fwall = dynamic_cast<AbstractEntity*>(pieces[underid]);
+          AbstractEntity* fwall = dynamic_cast<AbstractEntity*>(pieces[underid].get());
           if (fwall->getOwner() == linkTarget->getOwner()){
             //the firewall is owned by the enemy
 
@@ -299,7 +301,7 @@ bool Game::simplemove(string playerincontrol, int id, char dir, int steps){
       to_move->setidunder(-1);
       to_move->setX(newX);
       to_move->setY(newY);
-      b->setBoard(newX, newY, pieces[id]->getID());
+      b->setBoard(newX, newY, pieces[id].get()->getID());
       return true;
     }
 
@@ -309,7 +311,7 @@ bool Game::simplemove(string playerincontrol, int id, char dir, int steps){
     to_move->setY(newY);
 
     // change the internal board
-    b->setBoard(newX, newY, pieces[id]->getID());
+    b->setBoard(newX, newY, pieces[id].get()->getID());
     b->setBoard(oldX, oldY, -1);
 
     return true;
@@ -340,11 +342,11 @@ AbstractEntity* Game::whoAt(int x, int y) {
       return nullptr;
   }
   
-  return pieces[id];
+  return pieces[id].get();
 }
 
 AbstractEntity* Game::whoAt(int id){
-    AbstractEntity* piece = pieces[id];
+    AbstractEntity* piece = pieces[id].get();
     return piece;
 }
 
