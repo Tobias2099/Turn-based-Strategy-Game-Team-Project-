@@ -55,6 +55,7 @@ void Game::advance(){
 
 void Game::download(string player, int virus, int data){
   const int maxData = 4;
+  const int maxViruses = 4;
   if (player == "Player 1"){
     p1->download(virus, data);
   } else if (player == "Player 2"){
@@ -63,10 +64,17 @@ void Game::download(string player, int virus, int data){
 
   if (p1->getData() >= maxData){
     setWinner("Player 1");
+    return;
   }
 
-  if (p2->getData() >= maxData){
+  if (p1->getViruses() >= maxViruses){
     setWinner("Player 2");
+    return;
+  }
+
+  if (p2->getViruses() >= maxViruses){
+    setWinner("Player 1");
+    return;
   }
 }
 
