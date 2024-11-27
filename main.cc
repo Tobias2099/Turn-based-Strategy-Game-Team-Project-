@@ -357,33 +357,66 @@ int main(int argc, char* argv[]) {
                 bool abilitystat = true;
 
                 int id;
-                int x, y;
-                char arg1;
+                int x, y = -1;
+                char linkName = '0';
                 string playerincontrol = g.getPlayer();
-                
+
+                Player *p = nullptr;
+                if (playerincontrol == "Player 1") {
+                  p = g.getFirstPlayer();
+                } else if (playerincontrol == "Player 2") {
+                  p = g.getSecondPlayer();
+                }
+
                 *inputStream >> id;
+                if (id <= 0 || id > 5) {
+                  cout << "Invalid ability id." << endl;
+                  continue;
+                }
                 
 
-                if (id == 7) { //teleport
-                  *inputStream >> arg1;
-                  *inputStream >> x;
-                  *inputStream >> y;
-                  if (playerincontrol == "Player 1"){
-                      abilitystat = player1->useAbility(g, id - 1, arg1, x, y);
+                if (p->getAbilityName(id) == 'T') { //teleport
+                  if (*inputStream >> x) {
+                    *inputStream >> y;
+                    *inputStream >> linkName;
                   } else {
-                      abilitystat = player2->useAbility(g, id - 1, arg1, x, y);
+                    inputStream->clear();
+                    *inputStream >> linkName;
+                    *inputStream >> x;
+                    *inputStream >> y;
                   }
-                } else if (id == 8) { //wipe
+                  
+                  if (playerincontrol == "Player 1"){
+                      abilitystat = player1->useAbility(g, id - 1, linkName, x, y);
+                  } else {
+                      abilitystat = player2->useAbility(g, id - 1, linkName, x, y);
+                  }
+                } else if (p->getAbilityName(id) == 'W') { //wipe
                   if (playerincontrol == "Player 1"){
                       abilitystat = player1->useAbility(g, id - 1, '0', -1, -1);
                   } else {
                       abilitystat = player2->useAbility(g, id - 1, '0', -1, -1);
                   }
                 } else { 
-                  *inputStream >> arg1;
-                  if (arg1 >= '0' && arg1 <= '9'){
-                    x = static_cast<int>(arg1 - '0');
+                  if (*inputStream >> x) {
+                    if (!(*inputStream >> y)) {
+                      inputStream->clear();
+                      inputStream->ignore();
+                      cout << "Command not recognized." << endl;
+                      continue;
+                    }
+  
+                  } else{
+                    inputStream->clear();
+                    if (!(*inputStream >> linkName)) {
+                      inputStream->clear();
+                    }
+                  }
+                  /**inputStream >> linkName;
+                  if (linkName >= '0' && linkName <= '9'){
+                    x = static_cast<int>(linkName - '0');
                     *inputStream >> y;
+
                     //cout << "ready to use ability " << id << " with coords " << x << " " << y << endl;
 
                     if (playerincontrol == "Player 1"){
@@ -392,12 +425,17 @@ int main(int argc, char* argv[]) {
                         abilitystat = player2->useAbility(g, id - 1, '0', x, y);
                     }
                   } else {
-                      //cout << "ready to use ability " << id << " with linkname " << arg1 << endl;
+                      //cout << "ready to use ability " << id << " with linkname " << linkName << endl;
                       if (playerincontrol == "Player 1"){
-                          abilitystat = player1->useAbility(g, id - 1, arg1, -1, -1);
+                          abilitystat = player1->useAbility(g, id - 1, linkName, -1, -1);
                       } else {
-                          abilitystat = player2->useAbility(g, id - 1, arg1, -1, -1);
+                          abilitystat = player2->useAbility(g, id - 1, linkName, -1, -1);
                       }
+                  }*/
+                  if (playerincontrol == "Player 1"){
+                    abilitystat = player1->useAbility(g, id - 1, linkName, x, y);
+                  } else {
+                    abilitystat = player2->useAbility(g, id - 1, linkName, x, y);
                   }
                 }
 

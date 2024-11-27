@@ -87,11 +87,7 @@ class Polarize : public Ability { //can make code more simple by eliminating dat
       if (!((linkName >= 'a' && linkName <= 'h') || (linkName >= 'A' && linkName <= 'H'))) return false;
       AbstractLink* link = dynamic_cast<AbstractLink*>(game.getEntity(linkName));
       if (!link->isActive()) return false;
-      if (link->getType() == Type::Data) cout << "Data first" << endl;
-      else if (link->getType() == Type::Virus) cout << "Virus first" << endl;
       link->changeType();
-      if (link->getType() == Type::Data) cout << "Data second" << endl;
-      else if (link->getType() == Type::Virus) cout << "Virus second" << endl;
       
       game.getBoard()->snapshot();
       used = true;

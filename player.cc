@@ -73,4 +73,8 @@ string Player::printabvec() {
   return vec;
 }
 
+char Player::getAbilityName(int id) {
+  return abilities[id - 1]->getName();
+}
+
 #endif
