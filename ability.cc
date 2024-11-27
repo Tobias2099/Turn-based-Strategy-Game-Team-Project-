@@ -44,7 +44,7 @@ class Firewallab : public Ability {
       game.getBoard()->snapshot();
       int veclength = game.getVecLength();
       int id = veclength;
-      game.addEntityToBoard(new Firewallpiece(id, x, y, Type::Firewall, app, owner));
+      game.addEntityToBoard(std::make_unique<Firewallpiece>(id, x, y, Type::Firewall, app, owner));
       used = true;
       return true;
     }

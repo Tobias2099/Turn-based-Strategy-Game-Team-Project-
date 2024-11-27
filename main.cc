@@ -59,13 +59,13 @@ void randomizeplayers(Game* g, unordered_map<string, int> available, string play
 
         if (token[0] == 'D'){
             //add a datalink
-            g->addEntityToBoard(new AbstractLink{j, x, y, c, Type::Data, player, power, false, true, 1, -1});
+            g->addEntityToBoard(std::make_unique<AbstractLink>(j, x, y, c, Type::Data, player, power, false, true, 1, -1));
             available[token] = 0;
         }
 
         if (token[0] == 'V'){
             //add a viruslink
-            g->addEntityToBoard(new AbstractLink{j, x, y, c, Type::Virus, player, power, false, true, 1, -1});
+            g->addEntityToBoard(std::make_unique<AbstractLink>(j, x, y, c, Type::Virus, player, power, false, true, 1, -1));
             available[token] = 0;
         }
         x++;
@@ -123,13 +123,13 @@ bool loadplayers(Game* g, string filename, string player, int startid, int endid
 
         if (token[0] == 'D'){
             //add a datalink
-            g->addEntityToBoard(new AbstractLink{i, x, y, c, Type::Data, player, power, false, true, 1,-1});
+            g->addEntityToBoard(std::make_unique<AbstractLink>(i, x, y, c, Type::Data, player, power, false, true, 1,-1));
             available[token] = 0;
         }
 
         if (token[0] == 'V'){
             //add a viruslink
-            g->addEntityToBoard(new AbstractLink{i, x, y, c, Type::Virus, player, power, false, true, 1,-1});
+            g->addEntityToBoard(std::make_unique<AbstractLink>(i, x, y, c, Type::Virus, player, power, false, true, 1,-1));
             available[token] = 0;
         }
         x++;
@@ -180,38 +180,39 @@ void loadabilities(Player* player, string arg, bool check){
     }
 
     int arglen = arg.length();
-    for (int i = 0; i < arglen; i++){
+    for (int i = 0; i < arglen; i++) {
         char c = arg[i];
-        switch(c) {
+        switch (c) {
             case 'L':
-            player->addability(new LinkBoost{i,c,player->getName()});
-            break;
-        case 'F':
-            player->addability(new Firewallab{i,c,player->getName()});
-            break;
-        case 'D':
-            player->addability(new Download{i,c,player->getName()});
-            break;
-        case 'S':
-            player->addability(new Scan{i,c,player->getName()});
-            break;
-        case 'P':
-            player->addability(new Polarize{i,c,player->getName()});
-            break;
-        case 'T':
-            player->addability(new Teleport{i,c,player->getName()});
-            break;
-        case 'C':
-            player->addability(new Calibrate{i,c,player->getName()});
-            break;
-        case 'W':
-            player->addability(new Wipe{i,c,player->getName()});
-            break;
-        default:
-            cout << "Invalid ability" << endl;;
-            break;
+                player->addability(std::make_unique<LinkBoost>(i, c, player->getName()));
+                break;
+            case 'F':
+                player->addability(std::make_unique<Firewallab>(i, c, player->getName()));
+                break;
+            case 'D':
+                player->addability(std::make_unique<Download>(i, c, player->getName()));
+                break;
+            case 'S':
+                player->addability(std::make_unique<Scan>(i, c, player->getName()));
+                break;
+            case 'P':
+                player->addability(std::make_unique<Polarize>(i, c, player->getName()));
+                break;
+            case 'T':
+                player->addability(std::make_unique<Teleport>(i, c, player->getName()));
+                break;
+            case 'C':
+                player->addability(std::make_unique<Calibrate>(i, c, player->getName()));
+                break;
+            case 'W':
+                player->addability(std::make_unique<Wipe>(i, c, player->getName()));
+                break;
+            default:
+                cout << "Invalid ability" << endl;
+                break;
         }
     }
+
     cout << "[DEBUG] " << player->getName() << " will use abilities " << arg << endl;
 }
 
@@ -233,11 +234,13 @@ int main(int argc, char* argv[]) {
     
     Board b{8,8};
 
-    Player* player1 = new Player("Player 1", 0, 0, 0, 5);
-    Player* player2 = new Player("Player 2", 0, 0, 0, 5);
+    std::unique_ptr<Player> player1 = std::make_unique<Player>("Player 1", 0, 0, 0, 5);
+    std::unique_ptr<Player> player2 = std::make_unique<Player>("Player 2", 0, 0, 0, 5);
 
-    vector<AbstractEntity*> pieces;
-    Game g(&b, "Player 1", "None", player1, player2, pieces);
+
+
+    vector<std::unique_ptr<AbstractEntity>> pieces;
+    Game g(&b, "Player 1", "None", player1.get(), player2.get(), std::move(pieces));
 
     cout << "[DEBUG] all arguments: " << endl;
     for (auto entry : options) {
@@ -268,27 +271,27 @@ int main(int argc, char* argv[]) {
 
     if (options.find("-ability1") != options.end()) {
         cout << "[DEBUG] Player 1 requested abilities: " << options["-ability1"] << endl;
-        loadabilities(player1, options["-ability1"], true);
+        loadabilities(player1.get(), options["-ability1"], true);
     } else {
         cout << "[DEBUG] Player 1 will use default abilities LFDSP" << endl;
-        loadabilities(player1, "LFDSP", false);
+        loadabilities(player1.get(), "LFDSP", false);
     }
 
     if (options.find("-ability2") != options.end()) {
         cout << "[DEBUG] Player 2  requested abilities: " << options["-ability2"] << endl;
-        loadabilities(player2, options["-ability2"], true);
+        loadabilities(player2.get(), options["-ability2"], true);
     } else {
         cout << "[DEBUG] Player 2 will use default abilities LFDSP" << endl;
-        loadabilities(player2, "LFDSP", false);
+        loadabilities(player2.get(), "LFDSP", false);
     }
 
     //player1 server ports  
-    g.addEntityToBoard(new ServerPort{16, 3, 0, Type::Serverport, 'S', "Player 1"});
-    g.addEntityToBoard(new ServerPort{17, 4, 0, Type::Serverport, 'S', "Player 1"});
+    g.addEntityToBoard(std::make_unique<ServerPort>(16, 3, 0, Type::Serverport, 'S', "Player 1"));
+    g.addEntityToBoard(std::make_unique<ServerPort>(17, 4, 0, Type::Serverport, 'S', "Player 1"));
 
     //player2 server ports
-    g.addEntityToBoard(new ServerPort{18, 3, 7, Type::Serverport, 'S', "Player 2"});
-    g.addEntityToBoard(new ServerPort{19, 4, 7, Type::Serverport, 'S', "Player 2"});
+    g.addEntityToBoard(std::make_unique<ServerPort>(18, 3, 7, Type::Serverport, 'S', "Player 2"));
+    g.addEntityToBoard(std::make_unique<ServerPort>(19, 4, 7, Type::Serverport, 'S', "Player 2"));
 
     std::unique_ptr<displayGraphics> graphicsObserver = nullptr;
 
