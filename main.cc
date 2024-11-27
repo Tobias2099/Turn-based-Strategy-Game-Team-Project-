@@ -420,4 +420,5 @@ int main(int argc, char* argv[]) {
     if (g.getWinner() == "Player 1" || g.getWinner() == "Player 2"){
         cout << g.getWinner() << " has won the game!" << endl;
     }
+    //winner for when 4 viruses
 }

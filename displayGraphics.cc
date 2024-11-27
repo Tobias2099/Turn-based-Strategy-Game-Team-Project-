@@ -6,7 +6,6 @@
 
 displayGraphics::displayGraphics(Game* g, int width, int height) : g{g}, width{width}, height{height}, fresh{true} {
     window = std::make_unique<Xwindow>(300, 300);
-
 }
 
 
