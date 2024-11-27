@@ -405,13 +405,23 @@ int main(int argc, char* argv[]) {
                       cout << "Command not recognized." << endl;
                       continue;
                     }
-  
+                    if (!(x >= 0 && x <= 9) || !(y >= 0 && y <= 9)) {
+                      cout << "Invalid coordinates." << endl;
+                      continue;
+                    }
                   } else{
                     inputStream->clear();
                     if (!(*inputStream >> linkName)) {
                       inputStream->clear();
+                      cout << "Command not recognized." << endl;
+                      continue;
+                    }
+                    if (!('a' <= linkName && linkName >= 'h') && ('A' <= linkName && linkName >= 'H')) {
+                      cout << "Invalid link." << endl;
+                      continue;
                     }
                   }
+
                   /**inputStream >> linkName;
                   if (linkName >= '0' && linkName <= '9'){
                     x = static_cast<int>(linkName - '0');
