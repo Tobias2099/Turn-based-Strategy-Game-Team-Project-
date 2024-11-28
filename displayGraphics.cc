@@ -34,7 +34,11 @@ void displayGraphics::notify() {
     window->fillRectangle(5, 12, 300, 48, Xwindow::White);
     window->drawString(5, 25,  wkstr);
     wkstr = "";
-    wkstr = "Abilities: "  + to_string(g->getFirstPlayer()->abilitiesleft()) + " " + (g->getFirstPlayer())->printabvec();
+    if (g->isEnhancementsEnabled()) {
+        wkstr = "Abilities: "  + to_string(g->getFirstPlayer()->abilitiesleft()) + " " + (g->getFirstPlayer())->printabvec();
+    } else  {
+        wkstr = "Abilities: "  + to_string(g->getFirstPlayer()->abilitiesleft()); 
+    }
     window->drawString(5, 40,  wkstr);
     wkstr = "";
 
@@ -110,7 +114,11 @@ void displayGraphics::notify() {
     window->fillRectangle(5, 255, 300, 50, Xwindow::White);
     window->drawString(5, 265,  wkstr);
     wkstr = "";
-    wkstr = "Abilities: "  + to_string(g->getSecondPlayer()->abilitiesleft()) + " " + (g->getSecondPlayer())->printabvec();
+    if (g->isEnhancementsEnabled()) {
+        wkstr = "Abilities: "  + to_string(g->getSecondPlayer()->abilitiesleft()) + " " + (g->getSecondPlayer())->printabvec();
+    } else {
+        wkstr = "Abilities: "  + to_string(g->getSecondPlayer()->abilitiesleft());
+    }
     window->drawString(5, 280,  wkstr);
     wkstr = "";
 
