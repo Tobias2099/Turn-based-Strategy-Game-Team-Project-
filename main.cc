@@ -416,7 +416,7 @@ int main(int argc, char* argv[]) {
                       cout << "Command not recognized." << endl;
                       continue;
                     }
-                    if (!('a' <= linkName && linkName >= 'h') && ('A' <= linkName && linkName >= 'H')) {
+                    if (!('a' <= linkName && linkName <= 'h') && !('A' <= linkName && linkName <= 'H')) {
                       cout << "Invalid link." << endl;
                       continue;
                     }
