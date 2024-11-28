@@ -10,7 +10,7 @@
 using namespace std;
 
 Game::Game(Board *b, string turn, string winner, Player* p1, Player* p2, vector<std::unique_ptr<AbstractEntity>> pieces):
-  b{b}, turn{turn}, winner{winner}, p1{p1}, p2{p2}, pieces{std::move(pieces)} {}
+  b{b}, turn{turn}, winner{winner}, p1{p1}, p2{p2}, pieces{std::move(pieces)}, enhancements{false} {}
 
 Game::~Game() {
 
@@ -24,6 +24,14 @@ string Game::getTurn(){
 }
 Board* Game::getBoard(){
   return b;
+}
+
+bool Game::isEnhancementsEnabled() {
+  return enhancements;
+}
+
+void Game::setEnhancements(bool enhancements) {
+  this->enhancements = enhancements;
 }
 
 void Game::setWinner(string w){

@@ -15,7 +15,6 @@ using namespace std;
 
 void randomizeplayers(Game* g, unordered_map<string, int> available, string player, int startid, int endid, char startchar) {
     int overallcountav = 8;
-
     size_t x = 0;
     int j = startid;
 
@@ -284,6 +283,12 @@ int main(int argc, char* argv[]) {
         cout << "[DEBUG] Player 2 will use default abilities LFDSP" << endl;
         loadabilities(player2.get(), "LFDSP", false);
     }
+
+    if (options.find("-enhancements") != options.end()) {
+        cout << "[DEBUG] Enhancments added." << endl;
+        g.setEnhancements(true);
+    } 
+
 
     //player1 server ports  
     g.addEntityToBoard(std::make_unique<ServerPort>(16, 3, 0, Type::Serverport, 'S', "Player 1"));
