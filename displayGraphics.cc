@@ -68,19 +68,33 @@ void displayGraphics::notify() {
             int newID = g->getBoard()->getValue(j, i);
             // if there is a change,  render
 
-            if (oldID != newID || fresh){
+            AbstractEntity* newentity = nullptr;
+            AbstractLink* link = nullptr;
+            bool override_redraw = false;
+
+            // if the new entity is revealed, override the redraw to get the colour
+            // update immediately
+            if (newID != -1) {
+                newentity = dynamic_cast<AbstractEntity*>(g->whoAt(newID));
+                if (newentity->getType() == Type::Data || newentity->getType() == Type::Virus) {
+                    link = dynamic_cast<AbstractLink*>(g->whoAt(newID));
+                    if (link->isVisible()){
+                        override_redraw = true;
+                    }
+                }
+            }
+
+            if (oldID != newID || fresh || override_redraw){
                 // first wipe what was there
                 if (!fresh){
                     window->fillRectangle(6 + (scale * 22 * j), 62 + (scale * 22 * i), scale * 20, scale * 20, Xwindow::White);
                 }
 
                 if (newID != -1) {
-                    AbstractEntity* newentity = dynamic_cast<AbstractEntity*>(g->whoAt(newID));
                     char appc = newentity->getAppearance();
                     string app(1, appc);
 
                     if (newentity->getType() == Type::Data || newentity->getType() == Type::Virus) {
-                        AbstractLink* link = dynamic_cast<AbstractLink*>(g->whoAt(newID));
                         if (!link->isVisible()){
                             window->fillRectangle(6 + (22 * j * scale) + 6, 62 + (22 * i * scale) + 6, 14 * scale, 14 * scale, Xwindow::Black);
                             window->fillRectangle(6 + (22 * j * scale) + 12, 62 + (22 * i * scale) + 12, 8 * scale, 8 * scale, Xwindow::White);
