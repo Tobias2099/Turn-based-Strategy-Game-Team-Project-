@@ -31,6 +31,7 @@ class Player{
     void addability(std::unique_ptr<Ability> ability);
     int abilitiesleft();
     string printabvec();
+    char getAbilityName(int id);
 };
 
 #endif

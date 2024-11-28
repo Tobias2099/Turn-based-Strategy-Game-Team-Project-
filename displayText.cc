@@ -31,8 +31,13 @@ void displayText::notify() {
 
   cout << "Player 1: " << endl;
   cout << "Downloaded: " << g->getFirstPlayer()->getData() << "D, " << g->getFirstPlayer()->getViruses() << "V" << endl;
-  cout << "Abilities: " << (g->getFirstPlayer())->abilitiesleft() << " ";
-  cout << (g->getFirstPlayer())->printabvec() << endl;
+  if (g->isEnhancementsEnabled()) {
+    cout << "Abilities: " << (g->getFirstPlayer())->abilitiesleft() << " ";
+    cout << (g->getFirstPlayer())->printabvec() << endl;
+  } else {
+    cout << "Abilities: " << (g->getFirstPlayer())->abilitiesleft() << " " << endl;
+  }
+
 
   //todo: reveal if battled
 
@@ -92,8 +97,13 @@ void displayText::notify() {
 
   cout << "Player 2: " << endl;
   cout << "Downloaded: " << g->getSecondPlayer()->getData() << "D, " << g->getSecondPlayer()->getViruses() << "V" << endl;
-  cout << "Abilities: " << (g->getSecondPlayer())->abilitiesleft();
-  cout << " " << (g->getSecondPlayer())->printabvec() << endl;
+  if (g->isEnhancementsEnabled()) {
+    cout << "Abilities: " << (g->getSecondPlayer())->abilitiesleft();
+    cout << " " << (g->getSecondPlayer())->printabvec() << endl;
+  } else {
+    cout << "Abilities: " << (g->getSecondPlayer())->abilitiesleft() << endl;
+  }
+
 
   if (playerName == "Player 2"){
     //ids hardcoded. Change later?
