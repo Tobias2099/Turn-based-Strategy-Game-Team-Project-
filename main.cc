@@ -169,8 +169,6 @@ bool abstringchecker(string arg){
 }
 
 void loadabilities(Player* player, string arg, bool check){
-    //what do we do with partial or unfilled ability strings?
-    //no checking for double abilities, length yet
 
     if (check && !abstringchecker(arg)){
         cout << "[DEBUG] Ability string for " << player->getName() 
@@ -236,8 +234,6 @@ int main(int argc, char* argv[]) {
     std::unique_ptr<Player> player1 = std::make_unique<Player>("Player 1", 0, 0, 0, 5);
     std::unique_ptr<Player> player2 = std::make_unique<Player>("Player 2", 0, 0, 0, 5);
 
-
-
     vector<std::unique_ptr<AbstractEntity>> pieces;
     Game g(&b, "Player 1", "None", player1.get(), player2.get(), std::move(pieces));
 
@@ -287,7 +283,7 @@ int main(int argc, char* argv[]) {
     if (options.find("-enhancements") != options.end()) {
         cout << "[DEBUG] Enhancments added." << endl;
         g.setEnhancements(true);
-    } 
+    }
 
 
     //player1 server ports  
@@ -302,7 +298,7 @@ int main(int argc, char* argv[]) {
 
     if (options.find("-graphics") != options.end()) {
         cout << "[DEBUG] Graphics mode on" << endl;
-        graphicsObserver = std::make_unique<displayGraphics>(&g, 300, 300);
+        graphicsObserver = std::make_unique<displayGraphics>(&g, 400, 500);
         g.attach(graphicsObserver.get());
     }
 
@@ -340,20 +336,9 @@ int main(int argc, char* argv[]) {
                 *inputStream >> name >> dir;
                 bool movestat = g.simplemove(playerincontrol, g.appearanceToID(name), dir, -1);
                 if (movestat){
-                    //why observers?
                     g.advance();
                     g.notifyObservers();
                     break;
-                }
-                // do we want this here?
-                //g.notifyObservers();
-            } else if (command == "whoat") {
-                int x, y;
-                *inputStream >> x >> y;
-                if (g.whoAt(x,y) != nullptr){
-                    cout << g.whoAt(x, y)->getAppearance() << endl;
-                } else {
-                    cout << "Nothing" << endl;
                 }
             } else if (command == "quit") {
                 g.setWinner("ESC");
@@ -426,27 +411,6 @@ int main(int argc, char* argv[]) {
                       continue;
                     }
                   }
-
-                  /**inputStream >> linkName;
-                  if (linkName >= '0' && linkName <= '9'){
-                    x = static_cast<int>(linkName - '0');
-                    *inputStream >> y;
-
-                    //cout << "ready to use ability " << id << " with coords " << x << " " << y << endl;
-
-                    if (playerincontrol == "Player 1"){
-                        abilitystat = player1->useAbility(g, id - 1, '0', x, y);
-                    } else {
-                        abilitystat = player2->useAbility(g, id - 1, '0', x, y);
-                    }
-                  } else {
-                      //cout << "ready to use ability " << id << " with linkname " << linkName << endl;
-                      if (playerincontrol == "Player 1"){
-                          abilitystat = player1->useAbility(g, id - 1, linkName, -1, -1);
-                      } else {
-                          abilitystat = player2->useAbility(g, id - 1, linkName, -1, -1);
-                      }
-                  }*/
                   if (playerincontrol == "Player 1"){
                     abilitystat = player1->useAbility(g, id - 1, linkName, x, y);
                   } else {
@@ -459,8 +423,7 @@ int main(int argc, char* argv[]) {
                     g.notifyObservers();
                     break;
                 }
-                // do we want this here?
-                //g.notifyObservers();
+
 
             } else if (command == "sequence") {
                 *inputStream >> seqfname;

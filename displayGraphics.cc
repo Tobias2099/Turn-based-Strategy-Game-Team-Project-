@@ -4,24 +4,24 @@
 #include "abstractentity.h"
 #include "displayText.h"
 
+const int scale = 2;
+
 displayGraphics::displayGraphics(Game* g, int width, int height) : g{g}, width{width}, height{height}, fresh{true} {
-    window = std::make_unique<Xwindow>(300, 300);
+    window = std::make_unique<Xwindow>(width, height);
 }
 
 
-displayGraphics::~displayGraphics() {
-   
-}
+displayGraphics::~displayGraphics() {}
 
 
 
 void displayGraphics::notify() {
     // add drawing logic here
     if (fresh) {
-        window->fillRectangle(4, 60, 178, 178, Xwindow::Black);
+        window->fillRectangle(4, 60, (178 * scale), (178 * scale), Xwindow::Black);
         for (int i = 0; i < 8; i++){
             for (int j = 0; j < 8; j++) {
-                window->fillRectangle(6 + 22 * j, 62 + 22 * i, 20, 20, Xwindow::White);
+                window->fillRectangle(6 + (scale * 22 * j), 62 + (scale * 22 * i), scale * 20, scale * 20, Xwindow::White);
             }
         }
     }
@@ -71,7 +71,7 @@ void displayGraphics::notify() {
             if (oldID != newID || fresh){
                 // first wipe what was there
                 if (!fresh){
-                    window->fillRectangle(6 + 22 * j, 62 + 22 * i, 20, 20, Xwindow::White);
+                    window->fillRectangle(6 + (scale * 22 * j), 62 + (scale * 22 * i), scale * 20, scale * 20, Xwindow::White);
                 }
 
                 if (newID != -1) {
@@ -82,24 +82,24 @@ void displayGraphics::notify() {
                     if (newentity->getType() == Type::Data || newentity->getType() == Type::Virus) {
                         AbstractLink* link = dynamic_cast<AbstractLink*>(g->whoAt(newID));
                         if (!link->isVisible()){
-                            window->fillRectangle(6 + (22 * j) + 3, 62 + (22 * i) + 3, 14, 14, Xwindow::Black);
-                            window->fillRectangle(6 + (22 * j) + 6, 62 + (22 * i) + 4, 8, 12, Xwindow::White);
+                            window->fillRectangle(6 + (22 * j * scale) + 6, 62 + (22 * i * scale) + 6, 14 * scale, 14 * scale, Xwindow::Black);
+                            window->fillRectangle(6 + (22 * j * scale) + 12, 62 + (22 * i * scale) + 12, 8 * scale, 8 * scale, Xwindow::White);
                         } else if (link->getType() == Type::Virus){
-                            window->fillRectangle(6 + (22 * j) + 3, 62 + (22 * i) + 3, 14, 14, Xwindow::Red);
-                            window->fillRectangle(6 + (22 * j) + 6, 62 + (22 * i) + 4, 8, 12, Xwindow::White);
+                            window->fillRectangle(6 + (22 * j * scale) + 6, 62 + (22 * i * scale) + 6, 14 * scale, 14 * scale, Xwindow::Red);
+                            window->fillRectangle(6 + (22 * j * scale) + 12, 62 + (22 * i * scale) + 12, 8 * scale, 8 * scale, Xwindow::White);
                         } else if (link->getType() == Type::Data){
-                            window->fillRectangle(6 + (22 * j) + 3, 62 + (22 * i) + 3, 14, 14, Xwindow::Green);
-                            window->fillRectangle(6 + (22 * j) + 6, 62 + (22 * i) + 4, 8, 12, Xwindow::White);
+                            window->fillRectangle(6 + (22 * j * scale) + 6, 62 + (22 * i * scale) + 6, 14 * scale, 14 * scale, Xwindow::Green);
+                            window->fillRectangle(6 + (22 * j * scale) + 12, 62 + (22 * i * scale) + 12, 8 * scale, 8 * scale, Xwindow::White);
                         }
                     } else if (newentity->getType() == Type::Serverport) {
-                        window->fillRectangle(6 + (22 * j) + 3, 62 + (22 * i) + 3, 14, 14, Xwindow::Blue);
-                        window->fillRectangle(6 + (22 * j) + 6, 62 + (22 * i) + 4, 8, 12, Xwindow::White);
+                        window->fillRectangle(6 + (22 * j * scale) + 6, 62 + (22 * i * scale) + 6, 14 * scale, 14 * scale, Xwindow::Blue);
+                        window->fillRectangle(6 + (22 * j * scale) + 12, 62 + (22 * i * scale) + 12, 8 * scale, 8 * scale, Xwindow::White);
                     } else if (newentity->getType() == Type::Firewall) {
-                        window->fillRectangle(6 + (22 * j) + 3, 62 + (22 * i) + 3, 14, 14, Xwindow::Orange);
-                        window->fillRectangle(6 + (22 * j) + 6, 62 + (22 * i) + 4, 8, 12, Xwindow::White);
+                        window->fillRectangle(6 + (22 * j * scale) + 6, 62 + (22 * i * scale) + 6, 14 * scale, 14 * scale, Xwindow::Orange);
+                        window->fillRectangle(6 + (22 * j * scale) + 12, 62 + (22 * i * scale) + 12, 8 * scale, 8 * scale, Xwindow::White);
                     }
 
-                    window->drawString(6 + (22 * j) + 7, 62 + (22 * i) + 14, app);
+                    window->drawString(6 + (22 * j * scale) + 17, 62 + (22 * i * scale) + 24, app);
                 }
 
 
@@ -109,17 +109,17 @@ void displayGraphics::notify() {
         }
     }
 
-    window->drawString(5, 250, "Player 2:");
+    window->drawString(5, 250 + 178, "Player 2:");
     wkstr = "Downnloaded: " + to_string(g->getSecondPlayer()->getData()) + "D, " + to_string(g->getSecondPlayer()->getViruses()) + "V";
-    window->fillRectangle(5, 255, 300, 50, Xwindow::White);
-    window->drawString(5, 265,  wkstr);
+    window->fillRectangle(5, 255 + 178, 300, 50, Xwindow::White);
+    window->drawString(5, 265 + 178,  wkstr);
     wkstr = "";
     if (g->isEnhancementsEnabled()) {
         wkstr = "Abilities: "  + to_string(g->getSecondPlayer()->abilitiesleft()) + " " + (g->getSecondPlayer())->printabvec();
     } else {
         wkstr = "Abilities: "  + to_string(g->getSecondPlayer()->abilitiesleft());
     }
-    window->drawString(5, 280,  wkstr);
+    window->drawString(5, 280 + 178,  wkstr);
     wkstr = "";
 
 
@@ -128,7 +128,7 @@ void displayGraphics::notify() {
             AbstractLink* link = dynamic_cast<AbstractLink*>(g->whoAt(i  + maxLinks));
             wkstr = wkstr + link->getAppearance() + ": " + convertTypeToString(link->getType()) + to_string(link->getPower()) + " ";
         }
-        window->drawString(5, 295,  wkstr);   
+        window->drawString(5, 295 + 178,  wkstr);   
     } else {
         for (int i = 0; i < maxLinks; i++) {
             AbstractLink* link = dynamic_cast<AbstractLink*>(g->whoAt(i  + maxLinks));
@@ -138,7 +138,7 @@ void displayGraphics::notify() {
                 wkstr = wkstr + link->getAppearance() + ": ? "; 
             }
         }
-        window->drawString(5, 295,  wkstr);
+        window->drawString(5, 295 + 178,  wkstr);
     }
 
     fresh = false;
