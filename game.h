@@ -21,6 +21,7 @@ class Game : public Subject {
   Player *p1;
   Player *p2;
   vector<std::unique_ptr<AbstractEntity>> pieces;
+  bool enhancements;
 
   public:
     Game(Board* b, string turn, string winner, Player* p1, Player* p2, vector<std::unique_ptr<AbstractEntity>> pieces);
@@ -28,6 +29,8 @@ class Game : public Subject {
     Board* getBoard();
     string getWinner();
     string getTurn();
+    bool isEnhancementsEnabled();
+    void setEnhancements(bool enhancements);
     vector<AbstractEntity*> getPieces();
 
     vector<AbstractEntity*>& getPiecesRef();
