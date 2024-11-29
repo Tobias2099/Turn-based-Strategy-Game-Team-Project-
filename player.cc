@@ -15,9 +15,6 @@ Player::Player(string name, int id, int viruses_downloaded, int data_downloaded,
   {abilityAvailable = true;}
 
 Player::~Player(){
-  // for (auto it = abilities.begin(); it != abilities.end(); ++it) {
-  //   delete *it;
-  // }
 }
 
 int Player::getViruses(){
