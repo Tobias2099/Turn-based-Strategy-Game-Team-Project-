@@ -97,7 +97,7 @@ bool Game::simplemove(string playerincontrol, int id, char dir, int steps){
         //nomove, id's greater than 16 are serverports.
     }
 
-    AbstractLink* to_move = dynamic_cast<AbstractLink*>(pieces[id].get());
+    Link* to_move = dynamic_cast<Link*>(pieces[id].get());
 
     if (steps == -1) {
       steps = to_move->getMoveCount();
@@ -205,7 +205,7 @@ bool Game::simplemove(string playerincontrol, int id, char dir, int steps){
         }
     } else if (target != nullptr && target->getType() != Type::Firewall && target->getOwner() != playerincontrol) {       
         // if we are trying to move onto someone else's piece (not a firewall)
-        AbstractLink* linkTarget = dynamic_cast<AbstractLink*>(whoAt(newX, newY));
+        Link* linkTarget = dynamic_cast<Link*>(whoAt(newX, newY));
         int winningID = this->battle(to_move, linkTarget);
 
         // case for firewall
@@ -257,7 +257,7 @@ bool Game::simplemove(string playerincontrol, int id, char dir, int steps){
         } else if (winningID == target->getID()) {
             //lost the battle
             //cout << "defender wins" << endl;
-            AbstractLink* linkTarget = dynamic_cast<AbstractLink*>(whoAt(newX, newY));
+            Link* linkTarget = dynamic_cast<Link*>(whoAt(newX, newY));
             to_move->deactivate();
             to_move->reveal();
             linkTarget->reveal();
@@ -330,6 +330,12 @@ bool Game::simplemove(string playerincontrol, int id, char dir, int steps){
     b->setBoard(newX, newY, pieces[id].get()->getID());
     b->setBoard(oldX, oldY, -1);
 
+    if (playerincontrol == "Player 1") {
+      getFirstPlayer()->doneTurn();
+    } else if (playerincontrol == "Player 2") {
+      getSecondPlayer()->doneTurn();
+    }
+
     return true;
 }
 
@@ -344,7 +350,7 @@ int Game::appearanceToID(char c) {
 }
 
 
-int Game::battle(AbstractLink* initiator, AbstractLink* defender) {
+int Game::battle(Link* initiator, Link* defender) {
   if (initiator->getPower() >= defender->getPower()) {
     return initiator->getID();
   } else {

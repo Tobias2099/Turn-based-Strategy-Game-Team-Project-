@@ -17,6 +17,7 @@ class Player{
   string name;
   int id;
   int viruses_downloaded, data_downloaded, ableft;
+  bool abilityAvailable;
   vector<std::unique_ptr<Ability>> abilities;
 
 
@@ -32,6 +33,7 @@ class Player{
     int abilitiesleft();
     string printabvec();
     char getAbilityName(int id);
+    void doneTurn();
 };
 
 #endif

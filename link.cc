@@ -1,54 +1,54 @@
-#ifndef __ABSTRACTLINK_CC__
-#define __ABSTRACTLINK_CC__
+#ifndef __LINK_CC__
+#define __LINK_CC__
 
 #include <string>
-#include "abstractlink.h"
+#include "link.h"
 #include <iostream>
 using namespace std;
 
-AbstractLink::AbstractLink(int id, size_t x, size_t y, char appearance, Type type, string owner, int power,
+Link::Link(int id, size_t x, size_t y, char appearance, Type type, string owner, int power,
                            bool revealed, bool active, int moveCount, int idUnderneath)
     : AbstractEntity{id, x, y, appearance, type, owner}, power{power}, revealed{revealed}, active{active}, moveCount{moveCount}, idUnderneath{idUnderneath} {}
 
-AbstractLink::~AbstractLink() = default;
+Link::~Link() = default;
 
-int AbstractLink::getPower() {
+int Link::getPower() {
     return power;
 }
 
-int AbstractLink::getMoveCount() {
+int Link::getMoveCount() {
     return moveCount;
 }
 
-bool AbstractLink::isActive() {
+bool Link::isActive() {
     return active;
 }
 
-bool AbstractLink::isVisible() {
+bool Link::isVisible() {
     return revealed;
 }
 
-void AbstractLink::reveal() {
+void Link::reveal() {
     revealed = true;
 }
 
-void AbstractLink::hide() {
+void Link::hide() {
     revealed = false;
 }
 
-void AbstractLink::deactivate() {
+void Link::deactivate() {
     active = false;
 }
 
-void AbstractLink::setMoveCount(int n) {
+void Link::setMoveCount(int n) {
     moveCount = n;
 }
 
-void AbstractLink::setPower(int newPower) {
+void Link::setPower(int newPower) {
     power = newPower;
 }
 
-void AbstractLink::changeType() {
+void Link::changeType() {
     if (type == Type::Data) {
         type = Type::Virus;
     } else {
@@ -57,21 +57,21 @@ void AbstractLink::changeType() {
 }
 
 
-Type AbstractLink::getType() const {
+Type Link::getType() const {
     return type;
 }
 
 
-int AbstractLink::getidunder() {
+int Link::getidunder() {
     return idUnderneath;
 }
 
 
-void AbstractLink::setidunder(int id){
+void Link::setidunder(int id){
     idUnderneath = id;
 }
 
-void AbstractLink::printLink() {
+void Link::printLink() {
     cout << "At [" << x << "," << y << "]: " << "Name: " 
     << appearance << " | Type: " << this->getType() << " | Owner: " << owner << endl;
 }

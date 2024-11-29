@@ -45,13 +45,13 @@ void displayGraphics::notify() {
     const int maxLinks = 8;
     if (playerName == "Player 1"){
         for (int i = 0; i < maxLinks; i++) {
-            AbstractLink* link = dynamic_cast<AbstractLink*>(g->whoAt(i));
+            Link* link = dynamic_cast<Link*>(g->whoAt(i));
             wkstr = wkstr + link->getAppearance() + ": " + convertTypeToString(link->getType()) + to_string(link->getPower()) + " ";
         }
         window->drawString(5, 55,  wkstr);   
     } else {
         for (int i = 0; i < maxLinks; i++) {
-            AbstractLink* link = dynamic_cast<AbstractLink*>(g->whoAt(i));
+            Link* link = dynamic_cast<Link*>(g->whoAt(i));
             if (link->isVisible()) {
                 wkstr = wkstr + link->getAppearance() + ": " + convertTypeToString(link->getType()) + to_string(link->getPower()) + " ";
             } else {
@@ -69,7 +69,7 @@ void displayGraphics::notify() {
             // if there is a change,  render
 
             AbstractEntity* newentity = nullptr;
-            AbstractLink* link = nullptr;
+            Link* link = nullptr;
             bool override_redraw = false;
 
             // if the new entity is revealed, override the redraw to get the colour
@@ -77,7 +77,7 @@ void displayGraphics::notify() {
             if (newID != -1) {
                 newentity = dynamic_cast<AbstractEntity*>(g->whoAt(newID));
                 if (newentity->getType() == Type::Data || newentity->getType() == Type::Virus) {
-                    link = dynamic_cast<AbstractLink*>(g->whoAt(newID));
+                    link = dynamic_cast<Link*>(g->whoAt(newID));
                     if (link->isVisible()){
                         override_redraw = true;
                     }
@@ -139,13 +139,13 @@ void displayGraphics::notify() {
 
     if (playerName == "Player 2"){
         for (int i = 0; i < maxLinks; i++) {
-            AbstractLink* link = dynamic_cast<AbstractLink*>(g->whoAt(i  + maxLinks));
+            Link* link = dynamic_cast<Link*>(g->whoAt(i  + maxLinks));
             wkstr = wkstr + link->getAppearance() + ": " + convertTypeToString(link->getType()) + to_string(link->getPower()) + " ";
         }
         window->drawString(5, 295 + 178,  wkstr);   
     } else {
         for (int i = 0; i < maxLinks; i++) {
-            AbstractLink* link = dynamic_cast<AbstractLink*>(g->whoAt(i  + maxLinks));
+            Link* link = dynamic_cast<Link*>(g->whoAt(i  + maxLinks));
             if (link->isVisible()) {
                 wkstr = wkstr + link->getAppearance() + ": " + convertTypeToString(link->getType()) + to_string(link->getPower()) + " ";
             } else {

@@ -12,7 +12,7 @@ using namespace std;
 Player::Player(string name, int id, int viruses_downloaded, int data_downloaded, int ableft): 
   name{name}, viruses_downloaded{viruses_downloaded}, 
   data_downloaded{data_downloaded}, ableft{ableft}
-  {}
+  {abilityAvailable = true;}
 
 Player::~Player(){
   // for (auto it = abilities.begin(); it != abilities.end(); ++it) {
@@ -31,6 +31,10 @@ string Player::getName(){
   return name;
 }
 
+void Player::doneTurn() {
+  abilityAvailable = true;
+}
+
 void Player::download(int virus, int data){
   viruses_downloaded += virus;
   data_downloaded += data; 
@@ -40,6 +44,9 @@ bool Player::useAbility(Game& g, int id, char linkName, int x, int y) {
   if (ableft == 0) {
     cout << "[DEBUG] No abilities left!" << endl;
     return false;
+  } else if (!abilityAvailable) {
+    cout << "[DEBUG] Already used an ability!" << endl;
+    return false;
   }
 
   if ((abilities[id])->hasbeenused()){
@@ -48,8 +55,8 @@ bool Player::useAbility(Game& g, int id, char linkName, int x, int y) {
   }
   bool var = (abilities[id])->execute(g, x, y, linkName);
   ableft -= 1;
+  abilityAvailable = false;
   return var;
-
 }
 
 void Player::addability(std::unique_ptr<Ability> ability) {

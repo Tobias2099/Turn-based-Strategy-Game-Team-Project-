@@ -58,13 +58,13 @@ void randomizeplayers(Game* g, unordered_map<string, int> available, string play
 
         if (token[0] == 'D'){
             //add a datalink
-            g->addEntityToBoard(std::make_unique<AbstractLink>(j, x, y, c, Type::Data, player, power, false, true, 1, -1));
+            g->addEntityToBoard(std::make_unique<Link>(j, x, y, c, Type::Data, player, power, false, true, 1, -1));
             available[token] = 0;
         }
 
         if (token[0] == 'V'){
             //add a viruslink
-            g->addEntityToBoard(std::make_unique<AbstractLink>(j, x, y, c, Type::Virus, player, power, false, true, 1, -1));
+            g->addEntityToBoard(std::make_unique<Link>(j, x, y, c, Type::Virus, player, power, false, true, 1, -1));
             available[token] = 0;
         }
         x++;
@@ -122,13 +122,13 @@ bool loadplayers(Game* g, string filename, string player, int startid, int endid
 
         if (token[0] == 'D'){
             //add a datalink
-            g->addEntityToBoard(std::make_unique<AbstractLink>(i, x, y, c, Type::Data, player, power, false, true, 1,-1));
+            g->addEntityToBoard(std::make_unique<Link>(i, x, y, c, Type::Data, player, power, false, true, 1,-1));
             available[token] = 0;
         }
 
         if (token[0] == 'V'){
             //add a viruslink
-            g->addEntityToBoard(std::make_unique<AbstractLink>(i, x, y, c, Type::Virus, player, power, false, true, 1,-1));
+            g->addEntityToBoard(std::make_unique<Link>(i, x, y, c, Type::Virus, player, power, false, true, 1,-1));
             available[token] = 0;
         }
         x++;

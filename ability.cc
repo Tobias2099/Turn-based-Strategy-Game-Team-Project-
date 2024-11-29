@@ -1,5 +1,5 @@
-#ifndef __ABSTRACTLINK_CC__
-#define __ABSTRACTLINK_CC__
+#ifndef __LINK_CC__
+#define __LINK_CC__
 
 #include "ability.h"
 #include "game.h"
@@ -10,7 +10,7 @@ class LinkBoost : public Ability {
   public:
     LinkBoost(int id, char name, string owner): Ability(id, name, owner) {}
     bool execute(Game& game, int x, int y, char linkName) {
-      AbstractLink* link = dynamic_cast<AbstractLink*>(game.whoAt(game.appearanceToID(linkName)));
+      Link* link = dynamic_cast<Link*>(game.whoAt(game.appearanceToID(linkName)));
       if (!link->isActive()) return false;
       if ((('a' <= linkName && linkName <= 'h') && owner != "Player 1") ||
           (('A' <= linkName && linkName <= 'H') && owner != "Player 2") ||
@@ -57,7 +57,7 @@ class Download : public Ability {
       if (('a' <= linkName && linkName <= 'h') && owner == "Player 1") return false;
       if (('A' <= linkName && linkName <= 'H') && owner == "Player 2") return false;
       if (!((linkName >= 'a' && linkName <= 'h') || (linkName >= 'A' && linkName <= 'H'))) return false;
-      AbstractLink* link = dynamic_cast<AbstractLink*>(game.whoAt(game.appearanceToID(linkName)));
+      Link* link = dynamic_cast<Link*>(game.whoAt(game.appearanceToID(linkName)));
 
       if (link->getOwner() == owner) return false;
       if (!link->isActive()) return false;
@@ -85,7 +85,7 @@ class Polarize : public Ability { //can make code more simple by eliminating dat
     Polarize(int id, char name, string owner): Ability(id, name, owner) {}
     bool execute(Game& game, int x, int y, char linkName) {
       if (!((linkName >= 'a' && linkName <= 'h') || (linkName >= 'A' && linkName <= 'H'))) return false;
-      AbstractLink* link = dynamic_cast<AbstractLink*>(game.getEntity(linkName));
+      Link* link = dynamic_cast<Link*>(game.getEntity(linkName));
       if (!link->isActive()) return false;
       link->changeType();
       
@@ -102,7 +102,7 @@ class Scan : public Ability { //takes coordinates as input
       if (('a' <= linkName && linkName <= 'h') && owner == "Player 1") return false;
       if (('A' <= linkName && linkName <= 'H') && owner == "Player 2") return false;
       if (!((linkName >= 'a' && linkName <= 'h') || (linkName >= 'A' && linkName <= 'H'))) return false;
-      AbstractLink* link = dynamic_cast<AbstractLink*>(game.getEntity(linkName));
+      Link* link = dynamic_cast<Link*>(game.getEntity(linkName));
       if (!link->isActive()) return false;
       if (link->getOwner() == owner) return false;
       link->reveal();
@@ -118,7 +118,7 @@ class Calibrate : public Ability {
     bool execute(Game& game, int x, int y, char linkName) {
       const int maxPower = 4;
     if (!((linkName >= 'a' && linkName <= 'h') || (linkName >= 'A' && linkName <= 'H'))) return false;
-      AbstractLink* link = dynamic_cast<AbstractLink*>(game.getEntity(linkName));
+      Link* link = dynamic_cast<Link*>(game.getEntity(linkName));
       if (!link->isActive()) return false;
       link->setPower(maxPower);
       game.getBoard()->snapshot();
@@ -132,7 +132,7 @@ class Teleport : public Ability {
     Teleport(int id, char name, string owner): Ability(id, name, owner) {}
     bool execute(Game& game, int x, int y, char linkName) {
       std::pair<int, int> coordinates;
-      AbstractLink* link = dynamic_cast<AbstractLink*>(game.getEntity(linkName));
+      Link* link = dynamic_cast<Link*>(game.getEntity(linkName));
       if (!link->isActive()) return false;
       coordinates.first = link->getX();
       coordinates.second = link->getY();
@@ -164,7 +164,7 @@ class Wipe : public Ability {
 
       for (auto it = pieces.begin(); it != pieces.end(); ++it) {
         if ((*it)->getOwner() == owner && (*it)->getType() != Type::Firewall) {
-            AbstractLink* linkToHide = dynamic_cast<AbstractLink*>(*it);
+            Link* linkToHide = dynamic_cast<Link*>(*it);
             if (linkToHide) linkToHide->hide();
         }
       }

@@ -8,7 +8,7 @@
 #include "abstractentity.h"
 #include "game.h"
 #include "serverport.h"
-#include "abstractlink.h"
+#include "link.h"
 
 Board::Board(size_t width, size_t height): width{width}, height{height}, 
     boardrep{height, vector<int>(width, -1)}, lastrep{height, vector<int>(width, -1)} {}

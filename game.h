@@ -8,7 +8,7 @@
 #include "board.h"
 #include "player.h"
 #include "subject.h"
-#include "abstractlink.h"
+#include "link.h"
 
 class Player;
 
@@ -49,7 +49,7 @@ class Game : public Subject {
 
     int appearanceToID(char c);
 
-    int battle(AbstractLink* initiator, AbstractLink* defender);
+    int battle(Link* initiator, Link* defender);
 
     AbstractEntity* whoAt(int x, int y);
 

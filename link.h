@@ -1,12 +1,12 @@
-#ifndef __ABSTRACTLINK_H__
-#define __ABSTRACTLINK_H__
+#ifndef __LINK_H__
+#define __LINK_H__
 
 #include <string>
 #include "abstractentity.h"
 using namespace std;
 
 
-class AbstractLink : public AbstractEntity {
+class Link : public AbstractEntity {
     protected:
         int power;
         bool revealed;
@@ -15,11 +15,11 @@ class AbstractLink : public AbstractEntity {
         int idUnderneath;
 
     public:
-        AbstractLink(int id, size_t x, size_t y, char appearance, Type type, string owner, int power,
-                     bool revealed, bool active, int moveCount, int idUnderneath);
+        Link(int id, size_t x, size_t y, char appearance, Type type, string owner, int power,
+                  bool revealed, bool active, int moveCount, int idUnderneath);
         int getPower();
         int getMoveCount();
-        virtual ~AbstractLink();
+        virtual ~Link();
 
         bool isActive();
         bool isVisible();

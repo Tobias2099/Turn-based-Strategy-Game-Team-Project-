@@ -47,7 +47,7 @@ void displayText::notify() {
     //ids hardcoded. Change later?
 
     for (int i = 0; i < maxLinks; i++) {
-      AbstractLink* link = dynamic_cast<AbstractLink*>(g->whoAt(i));
+      Link* link = dynamic_cast<Link*>(g->whoAt(i));
       cout << link->getAppearance() << ": " << convertTypeToString(link->getType())
       << link->getPower() << " ";
       if (i == breakPoint) cout << endl;
@@ -56,7 +56,7 @@ void displayText::notify() {
   } else {
     //ids hardcoded. Change later?
     for (int i = 0; i < maxLinks; i++){
-      AbstractLink* link = dynamic_cast<AbstractLink*>(g->whoAt(i));
+      Link* link = dynamic_cast<Link*>(g->whoAt(i));
       if (link->isVisible()){
         cout << link->getAppearance() << ": " << convertTypeToString(link->getType())
         << link->getPower() << " ";
@@ -108,7 +108,7 @@ void displayText::notify() {
   if (playerName == "Player 2"){
     //ids hardcoded. Change later?
     for (int i = 0; i < maxLinks; i++) {
-      AbstractLink* link = dynamic_cast<AbstractLink*>(g->whoAt(i + maxLinks));
+      Link* link = dynamic_cast<Link*>(g->whoAt(i + maxLinks));
       cout << link->getAppearance() << ": " << convertTypeToString(link->getType())
       << link->getPower() << " ";
       if (i == breakPoint) cout << endl;
@@ -117,7 +117,7 @@ void displayText::notify() {
   } else {
     //ids hardcoded. Change later?
     for (int i = 0; i < maxLinks; i++){
-      AbstractLink* link = dynamic_cast<AbstractLink*>(g->whoAt(i + maxLinks));
+      Link* link = dynamic_cast<Link*>(g->whoAt(i + maxLinks));
       if (link->isVisible()){
         cout << link->getAppearance() << ": " << convertTypeToString(link->getType())
         << link->getPower() << " ";
