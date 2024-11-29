@@ -51,8 +51,10 @@ bool Player::useAbility(Game& g, int id, char linkName, int x, int y) {
     return false;
   }
   bool var = (abilities[id])->execute(g, x, y, linkName);
-  ableft -= 1;
-  abilityAvailable = false;
+  if (var) {
+    ableft -= 1;
+    abilityAvailable = false;
+  }
   return var;
 }
 
