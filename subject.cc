@@ -9,7 +9,6 @@ void Subject::attach( Observer* o ) {
 void Subject::detach( Observer* o ) {
    for(auto observer = observers.begin(); observer!=observers.end(); observer++) {
     if (*observer == o) {
-        delete *observer;
         observers.erase(observer);
         return;
      }
